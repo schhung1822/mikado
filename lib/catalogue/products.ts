@@ -1,79 +1,160 @@
+import { brands, type Brand } from "./brands";
+import { productFolio, type Folio } from "./contents";
 import type { PhotoRef } from "./types";
 
 /**
- * DỮ LIỆU TRANG ĐÔI "SẢN PHẨM" — ĐÂY LÀ DỮ LIỆU MINH HỌA (DEMO).
+ * DỮ LIỆU TRANG SẢN PHẨM THEO THƯƠNG HIỆU.
  *
- * Tên bộ sưu tập, mã mẫu, kích thước, mô tả và toàn bộ ảnh bên dưới là tạm thời.
- * Để dùng ảnh thật: thả file vào public/images/products/ và sửa `src`. Bố cục không phải sửa:
- * mọi ảnh được crop kiểu "cover" vào khung cố định, chỉnh `focal` (object-position) để chọn
- * phần giữ lại khi ảnh có tỷ lệ khác.
+ * Mỗi thương hiệu là MỘT TRANG ĐÔI của catalogue (không phải route), dựng từ cùng một template
+ * (components/catalogue/brand-product-page.tsx): trang trái giới thiệu thương hiệu, trang phải trưng bày
+ * mẫu gạch theo nhóm kích thước. Bản demo này chỉ có MIKADO để khách duyệt; thêm thương hiệu khác =
+ * thêm một object `BrandProductPage` rồi khai báo trong components/catalogue/entries.tsx.
  *
- * Khung ảnh (px thiết kế, trang A4):  hero ≈ 342 × 604 (dọc) · slab 1 : 2 (dọc) ·
- * mẫu lớn 1 : 1 · mẫu nhỏ 1 : 1 và 4 : 3.
- *
- * Nguồn ảnh tạm (Wikimedia Commons): hero — Shixart1985, CC BY 2.0;
- * texture — Sisters.seamless (CC0), Ambadyanands (CC0). Chi tiết trong README.
+ * DỮ LIỆU DEMO: nội dung giới thiệu và toàn bộ ảnh mẫu gạch bên dưới là TẠM (ảnh texture CC0 trong
+ * public/images/products). Chưa có giá, mã sản phẩm, xuất xứ hay thông số kỹ thuật.
+ * Khi có ảnh thật: đổi `src` của từng mẫu — khung giữ nguyên vị trí và tỷ lệ.
  */
-export const collection = {
-  eyebrow: "Gạch ốp lát · Bộ sưu tập 01",
-  name: "Nebbia",
-  subtitle: "Gạch porcelain vân marble xám khói",
-  description:
-    "Vân mây xám nhạt trên nền trắng ngà, tái hiện vẻ đẹp của đá marble tự nhiên với bề mặt bóng gương. Khổ lớn ít mạch ghép, phù hợp sảnh, phòng khách và những không gian cần sự thoáng đãng.",
-  hero: {
-    src: "/images/products/hero-living.jpg",
-    alt: "Phòng khách với cửa kính lớn nhìn ra hồ, sàn gạch bóng phản chiếu cây",
-    focal: "50% 50%",
-    credit: "Ảnh minh họa: Shixart1985, CC BY 2.0, Wikimedia Commons",
-  } satisfies PhotoRef,
-  heroCaption: "Không gian ứng dụng — sàn gạch khổ lớn, bề mặt bóng",
-  slab: {
-    src: "/images/products/nebbia-slab.jpg",
-    alt: "Mẫu gạch Nebbia vân marble xám khói",
-    focal: "50% 50%",
-  } satisfies PhotoRef,
-  slabCaption: { code: "NB-1201", size: "600 × 1200 mm" },
-  specs: [
-    { label: "Kích thước", value: ["600 × 1200 mm", "800 × 800 mm"] },
-    { label: "Bề mặt", value: ["Bóng", "Matt"] },
-    { label: "Ứng dụng", value: ["Lát sàn", "Ốp tường"] },
-    { label: "Xương gạch", value: ["Porcelain"] },
-  ],
-};
 
-export interface Swatch {
-  id: string;
-  name: string;
-  code: string;
-  size: string;
-  finish: string;
-  image: PhotoRef;
+/** Một ô mẫu gạch. Chưa có `image` thì hiện khung trống. */
+export interface Sample {
+  image?: PhotoRef;
+  /** Mã mẫu hiển thị dưới ô (ví dụ "CP18.306"). Chưa có thì không hiện caption. */
+  code?: string;
 }
 
-/** Thứ tự = vị trí trên trang: [0] ô lớn · [1–2] hai ô xếp dọc bên phải · [3–5] hàng dưới. */
-export const swatches: Swatch[] = [
-  { id: "alba", name: "Alba", code: "AL-8801", size: "800 × 800", finish: "Bóng", image: { src: "/images/products/alba.jpg", alt: "Gạch Alba vân marble kem", focal: "50% 50%" } },
-  { id: "nebbia", name: "Nebbia", code: "NB-1201", size: "600 × 1200", finish: "Bóng", image: { src: "/images/products/nebbia.jpg", alt: "Gạch Nebbia vân marble xám", focal: "50% 50%" } },
-  { id: "ardesia", name: "Ardesia", code: "AR-6602", size: "600 × 600", finish: "Matt", image: { src: "/images/products/ardesia.jpg", alt: "Gạch Ardesia màu đá phiến xám đậm", focal: "50% 50%" } },
-  { id: "sabbia", name: "Sabbia", code: "SB-6601", size: "600 × 600", finish: "Matt", image: { src: "/images/products/sabbia.jpg", alt: "Gạch Sabbia vân travertine màu cát", focal: "50% 50%" } },
-  { id: "travertino", name: "Travertino", code: "TV-3601", size: "300 × 600", finish: "Matt", image: { src: "/images/products/travertino.jpg", alt: "Gạch Travertino dạng thanh ghép so le", focal: "50% 50%" } },
-  { id: "tortora", name: "Tortora", code: "TT-8802", size: "800 × 800", finish: "Matt", image: { src: "/images/products/tortora.jpg", alt: "Gạch Tortora hạt granite màu be xám", focal: "50% 50%" } },
+/** Một nhóm kích thước = một khu vực trưng bày gồm vài mẫu cùng quy cách. */
+export interface SizeGroup {
+  id: string;
+  /** Chiều ngang × chiều dọc của viên gạch (mm), theo hướng nằm thẳng đứng. */
+  width: number;
+  height: number;
+  /** Chỉ cho gạch chữ nhật: "landscape" xoay ngang khung. Mặc định "portrait". Gạch vuông bỏ qua. */
+  orientation?: "portrait" | "landscape";
+  /** Ứng dụng, ví dụ "Lát sàn" / "Ốp tường". Bỏ trống thì dòng ẩn. */
+  application?: string;
+  /** Bề mặt, ví dụ "Bóng, Matt". Bỏ trống thì dòng ẩn. */
+  finish?: string;
+  /**
+   * Các mẫu của nhóm. Bố cục theo lưới 5 cột: ô nhãn chiếm 2 cột đầu của hàng đầu cùng 3 mẫu đầu tiên,
+   * các mẫu tiếp theo xếp 5 mẫu mỗi hàng — thêm/bớt mẫu thì số hàng tự đổi.
+   */
+  samples: Sample[];
+}
+
+export interface BrandProductPage {
+  /** Id mục trong trình xem và liên kết sâu (#id). */
+  id: string;
+  brand: {
+    name: string;
+    /** Logo thương hiệu (giữ nguyên tỷ lệ, màu gốc). Chưa có file chính xác thì để undefined — chỉ hiện tên. */
+    logo?: Brand["logo"] & { fill?: boolean };
+  };
+  /** Số trang in của trang trái và trang phải. */
+  folio: Folio;
+  /** Trang trái — giới thiệu thương hiệu. */
+  about: {
+    eyebrow: string;
+    /** Nhãn nhỏ phía trên câu dẫn. */
+    title: string;
+    /** Câu dẫn nổi bật (chữ lớn, nghiêng). */
+    lead: string;
+    paragraphs: string[];
+    highlights: { title: string; text: string }[];
+    /** Ảnh tràn lề trái ở cuối trang. Bỏ trống thì không hiện. */
+    image?: PhotoRef;
+  };
+  /** Trang phải — trưng bày sản phẩm. */
+  products: {
+    title: string;
+    groups: SizeGroup[];
+  };
+}
+
+/** Ảnh texture tạm để duyệt bố cục. `fit: "cover"` vì ảnh demo không đúng tỷ lệ viên gạch. */
+const TEXTURES = ["travertino", "nebbia-slab", "alba", "sabbia", "tortora", "nebbia"];
+const FOCALS = ["50% 50%", "30% 40%", "70% 60%", "40% 70%", "60% 30%", "20% 25%", "80% 55%"];
+const demoSamples = (count: number, start: number): Sample[] =>
+  Array.from({ length: count }, (_, i) => ({
+    image: {
+      src: `/images/products/${TEXTURES[(start + i) % TEXTURES.length]}.jpg`,
+      alt: "Mẫu gạch minh họa (ảnh tạm)",
+      focal: FOCALS[(start + i * 2) % FOCALS.length],
+      fit: "cover",
+    },
+  }));
+
+/**
+ * Bốn nhóm kích thước (từ nhỏ đến lớn) với số mẫu DEMO: 3 + 2 mẫu cho gạch chữ nhật (2 hàng), 3 + 5 mẫu cho gạch vuông.
+ * `application`/`finish` là giá trị MINH HỌA lấy theo mẫu bố cục — cần xác nhận với từng thương hiệu.
+ */
+const sizeGroups = (offset: number): SizeGroup[] => [
+  { id: "300x600", width: 300, height: 600, orientation: "landscape", application: "Ốp tường", finish: "Bóng, Matt", samples: demoSamples(5, offset) },
+  { id: "400x800", width: 400, height: 800, orientation: "landscape", application: "Ốp tường", finish: "Bóng, Matt", samples: demoSamples(5, offset + 2) },
+  { id: "600x600", width: 600, height: 600, application: "Lát sàn", finish: "Bóng, Matt", samples: demoSamples(8, offset + 1) },
+  { id: "800x800", width: 800, height: 800, application: "Lát sàn", finish: "Bóng, Matt", samples: demoSamples(8, offset + 4) },
 ];
 
-export const swatchesCopy = {
-  eyebrow: "Bảng mẫu · 06 bề mặt",
-  title: "Bề mặt đá & marble",
-  guideLabel: "Quy cách (mm) — tỷ lệ thật",
-  notes: [
-    { label: "Bề mặt", value: "Bóng · Matt" },
-    { label: "Ứng dụng", value: "Lát sàn · Ốp tường" },
+/** Nội dung giới thiệu TẠM dùng chung cho các trang demo — thay bằng nội dung thật của từng thương hiệu. */
+const placeholderAbout = (name: string, image: PhotoRef): BrandProductPage["about"] => ({
+  eyebrow: "Thương hiệu",
+  title: "Giới thiệu",
+  lead: `Nội dung tạm: một câu dẫn ngắn về định vị của thương hiệu ${name}, sẽ được thay bằng thông điệp chính thức.`,
+  paragraphs: [
+    `Đây là đoạn giới thiệu tạm để duyệt bố cục trang. Nội dung chính thức về thương hiệu ${name} — định vị, câu chuyện và giá trị — sẽ được cập nhật theo tài liệu do khách hàng cung cấp.`,
+    "Phần này dành cho hai đến ba đoạn văn ngắn, đủ để người đọc hiểu thương hiệu trước khi xem các quy cách và mẫu gạch ở trang bên.",
   ],
+  highlights: [
+    { title: "Định vị", text: "Nội dung tạm: mô tả ngắn về định vị và phong cách của thương hiệu." },
+    { title: "Đặc điểm nổi bật", text: "Nội dung tạm: những điểm khác biệt của dòng sản phẩm sẽ được bổ sung." },
+    { title: "Phạm vi sản phẩm", text: "Gạch ốp lát với bốn quy cách: 300 × 600, 400 × 800, 600 × 600 và 800 × 800 mm." },
+  ],
+  image,
+});
+
+const sampleImage = (file: string, focal = "50% 50%"): PhotoRef => ({
+  src: `/images/products/${file}.jpg`,
+  alt: "Ảnh minh họa (ảnh tạm)",
+  focal,
+  fit: "cover",
+});
+
+/** Thương hiệu lấy từ danh sách logo (lib/catalogue/brands.ts) — logo và tên luôn khớp trang tổng hợp thương hiệu. */
+const brandOf = (id: string) => {
+  const brand = brands.find((b) => b.id === id);
+  if (!brand) throw new Error(`Không có thương hiệu "${id}" trong brands.ts`);
+  return { name: brand.name, logo: { ...brand.logo, fill: brand.fill } };
 };
 
-/** Các quy cách vẽ theo tỷ lệ ở chân trang phải (mm). */
-export const sizeGuide = [
-  { w: 300, h: 600 },
-  { w: 600, h: 600 },
-  { w: 600, h: 1200 },
-  { w: 800, h: 800 },
-];
+/**
+ * MIKADO — thương hiệu sản phẩm (logo mikado.jpg; KHÁC logo công ty MIKADO-MT ở bìa).
+ */
+const mikado = brandOf("mikado");
+export const mikadoProducts: BrandProductPage = {
+  id: "mikado",
+  brand: mikado,
+  folio: productFolio("mikado"),
+  about: placeholderAbout(mikado.name, sampleImage("sabbia", "50% 40%")),
+  products: {
+    title: "Sản phẩm gạch ốp lát",
+    groups: sizeGroups(0),
+  },
+};
+
+/**
+ * Alaska — trang demo thứ hai Nội dung giới thiệu và ảnh mẫu là TẠM.
+ * Số mẫu mỗi nhóm khác MIKADO để thấy template co giãn theo dữ liệu.
+ */
+const alaska = brandOf("alaska");
+export const alaskaProducts: BrandProductPage = {
+  id: "alaska",
+  brand: alaska,
+  folio: productFolio("alaska"),
+  about: placeholderAbout(alaska.name, sampleImage("nebbia", "60% 50%")),
+  products: {
+    title: "Sản phẩm gạch ốp lát",
+    groups: sizeGroups(3),
+  },
+};
+
+/** Các thương hiệu có trang đôi sản phẩm, theo thứ tự trong catalogue. */
+export const brandProductPages: BrandProductPage[] = [mikadoProducts, alaskaProducts];

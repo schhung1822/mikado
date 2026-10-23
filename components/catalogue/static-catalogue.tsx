@@ -7,13 +7,14 @@ import type { CatalogueEntry } from "@/lib/catalogue/types";
  */
 export function StaticCatalogue({ entries }: { entries: CatalogueEntry[] }) {
   return (
-    <div className="flex flex-col items-center gap-8 bg-chrome py-8 print:gap-0 print:bg-white print:py-0">
+    <div className="flex flex-col items-center gap-8 bg-chrome py-8 print:block print:bg-white print:py-0">
       {entries.map((entry) => {
         const size = entry.kind === "spread" ? SPREAD : PAGE;
         return (
           <div
             key={entry.id}
             id={entry.id}
+            data-kind={entry.kind}
             className="catalogue-sheet shrink-0 bg-paper shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]"
             style={{ width: size.width, height: size.height }}
           >

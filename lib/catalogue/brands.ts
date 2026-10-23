@@ -3,11 +3,11 @@ import type { CropBox } from "./types";
 /**
  * DỮ LIỆU TRANG ĐÔI "THƯƠNG HIỆU" — thay logo, tên và bố cục tại đây.
  *
- * Logo lấy nguyên từ public/images/logo (11 thương hiệu; mikado.jpg là logo đơn vị trong
- * tài liệu tham khảo nên KHÔNG dùng). Logo không bị chỉnh màu hay kéo giãn:
- *  - `crop` chỉ để cắt phần nền trắng thừa quanh logo (vùng hiển thị theo tỷ lệ 0–1 của ảnh gốc),
- *    pixel logo giữ nguyên. Bỏ `crop` nếu logo mới đã sát lề.
- *  - `fill: true` dành cho file logo có nền màu riêng (Videcor, Lustile, Feraza): ảnh phủ kín ô.
+ * 12 logo thương hiệu lấy nguyên từ public/images/logo (gồm cả MIKADO). mikado-mt.png/jpg là logo công ty chủ quản
+ * MIKADO-MT (dùng ở bìa, xem company.ts), KHÔNG thuộc danh sách này. Logo không bị chỉnh màu hay kéo giãn:
+ *  - `crop` chỉ để cắt phần thừa quanh logo (nền trắng, dải đen của file nguồn) — vùng hiển thị theo tỷ lệ 0–1 của ảnh gốc,
+ *    pixel logo giữ nguyên. Bỏ `crop` nếu logo đã sát lề.
+ *  - `fill: true` dành cho logo có nền màu riêng (dạng tấm gạch): ảnh phủ kín ô.
  */
 export interface Brand {
   id: string;
@@ -31,35 +31,50 @@ export interface Brand {
 }
 
 export const brands: Brand[] = [
-  { id: "alaska", name: "Alaska", pad: 28, logo: { src: "/images/logo/alaska.png", width: 750, height: 203, crop: [0.0193, 0.059, 0.9707, 0.9067] } },
-  { id: "cerinco", name: "Cerinco", pad: 16, logo: { src: "/images/logo/cerinco.png", width: 554, height: 554 } },
-  { id: "clara", name: "Clara", pad: 32, logo: { src: "/images/logo/clara.png", width: 320, height: 320, crop: [0.04, 0.4, 0.92, 0.2] } },
-  { id: "cvgroup", name: "CV Group", pad: 18, bg: "#fefefe", logo: { src: "/images/logo/cvgroup.png", width: 1254, height: 1254, crop: [0.0251, 0.1176, 0.9419, 0.7154] } },
-  // Nguồn là ảnh bìa tài liệu: chỉ lấy dải đỏ chứa logo (không chỉnh sửa pixel).
-  { id: "feraza", name: "Feraza", fill: true, numeralTone: "light", logo: { src: "/images/logo/feraza.webp", width: 960, height: 1358, crop: [0.4292, 0.7224, 0.5417, 0.1878] } },
-  { id: "goldentile", name: "Golden Tile", pad: 24, logo: { src: "/images/logo/goldentile.png", width: 800, height: 227, crop: [0.0175, 0.0825, 0.965, 0.835] } },
-  { id: "lexxa", name: "Lexxa", pad: 14, logo: { src: "/images/logo/lexxa.png", width: 447, height: 447, crop: [0.0728, 0.0728, 0.8545, 0.8545] } },
-  { id: "lustile", name: "Lustile", fill: true, logo: { src: "/images/logo/lustile.jpg", width: 768, height: 768 } },
-  { id: "mosties", name: "Mosties", pad: 14, logo: { src: "/images/logo/mostile.webp", width: 360, height: 200, crop: [0.1483, 0.14, 0.7033, 0.72] } },
-  { id: "nhuphat", name: "Như Phát", pad: 18, bg: "#fefefe", logo: { src: "/images/logo/nhuphat.png", width: 1254, height: 1254, crop: [0.0339, 0.0697, 0.9331, 0.8549] } },
-  { id: "videcor", name: "Videcor", fill: true, numeralTone: "light", logo: { src: "/images/logo/videcor.png", width: 600, height: 200 } },
+  { id: "alaska", name: "Alaska", fill: true, numeralTone: "light", logo: { src: "/images/logo/alaska.png", width: 4120, height: 912 } },
+  { id: "cerinco", name: "Cerinco", fill: true, numeralTone: "light", logo: { src: "/images/logo/cerinco.png", width: 1582, height: 432 } },
+  // Cắt dải đen trên/dưới của file nguồn (75 px và 77 px), chỉ lấy tấm logo.
+  { id: "claza", name: "Claza", fill: true, numeralTone: "light", logo: { src: "/images/logo/claza.png", width: 2167, height: 726, crop: [0, 0.1033, 1, 0.7906] } },
+  { id: "cvgroup", name: "CV Group", pad: 18, logo: { src: "/images/logo/CVGroup.jpg", width: 1658, height: 937, crop: [0.0386, 0.0694, 0.9089, 0.8453] } },
+  { id: "feraza", name: "Feraza", fill: true, numeralTone: "light", logo: { src: "/images/logo/feraza.png", width: 2852, height: 718 } },
+  { id: "goldentile", name: "Golden Tile", fill: true, numeralTone: "light", logo: { src: "/images/logo/goldentile.png", width: 1714, height: 474 } },
+  // Cắt dải đen trên/dưới của file nguồn (82 px và 84 px).
+  { id: "lexxa", name: "Lexxa", fill: true, numeralTone: "light", logo: { src: "/images/logo/lexxa.png", width: 2170, height: 725, crop: [0, 0.1131, 1, 0.771] } },
+  { id: "lustile", name: "Lustile", pad: 16, bg: "#fdfefd", logo: { src: "/images/logo/lustile.png", width: 2169, height: 725, crop: [0.0941, 0.2193, 0.8119, 0.5876] } },
+  { id: "mikado", name: "Mikado", fill: true, numeralTone: "light", logo: { src: "/images/logo/mikado.jpg", width: 5906, height: 1629 } },
+  { id: "mostile", name: "Mostile", fill: true, numeralTone: "light", logo: { src: "/images/logo/mostile.png", width: 1716, height: 648 } },
+  { id: "nhuphat", name: "Như Phát", pad: 14, logo: { src: "/images/logo/nhuphat.png", width: 1518, height: 1348, crop: [0.0889, 0.0675, 0.8109, 0.8939] } },
+  { id: "videcor", name: "Videcor", fill: true, numeralTone: "light", logo: { src: "/images/logo/videcor.png", width: 3226, height: 878 } },
 ];
 
+/** Tỷ lệ rộng : cao của vùng logo hiển thị (sau khi `crop`). */
+export const logoRatio = (brand: Pick<Brand, "logo">) => {
+  const { width, height, crop } = brand.logo;
+  const [, , cw, ch] = crop ?? [0, 0, 1, 1];
+  return (width * cw) / (height * ch);
+};
+
 /**
- * Bố cục bức tường logo: lưới 6 cột, mỗi hàng là một dãy ô nối tiếp nhau.
- * `square` — hàng cao bằng ô 2 cột (ô vuông); `band` — hàng thấp theo tỷ lệ 3:1 của ô 4 cột.
- * Tổng `span` mỗi hàng phải bằng 6. Đổi thứ tự/`span` để sắp lại bố cục.
+ * Bố cục bức tường logo: lưới 6 cột, mỗi hàng là một dãy ô nối tiếp nhau, tổng `span` mỗi hàng = 6.
+ * Chiều cao hàng KHÔNG nhập tay: tính từ ô `anchor` (rộng theo `span`, cao theo đúng tỷ lệ logo của nó) nên logo
+ * dạng tấm gạch phủ kín ô mà gần như không bị cắt. Các ô khác trong hàng có nền trắng nên không cần cùng tỷ lệ.
+ * Đổi thứ tự/`span`/`anchor` để sắp lại bố cục.
  */
-export const brandWall: { height: "square" | "band"; cells: { brand: string; span: 2 | 3 | 4 }[] }[] = [
-  { height: "square", cells: [{ brand: "cerinco", span: 2 }, { brand: "alaska", span: 4 }] },
-  { height: "band", cells: [{ brand: "videcor", span: 4 }, { brand: "mosties", span: 2 }] },
-  { height: "square", cells: [{ brand: "lexxa", span: 2 }, { brand: "lustile", span: 2 }, { brand: "cvgroup", span: 2 }] },
-  { height: "band", cells: [{ brand: "goldentile", span: 3 }, { brand: "clara", span: 3 }] },
-  { height: "square", cells: [{ brand: "feraza", span: 4 }, { brand: "nhuphat", span: 2 }] },
+export const brandWall: { anchor: string; cells: { brand: string; span: 2 | 3 | 4 | 6 }[] }[] = [
+  { anchor: "mikado", cells: [{ brand: "mikado", span: 6 }] },
+  { anchor: "cerinco", cells: [{ brand: "cerinco", span: 3 }, { brand: "goldentile", span: 3 }] },
+  { anchor: "videcor", cells: [{ brand: "videcor", span: 4 }, { brand: "cvgroup", span: 2 }] },
+  { anchor: "claza", cells: [{ brand: "claza", span: 3 }, { brand: "lexxa", span: 3 }] },
+  { anchor: "mostile", cells: [{ brand: "mostile", span: 3 }, { brand: "nhuphat", span: 3 }] },
+  { anchor: "alaska", cells: [{ brand: "alaska", span: 4 }, { brand: "lustile", span: 2 }] },
+  { anchor: "feraza", cells: [{ brand: "feraza", span: 6 }] },
 ];
 
 /** Văn bản trang trái. Giữ trung tính — không nêu quan hệ phân phối/đối tác. */
 export const brandsCopy = {
+  eyebrow: "Hệ thống thương hiệu",
+  /** Nhãn phía trên bức tường logo ở trang phải. */
+  wallLabel: "Danh mục thương hiệu",
   titleLines: ["THƯƠNG", "HIỆU"],
   /** Số thương hiệu lấy theo dữ liệu, không nhập tay. */
   intro:

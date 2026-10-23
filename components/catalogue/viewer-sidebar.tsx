@@ -45,26 +45,28 @@ function UnitList({ entries, units, current, onSelect }: Pick<ViewerSidebarProps
               type="button"
               onClick={() => onSelect(i)}
               aria-current={active ? "page" : undefined}
-              aria-label={`${entry.label}, trang ${unit.folio}`}
+              aria-label={entry.label}
               className={cn(
-                "group flex w-full flex-col items-center gap-2 rounded-md px-2 pt-2.5 pb-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-white/40",
-                active ? "bg-white/[0.07]" : "hover:bg-white/[0.04]",
+                "group flex w-full flex-col items-center gap-2 rounded-md px-2 pt-2.5 pb-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand-light",
+                active ? "bg-brand/25" : "hover:bg-brand/10",
               )}
             >
               <span
                 aria-hidden
                 className={cn(
                   "pointer-events-none block shadow-[0_6px_16px_-6px_rgba(0,0,0,0.7)] ring-1 transition-shadow",
-                  active ? "ring-2 ring-white/90" : "ring-white/15 group-hover:ring-white/40",
+                  active ? "ring-2 ring-brand-light" : "ring-white/15 group-hover:ring-brand-light/60",
                 )}
               >
                 <UnitView entry={entry} part={unit.part} scale={thumbWidth / width} />
               </span>
-              <span className="flex items-baseline gap-2 text-[10.5px] tracking-[0.14em] uppercase">
-                <span className={cn("font-medium tabular-nums", active ? "text-white" : "text-chrome-fg")}>
-                  {unit.folio}
-                </span>
-                <span className={active ? "text-chrome-fg" : "text-chrome-muted"}>{entry.label}</span>
+              <span
+                className={cn(
+                  "text-center text-[10.5px] tracking-[0.18em] uppercase",
+                  active ? "font-medium text-white" : "text-chrome-muted",
+                )}
+              >
+                {entry.label}
               </span>
             </button>
           </li>
@@ -116,7 +118,7 @@ export function ViewerSidebar({ overlay, open, onClose, ...list }: ViewerSidebar
                   <X className="size-4" />
                 </button>
               </div>
-              <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto">
+              <div className="viewer-scroll min-h-0 flex-1 overflow-y-auto">
                 <UnitList {...list} />
               </div>
             </motion.aside>
@@ -138,7 +140,7 @@ export function ViewerSidebar({ overlay, open, onClose, ...list }: ViewerSidebar
       className="shrink-0 overflow-hidden border-white/10 bg-black/20 data-[open=true]:border-r"
       data-open={open}
     >
-      <div style={{ width: SIDEBAR_WIDTH }} className="scrollbar-thin h-full overflow-y-auto">
+      <div style={{ width: SIDEBAR_WIDTH }} className="viewer-scroll h-full overflow-y-auto">
         <UnitList {...list} />
       </div>
     </motion.aside>

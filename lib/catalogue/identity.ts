@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 
 /**
  * Cấu hình nhận diện của catalogue — đổi màu, tỷ lệ trang, lề và thông tin tài liệu tại đây.
- * Chưa xác định thương hiệu chủ quản nên bảng màu đang là trung tính (đá, giấy ngà, đồng).
+ * Nhận diện theo logo MIKADO-MT của công ty chủ quản (khác với logo thương hiệu MIKADO).
  */
 
 /**
@@ -19,8 +19,6 @@ export const MARGIN = { top: 48, bottom: 54, outer: 40, inner: 50 } as const;
 export const DOCUMENT = {
   /** Hiển thị ở đầu trang (running head) và thanh trình xem. */
   title: "Hồ sơ năng lực",
-  /** Ghi chú cuối trang, hiển thị trên trang sản phẩm. */
-  illustrativeNote: "Hình ảnh và thông số mang tính minh họa.",
   /**
    * File PDF cho nút "Tải PDF". Tạo bằng `npm run pdf` (xem scripts/export-pdf.mjs),
    * lưu ở public/ — đổi tên ở đây thì đổi cả trong script.
@@ -28,19 +26,34 @@ export const DOCUMENT = {
   pdf: { url: "/ho-so-nang-luc.pdf", filename: "ho-so-nang-luc.pdf", label: "Tải PDF" },
 } as const;
 
-/** Màu. Khóa camelCase → biến CSS `--cat-kebab-case`, ánh xạ sang Tailwind trong app/globals.css. */
+/**
+ * Màu. Khóa camelCase → biến CSS `--cat-kebab-case`, ánh xạ sang Tailwind trong app/globals.css
+ * (ví dụ `brandDeep` → `--cat-brand-deep` → class `bg-brand-deep`, `text-brand-deep`).
+ *
+ * Bảng màu lấy mẫu trực tiếp từ logo MIKADO-MT (public/images/logo/mikado-mt.jpg):
+ * tấm gạch xanh lá viền vát, chữ đỏ. Xanh là màu chủ đạo; đỏ chỉ dùng làm điểm nhấn rất nhỏ.
+ * Đổi logo/nhận diện thì chỉ cần sửa các giá trị dưới đây.
+ */
 export const theme = {
-  paper: "#f6f3ee", // nền trang
-  stone: "#ebe6dd", // mảng nền phụ
-  grout: "#d8d2c6", // mạch vữa giữa các ô
+  // Xanh nhận diện (mẫu từ logo)
+  brand: "#4c824a", // xanh chính — mảng màu, đường kẻ, nút (vùng xanh phổ biến nhất của logo)
+  brandDeep: "#2e5b34", // xanh đậm — chữ nhỏ màu xanh, trạng thái nhấn (đáy tấm gạch trong logo)
+  brandLight: "#669c52", // xanh sáng — mảng phụ (vùng sáng của logo)
+  brandTint: "#dfeadb", // xanh rất nhạt — nền mảng, ô nhấn
+  brandNight: "#1b3622", // xanh rất đậm — điểm cuối gradient nền trang sản phẩm xanh
+  signal: "#e74038", // đỏ của chữ MIKADO-MT — chỉ dùng điểm nhấn nhỏ
+  // Nền & chữ trung tính
+  paper: "#f8f9f5", // nền trang (off-white)
+  stone: "#edf0e8", // mảng nền phụ, khung ảnh trống
+  grout: "#d6dccf", // mạch vữa giữa các ô
   tile: "#ffffff", // nền ô logo / ô mẫu
-  ink: "#1f1e1b", // chữ chính
-  inkSoft: "#6c675d", // chữ phụ
-  hairline: "#cbc4b6", // đường kẻ mảnh
-  bronze: "#8b6b4a", // điểm nhấn (số thứ tự, nhãn nhỏ)
-  chrome: "#161513", // nền trình xem (ngoài trang)
-  chromeFg: "#ebe7df",
-  chromeMuted: "#8f897d",
+  ink: "#1d2620", // chữ chính
+  inkSoft: "#5c665e", // chữ phụ
+  hairline: "#c8d0c3", // đường kẻ mảnh
+  // Khung trình xem (ngoài trang)
+  chrome: "#111912",
+  chromeFg: "#e8eee6",
+  chromeMuted: "#8a968b",
 } as const;
 
 export type ThemeKey = keyof typeof theme;

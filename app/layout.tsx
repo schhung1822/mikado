@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Hồ sơ năng lực — Bản xem thử",
-  description: "Bản demo catalogue dạng trang đôi: trang thương hiệu và trang sản phẩm gạch ốp lát.",
+  description: "Bản demo catalogue MIKADO-MT: bìa đầu, thương hiệu, trang sản phẩm mẫu MIKADO và bìa cuối.",
 };
 
 export const viewport: Viewport = {

@@ -4,6 +4,15 @@ import { DOCUMENT, MARGIN, PAGE, SPREAD } from "@/lib/catalogue/identity";
 
 export type PageSide = "left" | "right" | "single";
 
+/**
+ * Tông nền của trang: "light" = giấy trắng (mặc định), "brand" = nền xanh thương hiệu.
+ * Trang sản phẩm thương hiệu xen kẽ hai tông này (xem components/catalogue/entries.tsx).
+ */
+export type PageTone = "light" | "brand";
+
+/** Nền của tông xanh: xanh đậm của logo MIKADO-MT chuyển dần sang xanh rất đậm (chữ trắng đạt tương phản AAA). */
+const BRAND_BACKGROUND = "linear-gradient(165deg, var(--cat-brand-deep) 0%, var(--cat-brand-night) 100%)";
+
 /** Lề trái/phải theo vị trí trang: trang trái có gáy ở bên phải, trang phải có gáy ở bên trái. */
 export function pageInsets(side: PageSide) {
   return {
@@ -14,17 +23,23 @@ export function pageInsets(side: PageSide) {
 
 interface PageProps {
   side?: PageSide;
+  tone?: PageTone;
   className?: string;
   children: ReactNode;
 }
 
 /** Một trang A4 cố định kích thước (px thiết kế). Nội dung đặt tuyệt đối hoặc trong <PageBody>. */
-export function Page({ side = "single", className, children }: PageProps) {
+export function Page({ side = "single", tone = "light", className, children }: PageProps) {
   return (
     <section
       data-page={side}
-      className={cn("catalogue-page relative shrink-0 overflow-hidden bg-paper text-ink", className)}
-      style={{ width: PAGE.width, height: PAGE.height }}
+      data-tone={tone}
+      className={cn(
+        "catalogue-page relative shrink-0 overflow-hidden",
+        tone === "brand" ? "text-white" : "bg-paper text-ink",
+        className,
+      )}
+      style={{ width: PAGE.width, height: PAGE.height, background: tone === "brand" ? BRAND_BACKGROUND : undefined }}
     >
       {children}
     </section>
@@ -50,34 +65,49 @@ export function PageBody({
 }
 
 /** Đầu trang: tên tài liệu (running head). */
-export function RunningHead({ side = "single", label }: { side?: PageSide; label: string }) {
+export function RunningHead({ side = "single", label, tone = "light" }: { side?: PageSide; label: string; tone?: PageTone }) {
   const { left, right } = pageInsets(side);
   return (
     <div
       className={cn(
-        "absolute flex items-center gap-3 text-[7px] font-medium uppercase tracking-[0.24em] text-ink-soft",
+        "absolute flex items-center gap-3 text-[7px] font-medium uppercase tracking-[0.24em]",
+        tone === "brand" ? "text-white/75" : "text-ink-soft",
         side === "right" && "flex-row-reverse",
       )}
       style={{ top: 26, left, right }}
     >
       <span>{DOCUMENT.title}</span>
-      <span className="h-px w-6 bg-hairline" aria-hidden />
+      <span className={cn("h-px w-6", tone === "brand" ? "bg-white/35" : "bg-hairline")} aria-hidden />
       <span>{label}</span>
     </div>
   );
 }
 
 /** Chân trang: số trang ở phía lề ngoài. */
-export function PageFooter({ side = "single", folio, label }: { side?: PageSide; folio: string; label?: string }) {
+export function PageFooter({
+  side = "single",
+  folio,
+  label,
+  tone = "light",
+}: {
+  side?: PageSide;
+  folio: string;
+  label?: string;
+  tone?: PageTone;
+}) {
   const { left, right } = pageInsets(side);
   return (
     <div
       className={cn("absolute flex items-baseline gap-2.5", side === "right" ? "flex-row-reverse" : "")}
       style={{ bottom: 24, left, right }}
     >
-      <span className="font-display font-lining text-[15px] font-medium leading-none text-ink">{folio}</span>
+      <span className={cn("font-display font-lining text-[15px] font-medium leading-none", tone === "brand" ? "text-white" : "text-ink")}>
+        {folio}
+      </span>
       {label ? (
-        <span className="text-[6.5px] font-medium uppercase tracking-[0.24em] text-ink-soft">{label}</span>
+        <span className={cn("text-[6.5px] font-medium uppercase tracking-[0.24em]", tone === "brand" ? "text-white/75" : "text-ink-soft")}>
+          {label}
+        </span>
       ) : null}
     </div>
   );

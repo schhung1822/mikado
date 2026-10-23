@@ -1,11 +1,14 @@
 import type { Brand } from "@/lib/catalogue/brands";
 
+/** Phần của dữ liệu thương hiệu mà LogoImage cần. */
+export type LogoBrand = Pick<Brand, "name" | "logo"> & { fill?: boolean };
+
 /**
  * Hiển thị logo bằng SVG <image> + viewBox:
  *  - `crop` chỉ chọn vùng nhìn thấy (cắt nền trắng thừa), không chạm vào pixel logo;
  *  - `meet` giữ đúng tỷ lệ, không kéo giãn; `slice` (logo có nền riêng) phủ kín ô.
  */
-export function LogoImage({ brand, className }: { brand: Brand; className?: string }) {
+export function LogoImage({ brand, className }: { brand: LogoBrand; className?: string }) {
   const { src, width, height, crop } = brand.logo;
   const [cx, cy, cw, ch] = crop ?? [0, 0, 1, 1];
   return (

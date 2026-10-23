@@ -18,6 +18,9 @@ const MAX_ZOOM = 4;
 /** Dưới ngưỡng này (px, bề rộng trình xem) chuyển sang xem từng trang thay vì trang đôi. */
 const SINGLE_PAGE_BELOW = 768;
 const clampZoom = (z: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
+/** Lăn chuột chuyển trang: tổng độ lăn tối thiểu (px) để tính là một lần chuyển, và khoảng lặng (ms) để coi là cử chỉ mới. */
+const WHEEL_THRESHOLD = 50;
+const WHEEL_GESTURE_GAP = 160;
 
 const slide: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 28 }),
@@ -35,7 +38,8 @@ interface PageRef {
  * Trình xem catalogue.
  * - Desktop: mỗi lượt xem trọn một trang đôi (hoặc trang đơn); mobile (< 768px): xem từng trang.
  * - Thanh menu trái có thumbnail, mở rộng/thu gọn được; mobile là ngăn kéo.
- * - Điều hướng trước/sau (nút, phím ← →), phóng to bằng nút / pinch / Ctrl+cuộn.
+ * - Điều hướng trước/sau (nút, phím ← →, lăn chuột trên trang), phóng to bằng nút / pinch / Ctrl+cuộn.
+ *   Lăn chuột chỉ chuyển trang khi chưa phóng to; đang phóng to thì lăn để xem các vùng của trang.
  *   Khi phóng to chỉ vùng xem tài liệu cuộn — toàn trang web không bị tràn ngang.
  */
 export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
@@ -53,6 +57,10 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
   const zoomRef = useRef(1);
   const pendingCenter = useRef<{ x: number; y: number } | null>(null);
   const hashReady = useRef(false);
+  /** Trạng thái cử chỉ lăn chuột: `locked` = đã chuyển trang trong cử chỉ này, chờ cử chỉ mới (tránh quán tính touchpad lật nhiều trang). */
+  const wheel = useRef({ last: 0, acc: 0, locked: false });
+  const goRef = useRef<(index: number) => void>(() => {});
+  const unitIndexRef = useRef(0);
 
   const singlePage = rootW !== null && rootW < SINGLE_PAGE_BELOW;
   const sidebarOpen = sidebarPref ?? !singlePage;
@@ -147,6 +155,11 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
     [units, unitIndex],
   );
 
+  useEffect(() => {
+    goRef.current = go;
+    unitIndexRef.current = unitIndex;
+  }, [go, unitIndex]);
+
   const selectFromSidebar = useCallback(
     (next: number) => {
       go(next);
@@ -209,9 +222,28 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
       startDist = 0;
     };
     const onWheel = (e: WheelEvent) => {
-      if (!e.ctrlKey && !e.metaKey) return;
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        applyZoom(zoomRef.current * Math.exp(-e.deltaY * 0.01));
+        return;
+      }
+      // Đang phóng to: để trình duyệt cuộn bình thường trong vùng xem.
+      if (zoomRef.current > MIN_ZOOM + 0.001) return;
+      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
       e.preventDefault();
-      applyZoom(zoomRef.current * Math.exp(-e.deltaY * 0.01));
+      const w = wheel.current;
+      const now = performance.now();
+      if (now - w.last > WHEEL_GESTURE_GAP) {
+        w.locked = false;
+        w.acc = 0;
+      }
+      w.last = now;
+      if (w.locked) return;
+      w.acc += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      if (Math.abs(w.acc) < WHEEL_THRESHOLD) return;
+      goRef.current(unitIndexRef.current + (w.acc > 0 ? 1 : -1));
+      w.locked = true;
+      w.acc = 0;
     };
     el.addEventListener("touchstart", onStart, { passive: true });
     el.addEventListener("touchmove", onMove, { passive: true });
@@ -251,7 +283,7 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
               aria-label={`${DOCUMENT.pdf.label} — ${DOCUMENT.title}`}
               className={cn(
                 buttonVariants({ variant: "outline" }),
-                "shrink-0 gap-1.5 border-white/25 bg-transparent px-3 text-[12px] tracking-wide text-chrome-fg hover:border-white/50 hover:bg-white/10 hover:text-white",
+                "shrink-0 gap-1.5 border-brand bg-brand px-3 text-[12px] tracking-wide text-white hover:border-brand-light hover:bg-brand-deep hover:text-white focus-visible:ring-brand-light/60",
               )}
             >
               <Download />
@@ -277,7 +309,7 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
               data-viewer-viewport
               tabIndex={0}
               aria-label="Vùng xem tài liệu"
-              className="relative flex min-h-0 min-w-0 flex-1 overflow-auto outline-none [scrollbar-color:rgba(255,255,255,0.25)_transparent] scrollbar-thin"
+              className="relative flex min-h-0 min-w-0 flex-1 overflow-auto outline-none viewer-scroll"
               style={{ touchAction: "pan-x pan-y" }}
             >
               {fit > 0 ? (

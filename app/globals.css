@@ -20,7 +20,12 @@
   --color-ink: var(--cat-ink);
   --color-ink-soft: var(--cat-ink-soft);
   --color-hairline: var(--cat-hairline);
-  --color-bronze: var(--cat-bronze);
+  --color-brand: var(--cat-brand);
+  --color-brand-deep: var(--cat-brand-deep);
+  --color-brand-light: var(--cat-brand-light);
+  --color-brand-tint: var(--cat-brand-tint);
+  --color-brand-night: var(--cat-brand-night);
+  --color-signal: var(--cat-signal);
   --color-chrome: var(--cat-chrome);
   --color-chrome-fg: var(--cat-chrome-fg);
   --color-chrome-muted: var(--cat-chrome-muted);
@@ -69,8 +74,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: var(--cat-brand);
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -80,7 +85,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: var(--cat-brand-light);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -161,15 +166,56 @@ body {
   display: none;
 }
 
+/* Thanh cuộn của trình xem (menu trái, vùng xem tài liệu): mảnh, bo tròn, màu xanh thương hiệu, rõ dần khi rê chuột. */
+.viewer-scroll {
+  scrollbar-gutter: stable both-edges; /* giữ thumbnail cân giữa, không giật khi thanh cuộn xuất hiện */
+}
+.viewer-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.viewer-scroll::-webkit-scrollbar-track,
+.viewer-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.viewer-scroll::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--cat-brand-light) 38%, transparent);
+  border: 3px solid transparent; /* thumb mảnh 4px nằm giữa rãnh 10px */
+  background-clip: content-box;
+  border-radius: 999px;
+}
+.viewer-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--cat-brand-light) 65%, transparent);
+}
+.viewer-scroll::-webkit-scrollbar-thumb:hover,
+.viewer-scroll::-webkit-scrollbar-thumb:active {
+  background-color: var(--cat-brand-light);
+}
+/* Trình duyệt không hỗ trợ ::-webkit-scrollbar (Firefox): dùng thuộc tính chuẩn. */
+@supports not selector(::-webkit-scrollbar) {
+  .viewer-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--cat-brand-light) 55%, transparent) transparent;
+  }
+}
+
 .font-lining {
   font-variant-numeric: lining-nums;
 }
 
-/* Bản in / xuất PDF: ẩn giao diện trình xem, bỏ bóng và hiệu ứng, mỗi trang đôi một tờ. */
+/* Bản in / xuất PDF: ẩn giao diện trình xem, bỏ bóng và hiệu ứng, mỗi mục một tờ.
+   Trang đôi dùng khổ mặc định; trang đơn (bìa, trang thương hiệu) dùng khổ A4 riêng qua named page. */
 @media print {
   @page {
     size: 1190.55px 841.89px;
     margin: 0;
+  }
+  @page single {
+    size: 595.276px 841.89px;
+    margin: 0;
+  }
+  .catalogue-sheet[data-kind="single"] {
+    page: single;
   }
   html,
   body {

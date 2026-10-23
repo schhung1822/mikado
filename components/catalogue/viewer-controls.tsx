@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { cn } from "@/lib/utils";
 
 const iconButton =
-  "size-9 rounded-full text-chrome-fg hover:bg-white/10 hover:text-white aria-expanded:bg-white/10 aria-expanded:text-white focus-visible:ring-white/30 disabled:opacity-30";
+  "size-9 rounded-full text-chrome-fg hover:bg-brand/30 hover:text-white aria-expanded:bg-brand/30 aria-expanded:text-white focus-visible:ring-brand-light/60 disabled:opacity-30";
 
 export function IconButton({
   label,
@@ -89,8 +89,8 @@ export function ViewerControls({
           <ChevronLeft />
         </IconButton>
         <div className="min-w-[5.75rem] text-center sm:min-w-[11rem]" aria-live="polite" aria-atomic="true">
-          <p className="text-[13px] font-medium tracking-[0.06em] text-white tabular-nums">{folio}</p>
-          <p className="mt-0.5 text-[10px] tracking-[0.16em] text-chrome-muted uppercase">{label}</p>
+          {folio ? <p className="text-[13px] font-medium tracking-[0.06em] text-white tabular-nums">{folio}</p> : null}
+          <p className={cn("text-[10px] tracking-[0.16em] uppercase", folio ? "mt-0.5 text-chrome-muted" : "text-[12px] font-medium text-white")}>{label}</p>
         </div>
         <IconButton label="Sau (→)" onClick={() => onGo(index + 1)} disabled={index === count - 1}>
           <ChevronRight />
