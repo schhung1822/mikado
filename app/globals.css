@@ -154,6 +154,12 @@ body {
   color: var(--cat-chrome-fg);
 }
 
+/* Trình xem chiếm trọn màn hình: không kéo-để-tải-lại / vuốt-để-quay-lại khi vuốt chạm mép trang. */
+html,
+body {
+  overscroll-behavior: none;
+}
+
 .catalogue-page {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-synthesis: none;

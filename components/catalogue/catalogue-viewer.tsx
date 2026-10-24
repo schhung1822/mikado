@@ -21,6 +21,8 @@ const clampZoom = (z: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
 /** Lăn chuột chuyển trang: tổng độ lăn tối thiểu (px) để tính là một lần chuyển, và khoảng lặng (ms) để coi là cử chỉ mới. */
 const WHEEL_THRESHOLD = 50;
 const WHEEL_GESTURE_GAP = 160;
+/** Vuốt chuyển trang trên cảm ứng: quãng vuốt ngang tối thiểu (px). */
+const SWIPE_DISTANCE = 50;
 
 const slide: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 28 }),
@@ -38,7 +40,7 @@ interface PageRef {
  * Trình xem catalogue.
  * - Desktop: mỗi lượt xem trọn một trang đôi (hoặc trang đơn); mobile (< 768px): xem từng trang.
  * - Thanh menu trái có thumbnail, mở rộng/thu gọn được; mobile là ngăn kéo.
- * - Điều hướng trước/sau (nút, phím ← →, lăn chuột trên trang), phóng to bằng nút / pinch / Ctrl+cuộn.
+ * - Điều hướng trước/sau (nút, phím ← →, lăn chuột trên trang, vuốt ngang trên cảm ứng), phóng to bằng nút / pinch / Ctrl+cuộn.
  *   Lăn chuột chỉ chuyển trang khi chưa phóng to; đang phóng to thì lăn để xem các vùng của trang.
  *   Khi phóng to chỉ vùng xem tài liệu cuộn — toàn trang web không bị tràn ngang.
  */
@@ -103,14 +105,16 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
   const scale = fit * zoom;
 
   // Đo toàn bộ trình xem (quyết định xem trang đôi hay từng trang) và riêng vùng xem tài liệu.
-  // Vùng xem đo theo border-box để không bị lặp khi thanh cuộn xuất hiện lúc phóng to.
+  // Chiều cao đo theo border-box để không bị lặp khi thanh cuộn ngang xuất hiện lúc phóng to.
+  // Chiều rộng đo theo clientWidth: đã trừ rãnh thanh cuộn (`scrollbar-gutter: stable`, cố định nên không gây lặp);
+  // nếu dùng offsetWidth thì trang bị tràn và lệch sang phải đúng bằng bề rộng rãnh.
   useLayoutEffect(() => {
     const root = rootRef.current;
     const el = viewportRef.current;
     if (!root || !el) return;
     const measure = () => {
       setRootW(root.offsetWidth);
-      setBox({ w: el.offsetWidth, h: el.offsetHeight });
+      setBox({ w: el.clientWidth, h: el.offsetHeight });
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -208,18 +212,37 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
     if (!el) return;
     let startDist = 0;
     let startZoom = 1;
+    /** Vuốt một ngón: `null` = không phải cử chỉ vuốt (đang phóng to, hoặc có ngón thứ hai chạm vào). */
+    let swipe: { x: number; y: number; t: number } | null = null;
     const dist = (t: TouchList) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
     const onStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
         startDist = dist(e.touches);
         startZoom = zoomRef.current;
+        swipe = null;
+      } else if (e.touches.length === 1 && zoomRef.current <= MIN_ZOOM + 0.001) {
+        swipe = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: performance.now() };
       }
     };
     const onMove = (e: TouchEvent) => {
       if (e.touches.length === 2 && startDist) applyZoom((startZoom * dist(e.touches)) / startDist);
     };
-    const onEnd = () => {
+    const onEnd = (e: TouchEvent) => {
       startDist = 0;
+      const s = swipe;
+      swipe = null;
+      // Chỉ tính khi đã nhấc hết ngón tay và chưa phóng to (phóng to thì vuốt dùng để kéo xem trang).
+      if (!s || e.touches.length > 0 || zoomRef.current > MIN_ZOOM + 0.001) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - s.x;
+      const dy = t.clientY - s.y;
+      const fast = performance.now() - s.t < 600;
+      if (Math.abs(dx) < SWIPE_DISTANCE || Math.abs(dx) < Math.abs(dy) * 1.5 || !fast) return;
+      goRef.current(unitIndexRef.current + (dx < 0 ? 1 : -1));
+    };
+    const onCancel = () => {
+      startDist = 0;
+      swipe = null;
     };
     const onWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) {
@@ -248,11 +271,13 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
     el.addEventListener("touchstart", onStart, { passive: true });
     el.addEventListener("touchmove", onMove, { passive: true });
     el.addEventListener("touchend", onEnd, { passive: true });
+    el.addEventListener("touchcancel", onCancel, { passive: true });
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       el.removeEventListener("touchstart", onStart);
       el.removeEventListener("touchmove", onMove);
       el.removeEventListener("touchend", onEnd);
+      el.removeEventListener("touchcancel", onCancel);
       el.removeEventListener("wheel", onWheel);
     };
   }, [applyZoom]);
@@ -310,7 +335,9 @@ export function CatalogueViewer({ entries }: { entries: CatalogueEntry[] }) {
               tabIndex={0}
               aria-label="Vùng xem tài liệu"
               className="relative flex min-h-0 min-w-0 flex-1 overflow-auto outline-none viewer-scroll"
-              style={{ touchAction: "pan-x pan-y" }}
+              // Chưa phóng to: không có gì để cuộn, nhường toàn bộ cử chỉ cho JS (vuốt chuyển trang, pinch) để trình duyệt
+              // không cướp thành "vuốt để quay lại". Đã phóng to: cho kéo/cuộn để xem các vùng của trang.
+              style={{ touchAction: zoom > MIN_ZOOM + 0.001 ? "pan-x pan-y" : "none", overscrollBehavior: "none" }}
             >
               {fit > 0 ? (
                 <div className="m-auto shrink-0" style={{ padding: pad }}>
