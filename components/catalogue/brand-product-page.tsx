@@ -44,12 +44,15 @@ function tileAspect(group: SizeGroup) {
   const long = Math.max(group.width, group.height);
   const short = Math.min(group.width, group.height);
   if (group.width === group.height) return "1 / 1";
+  // Ảnh ghép 3 viên chữ nhật xếp chồng: rộng = cạnh dài, cao = 3 × cạnh ngắn.
+  if (group.stacked) return `${long} / ${short * 3}`;
   return group.orientation === "landscape" ? `${long} / ${short}` : `${short} / ${long}`;
 }
 
 /** Một ô mẫu. Chưa có ảnh: khung trống. Có ảnh: ảnh nằm đúng khung (mặc định hiển thị nguyên ảnh, không crop). */
 function SampleTile({ sample, aspect, label, tone }: { sample: Sample; aspect: string; label: string; tone: PageTone }) {
-  const { image, code } = sample;
+  const { image, code, codes } = sample;
+  const lines = codes ?? (code ? [code] : []);
   const t = TONES[tone];
   return (
     <figure className="m-0 min-w-0 self-start">
@@ -61,8 +64,43 @@ function SampleTile({ sample, aspect, label, tone }: { sample: Sample; aspect: s
       >
         {image ? <Photo photo={image} fit={image.fit ?? "contain"} sizes="200px" /> : null}
       </div>
-      {code ? <figcaption className={cn("mt-1.5 font-lining text-[6.5px] leading-[1.4] tracking-[0.04em]", t.soft)}>{code}</figcaption> : null}
+      {lines.length ? (
+        <figcaption className={cn("mt-1.5 font-lining text-[6.5px] leading-[1.4] tracking-[0.04em]", t.soft)}>
+          {lines.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
+        </figcaption>
+      ) : null}
     </figure>
+  );
+}
+
+/** Nhóm gạch ốp xếp chồng: tiêu đề gọn phía trên, 3 bộ ảnh ghép bên dưới. Hai nhóm liền nhau nằm cạnh nhau (xem ProductsPage). */
+function StackedSection({ group, tone }: { group: SizeGroup; tone: PageTone }) {
+  const t = TONES[tone];
+  const aspect = tileAspect(group);
+  const label = `${group.width} × ${group.height}`;
+  const details = [group.application, group.finish].filter(Boolean).join(" · ");
+  return (
+    <section aria-label={`Gạch ${label} mm`} className="min-w-0">
+      <div className="flex min-w-0 gap-2.5">
+        <span aria-hidden className={cn("w-2.5 shrink-0 self-stretch border-y-2 border-l-2", t.glyph)} />
+        <div className="min-w-0 py-px">
+          <p className="font-display font-lining text-[21px] font-bold leading-none">
+            {label}
+            <span className="ml-1 text-[9px] font-semibold">mm</span>
+          </p>
+          {details ? <p className={cn("mt-1.5 text-[7.5px] leading-[1.45]", t.soft)}>{details}</p> : null}
+        </div>
+      </div>
+      <div className="mt-2.5 grid grid-cols-3 gap-2">
+        {group.samples.map((sample, i) => (
+          <SampleTile key={i} sample={sample} aspect={aspect} label={label} tone={tone} />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -197,6 +235,15 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
 function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
   const { products, brand } = page;
   const t = TONES[tone];
+  // Các nhóm `stacked` liền nhau ghép từng cặp thành một hàng; nhóm thường chiếm trọn một hàng.
+  const rows = products.groups.reduce<SizeGroup[][]>((acc, group) => {
+    const last = acc[acc.length - 1];
+    if (group.stacked && last && last[0].stacked && last.length < 2) last.push(group);
+    else acc.push([group]);
+    return acc;
+  }, []);
+  // Trang có nhóm ghép bộ cao hơn bình thường (ảnh 2 : 3 + 3 dòng mã) nên thu gọn khoảng cách dọc cho vừa trang.
+  const compact = products.groups.some((g) => g.stacked);
   return (
     <Page side="right" tone={tone}>
       <RunningHead side="right" label={products.title} tone={tone} />
@@ -207,10 +254,18 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
           <div className={cn("mt-3.5 h-0.5", t.rule)} />
         </Reveal>
 
-        <div className="mt-6 flex flex-col gap-3.5">
-          {products.groups.map((group, i) => (
-            <Reveal key={group.id} delay={0.12 + i * 0.1} y={6}>
-              <SizeSection group={group} tone={tone} />
+        <div className={cn("flex flex-col", compact ? "mt-4 gap-2.5" : "mt-6 gap-3.5")}>
+          {rows.map((row, i) => (
+            <Reveal key={row[0].id} delay={0.12 + i * 0.1} y={6}>
+              {row[0].stacked ? (
+                <div className="grid grid-cols-2 gap-5">
+                  {row.map((group) => (
+                    <StackedSection key={group.id} group={group} tone={tone} />
+                  ))}
+                </div>
+              ) : (
+                <SizeSection group={row[0]} tone={tone} />
+              )}
             </Reveal>
           ))}
         </div>

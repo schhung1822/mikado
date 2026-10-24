@@ -26,25 +26,23 @@ export interface Brand {
   pad?: number;
   /** Nền ô khi file logo có nền gần-trắng không phải #fff (khớp để không lộ viền hộp quanh logo). */
   bg?: string;
-  /** Màu số thứ tự trên ô: "light" khi nền ô tối/đậm màu. */
-  numeralTone?: "dark" | "light";
 }
 
 export const brands: Brand[] = [
-  { id: "alaska", name: "Alaska", fill: true, numeralTone: "light", logo: { src: "/images/logo/alaska.png", width: 4120, height: 912 } },
-  { id: "cerinco", name: "Cerinco", fill: true, numeralTone: "light", logo: { src: "/images/logo/cerinco.png", width: 1582, height: 432 } },
+  { id: "alaska", name: "Alaska", fill: true, logo: { src: "/images/logo/alaska.png", width: 4120, height: 912 } },
+  { id: "cerinco", name: "Cerinco", fill: true, logo: { src: "/images/logo/cerinco.png", width: 1582, height: 432 } },
   // Cắt dải đen trên/dưới của file nguồn (75 px và 77 px), chỉ lấy tấm logo.
-  { id: "claza", name: "Claza", fill: true, numeralTone: "light", logo: { src: "/images/logo/claza.png", width: 2167, height: 726, crop: [0, 0.1033, 1, 0.7906] } },
+  { id: "claza", name: "Claza", fill: true, logo: { src: "/images/logo/claza.png", width: 2167, height: 726, crop: [0, 0.1033, 1, 0.7906] } },
   { id: "cvgroup", name: "CV Group", pad: 18, logo: { src: "/images/logo/CVGroup.jpg", width: 1658, height: 937, crop: [0.0386, 0.0694, 0.9089, 0.8453] } },
-  { id: "feraza", name: "Feraza", fill: true, numeralTone: "light", logo: { src: "/images/logo/feraza.png", width: 2852, height: 718 } },
-  { id: "goldentile", name: "Golden Tile", fill: true, numeralTone: "light", logo: { src: "/images/logo/goldentile.png", width: 1714, height: 474 } },
+  { id: "feraza", name: "Feraza", fill: true, logo: { src: "/images/logo/feraza.png", width: 2852, height: 718 } },
+  { id: "goldentile", name: "Golden Tile", fill: true, logo: { src: "/images/logo/goldentile.png", width: 1714, height: 474 } },
   // Cắt dải đen trên/dưới của file nguồn (82 px và 84 px).
-  { id: "lexxa", name: "Lexxa", fill: true, numeralTone: "light", logo: { src: "/images/logo/lexxa.png", width: 2170, height: 725, crop: [0, 0.1131, 1, 0.771] } },
+  { id: "lexxa", name: "Lexxa", fill: true, logo: { src: "/images/logo/lexxa.png", width: 2170, height: 725, crop: [0, 0.1131, 1, 0.771] } },
   { id: "lustile", name: "Lustile", pad: 16, bg: "#fdfefd", logo: { src: "/images/logo/lustile.png", width: 2169, height: 725, crop: [0.0941, 0.2193, 0.8119, 0.5876] } },
-  { id: "mikado", name: "Mikado", fill: true, numeralTone: "light", logo: { src: "/images/logo/mikado.jpg", width: 5906, height: 1629 } },
-  { id: "mostile", name: "Mostile", fill: true, numeralTone: "light", logo: { src: "/images/logo/mostile.png", width: 1716, height: 648 } },
+  { id: "mikado", name: "Mikado", fill: true, logo: { src: "/images/logo/mikado.jpg", width: 5906, height: 1629 } },
+  { id: "mostile", name: "Mostile", fill: true, logo: { src: "/images/logo/mostile.png", width: 1716, height: 648 } },
   { id: "nhuphat", name: "Như Phát", pad: 14, logo: { src: "/images/logo/nhuphat.png", width: 1518, height: 1348, crop: [0.0889, 0.0675, 0.8109, 0.8939] } },
-  { id: "videcor", name: "Videcor", fill: true, numeralTone: "light", logo: { src: "/images/logo/videcor.png", width: 3226, height: 878 } },
+  { id: "videcor", name: "Videcor", fill: true, logo: { src: "/images/logo/videcor.png", width: 3226, height: 878 } },
 ];
 
 /** Tỷ lệ rộng : cao của vùng logo hiển thị (sau khi `crop`). */
@@ -54,32 +52,30 @@ export const logoRatio = (brand: Pick<Brand, "logo">) => {
   return (width * cw) / (height * ch);
 };
 
-/**
- * Bố cục bức tường logo: lưới 6 cột, mỗi hàng là một dãy ô nối tiếp nhau, tổng `span` mỗi hàng = 6.
- * Chiều cao hàng KHÔNG nhập tay: tính từ ô `anchor` (rộng theo `span`, cao theo đúng tỷ lệ logo của nó) nên logo
- * dạng tấm gạch phủ kín ô mà gần như không bị cắt. Các ô khác trong hàng có nền trắng nên không cần cùng tỷ lệ.
- * Đổi thứ tự/`span`/`anchor` để sắp lại bố cục.
- */
-export const brandWall: { anchor: string; cells: { brand: string; span: 2 | 3 | 4 | 6 }[] }[] = [
-  { anchor: "mikado", cells: [{ brand: "mikado", span: 6 }] },
-  { anchor: "cerinco", cells: [{ brand: "cerinco", span: 3 }, { brand: "goldentile", span: 3 }] },
-  { anchor: "videcor", cells: [{ brand: "videcor", span: 4 }, { brand: "cvgroup", span: 2 }] },
-  { anchor: "claza", cells: [{ brand: "claza", span: 3 }, { brand: "lexxa", span: 3 }] },
-  { anchor: "mostile", cells: [{ brand: "mostile", span: 3 }, { brand: "nhuphat", span: 3 }] },
-  { anchor: "alaska", cells: [{ brand: "alaska", span: 4 }, { brand: "lustile", span: 2 }] },
-  { anchor: "feraza", cells: [{ brand: "feraza", span: 6 }] },
-];
-
 /** Văn bản trang trái. Giữ trung tính — không nêu quan hệ phân phối/đối tác. */
 export const brandsCopy = {
   eyebrow: "Hệ thống thương hiệu",
-  /** Nhãn phía trên bức tường logo ở trang phải. */
+  /** Nhãn phía trên lưới logo ở trang phải. */
   wallLabel: "Danh mục thương hiệu",
   titleLines: ["THƯƠNG", "HIỆU"],
-  /** Số thương hiệu lấy theo dữ liệu, không nhập tay. */
+  /**
+   * NỘI DUNG MẪU (chưa được xác nhận) — chỉ dựa trên thông tin đã có trong company-profile.ts
+   * (khởi nguồn từ nhà máy tại Tiền Hải, Thái Bình; 12 thương hiệu). Thay bằng nội dung thật khi có.
+   */
   intro:
-    "Các thương hiệu có trong hồ sơ, sắp xếp theo thứ tự chữ cái. Biểu trưng được giữ nguyên màu sắc và tỷ lệ gốc.",
-  indexNote: "Số thứ tự tương ứng với vị trí biểu trưng ở trang bên.",
+    "Từ nhà máy đầu tiên tại Tiền Hải, Thái Bình, MIKADO Group từng bước xây dựng hệ thống thương hiệu gạch ốp lát với nhiều phong cách và tầm giá khác nhau, đồng hành cùng các công trình từ nhà ở đến không gian thương mại.",
+  indexNote: "Số trang dẫn tới trang đôi giới thiệu và mẫu sản phẩm của từng thương hiệu.",
+  /** Dải số liệu ở trang trái — lấy từ phần giới thiệu công ty (company-profile.ts: khởi nguồn 2002, 08 cổ đông sáng lập, hơn 11 nhà máy). */
+  stats: [
+    { value: "2002", label: "Năm khởi nguồn" },
+    { value: "08", label: "Cổ đông sáng lập" },
+    { value: "11+", label: "Nhà máy sản xuất" },
+  ],
+  /** Khung nội dung phía dưới lưới logo (trang phải) — nội dung mẫu, thay bằng nội dung thật khi có. */
+  wallStory: {
+    title: "Đa dạng lựa chọn, đồng điệu không gian",
+    text: "Khám phá các bộ sưu tập gạch ốp lát theo từng thương hiệu, với nhiều mẫu mã và quy cách. Mỗi lựa chọn là một gợi ý để kết hợp màu sắc, bề mặt và tỷ lệ, tạo nên dấu ấn riêng cho từng không gian.",
+  },
   image: {
     src: "/images/products/nebbia.jpg",
     alt: "Bề mặt đá marble vân xám",
@@ -87,9 +83,32 @@ export const brandsCopy = {
   },
 };
 
-/** Danh mục theo thứ tự chữ cái tiếng Việt; số thứ tự dùng chung cho danh mục và bức tường logo. */
-export const brandIndex = [...brands]
-  .sort((a, b) => a.name.localeCompare(b.name, "vi"))
-  .map((brand, i) => ({ ...brand, no: String(i + 1).padStart(2, "0") }));
+/**
+ * Thứ tự thương hiệu trong toàn hồ sơ (danh mục, lưới logo, mục lục, trang sản phẩm).
+ * Sửa tại đây để đổi thứ tự; phải liệt kê đủ mọi thương hiệu trong `brands`.
+ */
+export const BRAND_ORDER = [
+  "mikado",
+  "cerinco",
+  "videcor",
+  "goldentile",
+  "feraza",
+  "claza",
+  "lexxa",
+  "mostile",
+  "lustile",
+  "cvgroup",
+  "alaska",
+  "nhuphat",
+];
 
-export const brandNo = (id: string) => brandIndex.find((b) => b.id === id)?.no ?? "";
+/** Danh mục theo `BRAND_ORDER`. */
+export const brandIndex = BRAND_ORDER.map((id) => {
+  const brand = brands.find((b) => b.id === id);
+  if (!brand) throw new Error(`Thương hiệu "${id}" trong BRAND_ORDER không có trong brands (brands.ts)`);
+  return brand;
+});
+if (brandIndex.length !== brands.length) {
+  throw new Error("BRAND_ORDER (brands.ts) phải liệt kê đủ mọi thương hiệu trong brands");
+}
+

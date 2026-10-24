@@ -1,29 +1,21 @@
-import { brandIndex, brandNo, brands, brandsCopy, brandWall, logoRatio } from "@/lib/catalogue/brands";
-import { overviewFolio } from "@/lib/catalogue/contents";
+import { brandIndex, brands, brandsCopy } from "@/lib/catalogue/brands";
+import { folioText, overviewFolio, productFolio } from "@/lib/catalogue/contents";
 import { MARGIN, PAGE } from "@/lib/catalogue/identity";
-import { cn } from "@/lib/utils";
 import { LogoImage } from "./logo-image";
 import { Reveal } from "./motion";
 import { Page, PageBody, PageFooter, RunningHead, Spread } from "./page-frame";
 import { Photo } from "./photo";
 
-const GROUT = 5;
-const COLS = 6;
+const GAP = 8;
 const WALL_WIDTH = PAGE.width - MARGIN.inner - MARGIN.outer;
-const COL = (WALL_WIDTH - GROUT * (COLS - 1)) / COLS;
-const spanWidth = (span: number) => span * COL + (span - 1) * GROUT;
-
-const byId = Object.fromEntries(brands.map((b) => [b.id, b]));
-
-/** Chiều cao hàng = chiều rộng ô `anchor` chia tỷ lệ logo của nó (xem `brandWall` trong brands.ts). */
-const rowHeight = (row: (typeof brandWall)[number]) => {
-  const cell = row.cells.find((c) => c.brand === row.anchor) ?? row.cells[0];
-  return spanWidth(cell.span) / logoRatio(byId[row.anchor]);
-};
+/** Chiều cao thẻ logo (px thiết kế): mọi thẻ cùng kích thước, logo đặt vừa khung (meet) nên không bị cắt hay kéo giãn. */
+const CARD_HEIGHT = 84;
+const CARD_PAD_X = 14;
+const CARD_PAD_Y = 12;
 
 export const BRANDS_FOLIO = overviewFolio;
 
-/** Trang trái: tiêu đề + số lượng thương hiệu, câu dẫn, danh mục hai cột (cùng số thứ tự với bức tường logo), ảnh tràn lề. */
+/** Trang trái: tiêu đề + số lượng thương hiệu, câu dẫn, danh mục hai cột kèm số trang, ảnh tràn lề. */
 function BrandsLeftPage() {
   return (
     <Page side="left">
@@ -51,24 +43,35 @@ function BrandsLeftPage() {
         </Reveal>
 
         <Reveal delay={0.16} className="mt-6">
-          <p className="max-w-[400px] font-display text-[17px] font-medium italic leading-[1.4] text-ink">{brandsCopy.intro}</p>
+          <p className="max-w-[470px] font-display text-[15px] font-medium italic leading-[1.45] text-ink">{brandsCopy.intro}</p>
         </Reveal>
 
-        <Reveal delay={0.24} className="mt-6">
+        <Reveal delay={0.2} className="mt-5">
+          <ul className="grid grid-cols-3 gap-5">
+            {brandsCopy.stats.map((stat) => (
+              <li key={stat.label} className="border-t-2 border-brand pt-2.5">
+                <p className="font-display font-lining text-[30px] font-semibold leading-none text-brand-deep">{stat.value}</p>
+                <p className="mt-2 text-[6.5px] font-medium uppercase tracking-[0.2em] text-ink-soft">{stat.label}</p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal delay={0.26} className="mt-6">
           <ol className="grid grid-flow-col grid-cols-2 gap-x-7" style={{ gridTemplateRows: `repeat(${Math.ceil(brandIndex.length / 2)}, auto)` }}>
             {brandIndex.map((b) => (
-              <li key={b.id} className="flex items-baseline gap-3 border-t border-hairline py-2">
-                <span className="w-5 shrink-0 text-[7px] font-medium tracking-[0.14em] text-brand-deep">{b.no}</span>
-                <span className="font-display text-[14px] font-semibold uppercase leading-none tracking-[0.06em] text-ink">{b.name}</span>
+              <li key={b.id} className="flex items-baseline gap-3 border-t border-hairline py-[7px]">
+                <span className="flex-1 font-display text-[14px] font-semibold uppercase leading-none tracking-[0.06em] text-ink">{b.name}</span>
+                <span className="font-lining text-[7px] tracking-[0.06em] text-ink-soft">Trang {folioText(productFolio(b.id))}</span>
               </li>
             ))}
           </ol>
           <div className="border-t border-hairline" />
-          <p className="mt-3 text-[7px] leading-[1.7] text-ink-soft">{brandsCopy.indexNote}</p>
+          <p className="mt-2.5 max-w-[420px] text-[7px] leading-[1.7] text-ink-soft">{brandsCopy.indexNote}</p>
         </Reveal>
       </PageBody>
 
-      <Reveal delay={0.3} className="absolute" style={{ left: 0, bottom: 64, width: 410, height: 168 }}>
+      <Reveal delay={0.3} className="absolute" style={{ left: 0, bottom: 64, width: 410, height: 104 }}>
         <div className="relative size-full bg-stone">
           <Photo photo={brandsCopy.image} sizes="820px" />
         </div>
@@ -92,44 +95,30 @@ function BrandsRightPage() {
         <div className="mt-2.5 h-0.5 bg-brand" />
       </Reveal>
 
-      <div
-        className="absolute flex flex-col bg-grout"
-        style={{ left: MARGIN.inner, top: MARGIN.top + 38, width: WALL_WIDTH, gap: GROUT }}
-      >
-        {brandWall.map((row, r) => (
-          <Reveal key={r} delay={0.08 + r * 0.07} y={6}>
-            <div
-              className="grid"
-              style={{ gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))`, gap: GROUT, height: rowHeight(row) }}
-            >
-              {row.cells.map(({ brand: id, span }) => {
-                const brand = byId[id];
-                return (
-                  <div
-                    key={id}
-                    className="group relative overflow-hidden bg-tile"
-                    style={{ gridColumn: `span ${span}`, backgroundColor: brand.bg }}
-                  >
-                    <div
-                      className="absolute inset-0 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-[1.04]"
-                      style={{ padding: brand.fill ? 0 : (brand.pad ?? 18) }}
-                    >
-                      <LogoImage brand={brand} className="block size-full" />
-                    </div>
-                    <span
-                      className={cn(
-                        "absolute bottom-[5px] right-[7px] text-[6.5px] font-medium tracking-[0.14em]",
-                        brand.numeralTone === "light" ? "text-white/90" : "text-brand-deep",
-                      )}
-                    >
-                      {brandNo(id)}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </Reveal>
-        ))}
+      <div className="absolute flex flex-col" style={{ left: MARGIN.inner, top: MARGIN.top + 38, width: WALL_WIDTH, gap: GAP }}>
+        {/* Mọi thương hiệu (kể cả MIKADO) là thẻ trắng cùng kích thước; logo đặt vừa khung, không cắt, không kéo giãn */}
+        <div className="grid grid-cols-2" style={{ gap: GAP }}>
+          {brandIndex.map((brand, i) => (
+            <Reveal key={brand.id} delay={0.08 + i * 0.04} y={6}>
+              <div className="group relative border border-hairline bg-tile" style={{ height: CARD_HEIGHT }}>
+                <div
+                  className="absolute inset-0 motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-[1.04]"
+                  style={{ padding: `${CARD_PAD_Y}px ${CARD_PAD_X}px` }}
+                >
+                  <LogoImage brand={{ ...brand, fill: false }} className="block size-full" />
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Khung nội dung chiếm trọn hai cột, nằm dưới lưới logo */}
+        <Reveal delay={0.08 + brandIndex.length * 0.04} y={6}>
+          <div className="grid flex flex-col items-start gap-3 bg-brand-deep px-5 py-4 text-white">
+            <p className="border-b border-white/25 pb-3 font-display text-[19px] font-semibold leading-[1.2]">{brandsCopy.wallStory.title}</p>
+            <p className="text-[10px] leading-[1.75] text-white/85">{brandsCopy.wallStory.text}</p>
+          </div>
+        </Reveal>
       </div>
 
       <PageFooter side="right" folio={BRANDS_FOLIO[1]} label="Thương hiệu" />

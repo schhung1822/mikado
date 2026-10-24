@@ -24,8 +24,8 @@ export const spreadFolio = (index: number): Folio => [pad(CONTENT_START + index 
 export const companyFolio = spreadFolio(0);
 export const overviewFolio = spreadFolio(1);
 
-/** Thứ tự các trang đôi sản phẩm theo thương hiệu: MIKADO trước, các thương hiệu còn lại theo chữ cái. */
-export const productOrder: string[] = ["mikado", ...brandIndex.filter((b) => b.id !== "mikado").map((b) => b.id)];
+/** Thứ tự các trang đôi sản phẩm theo thương hiệu: theo `BRAND_ORDER` (brands.ts). */
+export const productOrder: string[] = brandIndex.map((b) => b.id);
 
 export const productFolio = (brandId: string): Folio => {
   const i = productOrder.indexOf(brandId);

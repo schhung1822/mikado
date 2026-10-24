@@ -35,7 +35,7 @@ function ContactsPage() {
               // Hai mục đầu (hàng đầu tiên) không có viền trên: ngay phía trên đã có đường kẻ trắng của tiêu đề.
               <li key={brand.id} className={cn("pt-2.5", i >= 2 && "border-t border-white/25")}>
                 <p className="flex items-baseline gap-2.5">
-                  <span className="text-[7px] font-medium tracking-[0.14em] text-brand-tint">{brand.no}</span>
+                  <span aria-hidden className="h-px w-3 shrink-0 -translate-y-0.75 bg-brand-tint" />
                   <span className="font-display text-[15px] font-bold uppercase leading-none tracking-[0.03em]">{brand.name}</span>
                 </p>
                 <dl className="mt-2 space-y-[3px]">
@@ -50,8 +50,6 @@ function ContactsPage() {
             ))}
           </ol>
         </Reveal>
-
-        <p className="mt-4 text-[6.5px] tracking-[0.04em] text-white/60">{CONTACT_NOTE}</p>
       </PageBody>
 
       <PageFooter side="left" folio={CONTENTS_FOLIO[0]} label="Liên hệ" tone="brand" />
