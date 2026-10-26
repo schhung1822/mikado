@@ -1,5 +1,5 @@
 import { brandIndex } from "@/lib/catalogue/brands";
-import { CONTACT_NOTE, contactRows } from "@/lib/catalogue/contacts";
+import { contactRows } from "@/lib/catalogue/contacts";
 import { CONTENTS_FOLIO, folioText, tocSections, tocSummary } from "@/lib/catalogue/contents";
 import { cn } from "@/lib/utils";
 import { CompanyLogo } from "./company-logo";
@@ -69,7 +69,7 @@ function ContentsPage() {
           <div className="mt-4 h-0.5 bg-brand" />
         </Reveal>
 
-        <div className="mt-8 flex flex-col gap-7">
+        <div className="mt-6 flex flex-col gap-4">
           {tocSections.map((section, i) => (
             <Reveal key={section.title} delay={0.12 + i * 0.1} y={6}>
               <section className="flex gap-4">

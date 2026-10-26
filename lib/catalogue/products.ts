@@ -7,8 +7,8 @@ import type { PhotoRef } from "./types";
  *
  * Mỗi thương hiệu là MỘT TRANG ĐÔI của catalogue (không phải route), dựng từ cùng một template
  * (components/catalogue/brand-product-page.tsx): trang trái giới thiệu thương hiệu, trang phải trưng bày
- * mẫu gạch theo nhóm kích thước. Bản demo này chỉ có MIKADO để khách duyệt; thêm thương hiệu khác =
- * thêm một object `BrandProductPage` rồi khai báo trong components/catalogue/entries.tsx.
+ * mẫu gạch theo nhóm kích thước. Các trang có ảnh thật được khai báo trong `customPages`; các thương hiệu
+ * còn lại dùng dữ liệu mẫu từ `demoPage`.
  *
  * DỮ LIỆU DEMO: nội dung giới thiệu và toàn bộ ảnh mẫu gạch bên dưới là TẠM (ảnh texture CC0 trong
  * public/images/products). Chưa có giá, mã sản phẩm, xuất xứ hay thông số kỹ thuật.
@@ -34,9 +34,11 @@ export interface SizeGroup {
   orientation?: "portrait" | "landscape";
   /**
    * Mỗi mẫu là MỘT ẢNH GHÉP 3 viên cùng bộ xếp chồng dọc (khung 2 : 3 với gạch 1 : 2). Các nhóm `stacked` liền nhau
-   * được trình bày thành từng cặp cạnh nhau (mỗi nhóm 3 mẫu) thay vì lưới 5 cột.
+   * được trình bày thành từng cặp cạnh nhau; số cột tự co theo số bộ để giữ tất cả trên một hàng khi có thể.
    */
   stacked?: boolean;
+  /** Đưa nhóm sang vùng cuối trang giới thiệu thay cho ảnh nền, giúp bộ gạch chữ nhật có khung hiển thị lớn hơn. */
+  placement?: "about";
   /** Ứng dụng, ví dụ "Lát sàn" / "Ốp tường". Bỏ trống thì dòng ẩn. */
   application?: string;
   /** Bề mặt, ví dụ "Bóng, Matt". Bỏ trống thì dòng ẩn. */
@@ -146,10 +148,12 @@ const mikado = brandOf("mikado");
  * Mã MP 96.xxx = quy cách 600 × 600, MP 18.xxx = quy cách 800 × 800; ảnh ghi cả hai mã dùng cho cả hai quy cách.
  * `file` là tên file trong square-web (không phần mở rộng), `code` hiển thị dưới ô mẫu.
  */
-const mikadoTile = (file: string, code: string): Sample => ({
-  image: { src: `/images/products/mikado/square-web/${file}.jpg`, alt: `Gạch ${code}`, focal: "50% 50%", fit: "cover" },
+const squareTile = (brand: string, file: string, code: string): Sample => ({
+  image: { src: `/images/products/${brand}/square-web/${file}.jpg`, alt: `Gạch ${code}`, focal: "50% 50%", fit: "cover" },
   code,
 });
+
+const mikadoTile = (file: string, code: string): Sample => squareTile("mikado", file, code);
 
 const mikado600: Sample[] = [
   mikadoTile("mp-96-101-mp-18-101", "MP 96.101"),
@@ -174,14 +178,74 @@ const mikado800: Sample[] = [
 ];
 
 /**
+ * Gạch vuông CERINCO — mã CP 96.xxx thuộc khổ 600 × 600, CP 18.xxx thuộc khổ 800 × 800.
+ * Ảnh có cả hai mã được dùng ở cả hai nhóm với caption tương ứng.
+ */
+const cerinco600: Sample[] = [
+  squareTile("cerinco", "cp-96-302-cp-18-302", "CP 96.302"),
+  squareTile("cerinco", "cp-96-304", "CP 96.304"),
+  squareTile("cerinco", "cp-96-315", "CP 96.315"),
+  squareTile("cerinco", "cp-96-401-cp-18-401", "CP 96.401"),
+  squareTile("cerinco", "cp-96-403", "CP 96.403"),
+  squareTile("cerinco", "cp-96-404-cp-18-404", "CP 96.404"),
+  squareTile("cerinco", "cp-96-405", "CP 96.405"),
+];
+
+const cerinco800: Sample[] = [
+  squareTile("cerinco", "cp-18-301", "CP 18.301"),
+  squareTile("cerinco", "cp-96-302-cp-18-302", "CP 18.302"),
+  squareTile("cerinco", "cp-18-308", "CP 18.308"),
+  squareTile("cerinco", "cp-18-309", "CP 18.309"),
+  squareTile("cerinco", "cp-96-401-cp-18-401", "CP 18.401"),
+  squareTile("cerinco", "cp-18-402", "CP 18.402"),
+  squareTile("cerinco", "cp-96-404-cp-18-404", "CP 18.404"),
+  squareTile("cerinco", "cp-18-406", "CP 18.406"),
+  squareTile("cerinco", "cp18416", "CP 18.416"),
+];
+
+/**
+ * Gạch vuông VIDECOR — mã VP 96.xxx thuộc khổ 600 × 600, VP 18.xxx thuộc khổ 800 × 800.
+ * Ảnh có cả hai mã được dùng ở cả hai nhóm với caption tương ứng.
+ */
+const videcor600: Sample[] = [
+  squareTile("videcor", "vp-96-501-vp-18-501", "VP 96.501"),
+  squareTile("videcor", "vp-96-502-vp-18-502", "VP 96.502"),
+  squareTile("videcor", "vp-96-503-vp-18-503", "VP 96.503"),
+  squareTile("videcor", "vp-96-504-vp-18-504", "VP 96.504"),
+  squareTile("videcor", "vp-96-513", "VP 96.513"),
+  squareTile("videcor", "vp-96-601", "VP 96.601"),
+  squareTile("videcor", "vp-96-608", "VP 96.608"),
+  squareTile("videcor", "vp-96-614", "VP 96.614"),
+];
+
+const videcor800: Sample[] = [
+  squareTile("videcor", "vp-96-501-vp-18-501", "VP 18.501"),
+  squareTile("videcor", "vp-96-502-vp-18-502", "VP 18.502"),
+  squareTile("videcor", "vp-96-503-vp-18-503", "VP 18.503"),
+  squareTile("videcor", "vp-96-504-vp-18-504", "VP 18.504"),
+  squareTile("videcor", "vp-18-506", "VP 18.506"),
+  squareTile("videcor", "vp-18-509", "VP 18.509"),
+  squareTile("videcor", "vp18-620", "VP 18.620"),
+  squareTile("videcor", "vp18-621", "VP 18.621"),
+  squareTile("videcor", "vp-18-622", "VP 18.622"),
+];
+
+const stackedSet = (brand: string, file: string, codes: [string, string, string]): Sample => ({
+  image: {
+    src: `/images/products/${brand}/rectangle-web/${file}.jpg`,
+    alt: `Bộ gạch ốp ${codes.join(", ")}`,
+    focal: "50% 50%",
+    fit: "cover",
+  },
+  codes,
+});
+
+/**
  * Gạch ốp tường MIKADO — ẢNH THẬT. Ảnh gốc ở .../mikado/rectangle, bản web ở .../rectangle-web (cùng script như trên).
  * Mã MP936 = quy cách 300 × 600, MP948 = 400 × 800. Mỗi ảnh là một bộ 3 viên xếp chồng; tên file ghi mã của 3 viên
  * theo thứ tự trên → giữa → dưới (ví dụ MP936.200A-MPD936.200A-MP936.200).
  */
-const mikadoSet = (file: string, codes: [string, string, string]): Sample => ({
-  image: { src: `/images/products/mikado/rectangle-web/${file}.jpg`, alt: `Bộ gạch ốp ${codes.join(", ")}`, focal: "50% 50%", fit: "cover" },
-  codes,
-});
+const mikadoSet = (file: string, codes: [string, string, string]): Sample => stackedSet("mikado", file, codes);
 
 const mikado300x600: Sample[] = [
   mikadoSet("mp936-106-mpd936-106-mp936-107", ["MP936.106", "MPD936.106", "MP936.107"]),
@@ -193,6 +257,38 @@ const mikado400x800: Sample[] = [
   mikadoSet("mp948-112-mpd948-112-mp948-113", ["MP948.112", "MPD948.112", "MP948.113"]),
   mikadoSet("mp948-201v-mpd948-201-mp948-201", ["MP948.201V", "MPD948.201", "MP948.201"]),
   mikadoSet("mp948-211v-mpd948-211-mp948-211", ["MP948.211V", "MPD948.211", "MP948.211"]),
+];
+
+/** Gạch ốp tường CERINCO — CP936 = 300 × 600, CP948 = 400 × 800; mỗi ảnh ghép 3 viên trên → giữa → dưới. */
+const cerinco300x600: Sample[] = [
+  stackedSet("cerinco", "cp936-400a-cpd936-400a-cp936-400", ["CP936.400A", "CPD936.400A", "CP936.400"]),
+  stackedSet("cerinco", "cp936-401v-cpd936-401-cp936-401", ["CP936.401V", "CPD936.401", "CP936.401"]),
+  stackedSet("cerinco", "cp936-404-cpd936-404-cp936-405", ["CP936.404", "CPD936.404", "CP936.405"]),
+  stackedSet("cerinco", "cp936-408-cpd936-408-cp936-409", ["CP936.408", "CPD936.408", "CP936.409"]),
+  stackedSet("cerinco", "cp936-411-cpd936-411-cp936-411", ["CP936.411", "CPD936.411", "CP936.411"]),
+];
+
+const cerinco400x800: Sample[] = [
+  stackedSet("cerinco", "cp948-302-cpd948-302-cp948-303", ["CP948.302", "CPD948.302", "CP948.303"]),
+  stackedSet("cerinco", "cp948-400v-cpd9480-400-cp948-400", ["CP948.400V", "CPD948.400", "CP948.400"]),
+  stackedSet("cerinco", "cp948-401v-cpd948-401-cp948-401", ["CP948.401V", "CPD948.401", "CP948.401"]),
+  stackedSet("cerinco", "cp948-402-cpd948-402-cp948-403", ["CP948.402", "CPD948.402", "CP948.403"]),
+];
+
+/** Gạch ốp tường VIDECOR — VP936 = 300 × 600, VP948 = 400 × 800; mỗi ảnh ghép 3 viên trên → giữa → dưới. */
+const videcor300x600: Sample[] = [
+  stackedSet("videcor", "vp936-600a-vpd936-600a-vp936-600", ["VP936.600A", "VPD936.600A", "VP936.600"]),
+  stackedSet("videcor", "vp936-601v-vpd936-601-vp936-601", ["VP936.601V", "VPD936.601", "VP936.601"]),
+  stackedSet("videcor", "vp936-602v-vpd936-602-vpd936-602", ["VP936.602V", "VPD936.602", "VP936.602"]),
+  stackedSet("videcor", "vp936-603v-vpd936-603-vp936-603", ["VP936.603V", "VPD936.603", "VP936.603"]),
+];
+
+const videcor400x800: Sample[] = [
+  stackedSet("videcor", "vp948-505v-vpd948-505-vp948-505", ["VP948.505V", "VPD948.505", "VP948.505"]),
+  stackedSet("videcor", "vp948-506-vpd948-506-vp948-507", ["VP948.506", "VPD948.506", "VP948.507"]),
+  stackedSet("videcor", "vp948-508-vpd948-508-vp948-509", ["VP948.508", "VPD948.508", "VP948.509"]),
+  stackedSet("videcor", "vp948-600a-vpd948-600a-vp948-600", ["VP948.603V", "VP948.603D", "VP948.603"]),
+  stackedSet("videcor", "vp948-602v-vp948-602d-vp948-602", ["VP948.602V", "VP948.602D", "VP948.602"]),
 ];
 
 const mikadoSamples: Record<string, Sample[]> = {
@@ -245,9 +341,8 @@ export const mikadoProducts: BrandProductPage = {
 };
 
 /**
- * Các thương hiệu còn lại — trang MẪU dựng từ cùng template với MIKADO. Nội dung giới thiệu, ảnh (texture CC0 trong
- * public/images/products) và toàn bộ mẫu gạch là TẠM. Khi có tài liệu riêng: thêm một object `BrandProductPage` đầy đủ
- * (như `mikadoProducts`) rồi khai báo trong `customPages` để thay trang mẫu của thương hiệu đó.
+ * Các thương hiệu còn lại — trang MẪU dựng từ cùng template với MIKADO. Nội dung giới thiệu và các nhóm chưa có ảnh
+ * thật vẫn dùng texture CC0 trong public/images/products. Khi có tài liệu riêng, khai báo dữ liệu thật trong `customPages`.
  */
 const DEMO_IMAGES: { file: string; focal: string }[] = [
   { file: "alba", focal: "50% 50%" },
@@ -274,8 +369,46 @@ const demoPage = (id: string, index: number): BrandProductPage => {
   };
 };
 
+/** Giữ trang giới thiệu mẫu, thay những nhóm sản phẩm đã có ảnh thật và bật bố cục bộ ba cho gạch chữ nhật. */
+const pageWithProducts = (
+  id: string,
+  samplesByGroup: Partial<Record<SizeGroup["id"], Sample[]>>,
+  aboutGroupId?: SizeGroup["id"],
+): BrandProductPage => {
+  const page = demoPage(id, productOrder.indexOf(id));
+  return {
+    ...page,
+    products: {
+      ...page.products,
+      groups: page.products.groups.map((group) => {
+        const samples = samplesByGroup[group.id];
+        return {
+          ...group,
+          samples: samples ?? group.samples,
+          stacked: samples ? group.id === "300x600" || group.id === "400x800" : group.stacked,
+          placement: group.id === aboutGroupId ? "about" : group.placement,
+        };
+      }),
+    },
+  };
+};
+
 /** Trang đã có nội dung/ảnh thật riêng (ghi đè trang mẫu cùng id). */
-const customPages: Record<string, BrandProductPage> = { mikado: mikadoProducts };
+const customPages: Record<string, BrandProductPage> = {
+  mikado: mikadoProducts,
+  cerinco: pageWithProducts("cerinco", {
+    "300x600": cerinco300x600,
+    "400x800": cerinco400x800,
+    "600x600": cerinco600,
+    "800x800": cerinco800,
+  }, "300x600"),
+  videcor: pageWithProducts("videcor", {
+    "300x600": videcor300x600,
+    "400x800": videcor400x800,
+    "600x600": videcor600,
+    "800x800": videcor800,
+  }, "300x600"),
+};
 
 /** Mọi thương hiệu đều có một trang đôi sản phẩm, đúng thứ tự `productOrder` (số trang khớp mục lục). */
 export const brandProductPages: BrandProductPage[] = productOrder.map((id, i) => customPages[id] ?? demoPage(id, i));
