@@ -8,7 +8,7 @@ import type { LogoRef } from "./types";
  */
 export const company = {
   /** Tên hiển thị. Chưa có tên đầy đủ được xác nhận nên dùng "MIKADO-MT". */
-  name: "MIKADO-MT",
+  name: "www.mikado.com.vn",
   /** Tên pháp nhân đầy đủ. Điền khi được xác nhận — bìa sẽ tự hiện thay cho `name` ở dòng chữ. */
   fullName: "",
   logo: {
@@ -27,8 +27,8 @@ export const company = {
 };
 
 export const coverCopy = {
-  title: ["HỒ SƠ", "NĂNG LỰC"],
-  subtitle: "CATALOGUE GẠCH ỐP LÁT",
+  title: ["THE COMPANY", "PROFILE"],
+  subtitle: "HỒ SƠ NĂNG LỰC",
 };
 
 /** Các dòng liên hệ có dữ liệu, theo thứ tự hiển thị. */

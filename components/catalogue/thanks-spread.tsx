@@ -1,4 +1,3 @@
-import { CONTACT_NOTE } from "@/lib/catalogue/contacts";
 import { thanksFolio } from "@/lib/catalogue/contents";
 import { officesWithData, thanks } from "@/lib/catalogue/thanks";
 import { cn } from "@/lib/utils";
@@ -96,7 +95,7 @@ function ContactPage() {
 
         <Reveal delay={0.22} className="mt-8">
           <div className="h-0.5 bg-brand-light" />
-          <h3 className="mt-6 font-display text-[22px] font-bold leading-tight tracking-[0.01em] text-white">{thanks.companyName}</h3>
+          <h3 className="mt-6 text-[16px] font-bold leading-tight tracking-[0.01em] text-white">{thanks.companyName}</h3>
         </Reveal>
 
         {offices.length > 0 ? (
@@ -107,16 +106,15 @@ function ContactPage() {
                   <h4 className="text-[7px] font-semibold uppercase tracking-[0.2em] text-white">{office.title}</h4>
                   <dl className="mt-2.5 space-y-[5px]">
                     {office.lines.map((line) => (
-                      <div key={line.label} className="flex gap-2 text-[7.5px] leading-[1.6]">
-                        <dt className="w-[34px] shrink-0 text-[6.5px] font-medium uppercase leading-[1.9] tracking-[0.14em] text-white/60">{line.label}</dt>
-                        <dd className="text-white/90">{line.value}</dd>
+                      <div key={`${line.label}-${line.value}`} className={cn("text-[7.5px] leading-[1.55]", line.breakBefore && "pt-2")}>
+                        {line.label ? <dt className="inline font-medium text-white/65">{line.label}: </dt> : null}
+                        <dd className="inline text-white/92">{line.value}</dd>
                       </div>
                     ))}
                   </dl>
                 </section>
               ))}
             </div>
-            <p className="mt-5 text-[6.5px] tracking-[0.04em] text-white/60">{CONTACT_NOTE}</p>
           </Reveal>
         ) : null}
       </PageBody>

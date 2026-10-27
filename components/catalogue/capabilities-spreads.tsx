@@ -7,48 +7,53 @@ import { Page, PageBody, PageFooter, RunningHead, Spread } from "./page-frame";
 import { Photo } from "./photo";
 
 function FactoryPage() {
+  const milestones = [
+    { value: "10", label: "cơ sở sản xuất" },
+    { value: "2002", label: "năm khởi đầu" },
+    { value: "03", label: "miền vận hành" },
+  ];
+
   return (
     <Page side="left" tone="brand">
-      <div className="absolute inset-x-0 top-0 h-[315px] bg-black/20">
+      <div className="absolute inset-0 bg-black/20">
         <Photo photo={factoryNetwork.image} sizes="1200px" />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-night/80 via-brand-night/20 to-brand-night" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-night/95 via-brand-night/50 to-brand-night/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-night via-brand-night/20 to-brand-night/35" />
       </div>
+      <div aria-hidden className="absolute -right-20 top-20 size-[310px] rounded-full border-[58px] border-white/[0.045]" />
       <RunningHead side="left" label="Hệ thống nhà máy" tone="brand" />
 
       <PageBody side="left">
-        <Reveal className="pt-12">
+        <Reveal className="pt-[74px]">
           <p className="flex items-center gap-2 text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-tint">
             <Factory size={13} strokeWidth={1.6} />
             {factoryNetwork.eyebrow}
           </p>
-          <h2 className="mt-3 max-w-[460px] font-display text-[43px] font-bold uppercase leading-[0.98] tracking-[0.01em]">
-            {factoryNetwork.title}
+          <h2 className="mt-4 max-w-[460px] font-display text-[51px] font-bold uppercase leading-[0.9] tracking-[0.01em]">
+            Hệ thống<br />nhà máy
           </h2>
-          <p className="mt-4 max-w-[390px] text-[8.5px] leading-[1.7] text-white/85">{factoryNetwork.lead}</p>
+          <p className="mt-3 font-display text-[21px] font-semibold uppercase tracking-[0.12em] text-brand-tint">MIKADO-MT</p>
+          <p className="mt-5 max-w-[345px] border-l-2 border-brand-light pl-4 text-[10px] leading-[1.75] text-white/78">{factoryNetwork.lead}</p>
         </Reveal>
 
-        <Reveal delay={0.15} className="mt-[104px]">
-          <div className="mb-2.5 flex items-end justify-between border-b border-white/35 pb-2">
-            <p className="text-[6px] font-medium uppercase tracking-[0.24em] text-brand-tint">Mạng lưới vận hành</p>
-            <p className="font-display font-lining text-[20px] font-semibold">{String(factoryNetwork.factories.length).padStart(2, "0")}</p>
-          </div>
-          <ol className="grid grid-cols-2 gap-x-6">
-            {factoryNetwork.factories.slice(0, 5).map((factory, i) => (
-              <li key={factory.name} className="grid grid-cols-[22px_1fr] gap-2 border-b border-white/20 py-[7px]">
-                <span className="font-lining text-[6px] tracking-[0.12em] text-brand-tint">{String(i + 1).padStart(2, "0")}</span>
-                <div className="min-w-0">
-                  <p className="font-display text-[10px] font-semibold uppercase leading-[1.15]">{factory.name}</p>
-                  <p className="mt-1 flex items-center gap-1 text-[6.5px] text-white/65">
-                    <MapPin size={8} strokeWidth={1.6} />
-                    {factory.place}
-                  </p>
-                  <p className="mt-1 text-[6.5px] text-white/85">
-                    Từ {factory.since} <span className="mx-1 text-brand-light">/</span> {factory.capacity}
-                  </p>
-                </div>
-              </li>
+        <Reveal delay={0.15} className="mt-[205px] border-y border-white/30 bg-brand-night/45 px-5 py-5 backdrop-blur-[2px]">
+          <div className="grid grid-cols-3 divide-x divide-white/25">
+            {milestones.map((item) => (
+              <div key={item.label} className="px-4 first:pl-0 last:pr-0">
+                <p className="font-display font-lining text-[31px] font-semibold leading-none text-white">{item.value}</p>
+                <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.16em] text-brand-tint">{item.label}</p>
+              </div>
             ))}
-          </ol>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.24} className="mt-5">
+          <p className="text-[8px] font-medium uppercase tracking-[0.22em] text-brand-tint">Hệ sinh thái vật liệu hoàn thiện</p>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[8px] font-medium text-white/80">
+            {["Gạch men", "Cotto", "Gốm màu", "Sứ vệ sinh", "Tấm sàn SPC", "Tấm trần thạch cao"].map((item) => (
+              <span key={item} className="border-b border-white/25 pb-1">{item}</span>
+            ))}
+          </div>
         </Reveal>
       </PageBody>
 
@@ -58,68 +63,59 @@ function FactoryPage() {
 }
 
 function FactoryDirectoryPage() {
-  const factories = factoryNetwork.factories.slice(5);
-  const capabilities = [
-    { value: "65,5", unit: "triệu m²/năm", label: "Năng lực vật liệu bề mặt" },
-    { value: "03", unit: "miền vận hành", label: "Phân bổ Bắc – Trung – Nam" },
-    { value: "06", unit: "nhóm sản phẩm", label: "Danh mục sản xuất đa ngành" },
-  ];
-
   return (
     <Page side="right">
+      <div aria-hidden className="absolute right-0 top-0 h-[235px] w-[175px] bg-gradient-to-b from-brand-light/85 via-brand-tint/45 to-transparent" />
       <RunningHead side="right" label="Hệ thống nhà máy" />
       <PageBody side="right">
-        <Reveal className="pt-4">
-          <p className="text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-deep">Mạng lưới sản xuất</p>
-          <h2 className="mt-3 max-w-[440px] font-display text-[40px] font-bold uppercase leading-[0.98] text-ink">
-            Một hệ sinh thái<br />vật liệu hoàn thiện
-          </h2>
-          <p className="mt-4 max-w-[465px] font-display text-[13px] font-medium italic leading-[1.5] text-ink">
-            Từ các cụm sản xuất phía Bắc đến nhà máy tại Huế và Đồng Nai, hệ thống được tổ chức để rút ngắn hành trình cung ứng và tăng khả năng đáp ứng theo vùng.
-          </p>
-          <div className="mt-4 h-0.5 bg-brand" />
+        <Reveal className="pt-3">
+          <p className="text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-deep">Mạng lưới sản xuất toàn quốc</p>
+          <div className="mt-3 grid grid-cols-[1.25fr_0.75fr] items-end gap-5">
+            <h2 className="font-display text-[36px] font-bold uppercase leading-[0.95] text-ink">Từ Bắc vào Nam</h2>
+            <p className="border-l border-hairline pl-4 text-[8px] leading-[1.6] text-ink-soft">Hệ thống được tổ chức theo vùng để rút ngắn hành trình cung ứng và tăng khả năng đáp ứng dự án.</p>
+          </div>
         </Reveal>
 
-        <Reveal delay={0.12} className="mt-6 grid grid-cols-3 gap-3">
-          {capabilities.map((item) => (
-            <div key={item.label} className="border-t-2 border-brand pt-3">
-              <p className="font-display font-lining text-[26px] font-semibold leading-none text-brand-deep">{item.value}</p>
-              <p className="mt-1 text-[6px] font-semibold uppercase tracking-[0.12em] text-ink">{item.unit}</p>
-              <p className="mt-2 text-[6.5px] leading-[1.45] text-ink-soft">{item.label}</p>
+        <Reveal delay={0.1} className="mt-5 grid grid-cols-[1.16fr_0.84fr] gap-3">
+          {factoryNetwork.productionImages.map((image, index) => (
+            <div key={image.src} className="relative h-[128px] overflow-hidden bg-stone/70">
+              <Photo photo={image} sizes={index === 0 ? "360px" : "260px"} />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-night/75 via-transparent to-black/5" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3 text-white">
+                <p className="text-[10px] font-medium uppercase leading-none">{image.label}</p>
+                <span className="font-lining text-[5px] tracking-[0.14em] text-white/70">0{index + 1}</span>
+              </div>
             </div>
           ))}
         </Reveal>
 
-        <Reveal delay={0.2} className="mt-7">
-          <div className="mb-2.5 flex items-end justify-between border-b border-hairline pb-2">
-            <h3 className="font-display text-[18px] font-semibold uppercase text-ink">Các cơ sở tiếp theo</h3>
-            <span className="text-[6px] font-medium uppercase tracking-[0.18em] text-brand-deep">Từ 2016 đến nay</span>
+        <Reveal delay={0.18} className="mt-5">
+          <div className="mb-2 flex items-end justify-between border-b border-hairline pb-2">
+            <h3 className="font-display text-[17px] font-semibold uppercase text-ink">Danh mục nhà máy</h3>
+            <span className="font-lining text-[6px] font-medium uppercase tracking-[0.16em] text-brand-deep">10 cơ sở · 2002—2023</span>
           </div>
-          <ol>
-            {factories.map((factory, i) => (
-              <li key={factory.name} className="grid grid-cols-[30px_1fr_auto] items-center gap-3 border-b border-hairline py-[11px]">
-                <span className="font-lining text-[7px] tracking-[0.12em] text-brand-deep">{String(i + 6).padStart(2, "0")}</span>
-                <div>
-                  <p className="font-display text-[12px] font-semibold uppercase leading-tight text-ink">{factory.name}</p>
-                  <p className="mt-1 flex items-center gap-1 text-[6.5px] text-ink-soft"><MapPin size={8} />{factory.place}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-lining text-[7px] font-semibold text-brand-deep">{factory.since}</p>
-                  <p className="mt-1 text-[6px] text-ink-soft">{factory.capacity}</p>
+          <ol className="grid grid-cols-2 gap-x-5">
+            {factoryNetwork.factories.map((factory, i) => (
+              <li key={factory.name} className="grid min-h-[55px] grid-cols-[22px_1fr] gap-2 border-b border-hairline py-2.5">
+                <span className="font-lining text-[10px] tracking-[0.12em] text-brand-deep">{String(i + 1).padStart(2, "0")}</span>
+                <div className="min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-display text-[10px] font-semibold uppercase leading-[1.18] text-ink">{factory.name}</p>
+                    <span className="shrink-0 font-lining text-[8px] font-semibold text-brand-deep">{factory.since}</span>
+                  </div>
+                  <p className="mt-1 flex items-start gap-1 text-[7px] leading-[1.35] text-ink-soft"><MapPin size={7} className="mt-px shrink-0" />{factory.place}</p>
+                  <p className="mt-1 text-[10px] font-medium text-brand-deep">{factory.capacity}</p>
                 </div>
               </li>
             ))}
           </ol>
         </Reveal>
 
-        <Reveal delay={0.28} className="mt-7 grid grid-cols-[1.15fr_0.85fr] gap-5 border border-hairline bg-stone/55 p-4">
+        <Reveal delay={0.26} className="mt-8 grid grid-cols-[auto_1fr] items-center gap-4 border-l-2 border-brand bg-stone/60 px-4 py-3">
+          <p className=" font-lining text-[25px] font-semibold leading-none text-brand-deep">65,5</p>
           <div>
-            <p className="text-[6px] font-semibold uppercase tracking-[0.2em] text-brand-deep">Chuỗi giá trị tích hợp</p>
-            <p className="mt-2 text-[7.5px] leading-[1.65] text-ink-soft">Gạch men · Cotto · Gốm màu · Sứ vệ sinh · Tấm sàn SPC · Tấm trần thạch cao</p>
-          </div>
-          <div className="grid place-items-center border-l border-hairline">
-            <Factory size={31} strokeWidth={1.25} className="text-brand-deep" />
-            <span className="mt-1 text-[6px] uppercase tracking-[0.16em] text-ink-soft">Sản xuất đa ngành</span>
+            <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-ink">triệu m²/năm</p>
+            <p className="mt-1 text-[8px] leading-[1.45] text-ink-soft">Tổng năng lực các nhóm vật liệu bề mặt trong hệ thống.</p>
           </div>
         </Reveal>
       </PageBody>
@@ -313,57 +309,62 @@ function MarketsPage() {
 function QualityPage() {
   return (
     <Page side="left">
-      <div aria-hidden className="absolute right-0 top-20 font-display text-[250px] font-bold leading-none text-brand-tint/55">Q</div>
+      <div aria-hidden className="absolute right-0 top-0 h-[215px] w-[168px] bg-gradient-to-b from-brand-light/90 via-brand-tint/70 to-transparent" />
       <RunningHead side="left" label="Chứng chỉ & chất lượng" />
       <PageBody side="left">
-        <Reveal className="pt-4">
-          <p className="flex items-center gap-2 text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-deep">
-            <ShieldCheck size={13} strokeWidth={1.6} />
-            {quality.eyebrow}
-          </p>
-          <h2 className="mt-3 max-w-[430px] font-display text-[43px] font-bold uppercase leading-[0.98] tracking-[0.01em] text-ink">{quality.title}</h2>
-          <p className="mt-4 max-w-[470px] font-display text-[14px] font-medium italic leading-[1.45] text-ink">{quality.lead}</p>
-          <div className="mt-4 h-0.5 bg-brand" />
+        <Reveal className="pt-3">
+          <p className="font-display text-[17px] font-semibold uppercase leading-none text-ink">{quality.eyebrow}</p>
+          <h2 className="mt-2 max-w-[430px] font-display text-[31px] font-bold uppercase leading-none tracking-[0.01em] text-ink">{quality.title}</h2>
         </Reveal>
 
-        <Reveal delay={0.12} className="mt-6">
-          <div className="grid grid-cols-4 gap-3">
+        <Reveal delay={0.1} className="mt-7">
+          <div className="grid grid-cols-7 gap-2.5">
             {quality.badges.map((badge) => (
-              <div key={`${badge.code}-${badge.value}`} className="flex aspect-square flex-col items-center justify-center rounded-full border border-brand/35 bg-paper/90 p-3 text-center shadow-[0_10px_24px_-20px_rgba(27,54,34,0.8)]">
-                <p className="font-display text-[22px] font-bold leading-none text-brand-deep">{badge.code}</p>
-                <p className="mt-1 font-lining text-[7px] font-semibold tracking-[0.05em] text-ink">{badge.value}</p>
-                <p className="mt-2 text-[5.5px] uppercase leading-[1.4] tracking-[0.1em] text-ink-soft">{badge.label}</p>
+              <div key={badge.image.src} className="flex min-h-[68px] flex-col items-center justify-end px-1 pb-2 text-center">
+                <div className="relative h-[44px] w-full">
+                  <Photo
+                    photo={badge.image}
+                    sizes="90px"
+                    fit="contain"
+                    className={badge.image.src.endsWith("ISO-9001.png") ? "scale-[1.65]" : undefined}
+                  />
+                </div>
               </div>
             ))}
+          </div>
+          <p className="mt-4 max-w-[490px] text-[10px] text-justify leading-[1.65] text-ink-soft">{quality.lead}</p>
+        </Reveal>
+
+        <Reveal delay={0.18} className="mt-5">
+          <h3 className="border-b border-hairline pb-2 font-display text-[19px] font-semibold text-ink">Báo cáo Kiểm định &amp; Giấy chứng nhận</h3>
+          <div className="mt-6 grid grid-cols-[0.9fr_1.1fr] gap-5">
+            <div>
+              <div className="relative mx-auto h-[165px] w-[135px] -rotate-6 border border-hairline bg-white p-3 shadow-[0_18px_28px_-20px_rgba(27,54,34,0.75)]">
+                <div className="absolute inset-y-0 left-0 w-3 bg-gradient-to-b from-signal to-brand-deep" />
+                <div className="ml-2 text-center">
+                  <p className="text-[4px] uppercase tracking-[0.14em] text-ink-soft">European conformity</p>
+                  <p className="mt-4 font-display text-[14px] font-semibold uppercase text-brand-deep">Attestation</p>
+                  <div className="mx-auto mt-2 h-px w-16 bg-hairline" />
+                  <p className="mt-3 text-[5px] font-medium leading-[1.5] text-ink">Mikado Technology<br />&amp; Trading JSC</p>
+                  <div className="mx-auto mt-4 grid size-9 place-items-center rounded-full border-2 border-brand/45 text-[5px] font-bold text-brand-deep">ECM</div>
+                </div>
+              </div>
+              <ul className="mt-10 divide-y divide-white border border-white bg-stone">
+                {quality.externalCertificates.map((certificate) => (
+                  <li key={certificate} className="px-2.5 py-2 text-[7px] font-semibold leading-[1.25] text-ink">{certificate}</li>
+                ))}
+              </ul>
+            </div>
+            <ul className="overflow-hidden border border-white bg-stone">
+              {quality.standards.map((standard, index) => (
+                <li key={standard} className={cn("px-3 py-[5px] font-lining text-[8px] font-semibold text-ink", index % 2 === 1 && "bg-black/[0.055]")}>{standard}</li>
+              ))}
+            </ul>
           </div>
         </Reveal>
 
-        <Reveal delay={0.2} className="mt-7">
-          <div className="flex items-end justify-between border-b border-hairline pb-2.5">
-            <h3 className="font-display text-[18px] font-semibold uppercase text-ink">Ma trận kiểm định</h3>
-            <span className="text-[6px] font-medium uppercase tracking-[0.18em] text-brand-deep">ISO 10545</span>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            {quality.testGroups.map((group, i) => (
-              <div key={group.title} className="border-l-2 border-brand bg-stone/65 px-3 py-2.5">
-                <p className="text-[6px] font-medium tracking-[0.14em] text-brand-deep">0{i + 1}</p>
-                <p className="mt-1 font-display text-[11px] font-semibold text-ink">{group.title}</p>
-                <p className="mt-1 font-lining text-[6.5px] text-ink-soft">{group.standards}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.28} className="mt-6">
-          <h3 className="font-display text-[18px] font-semibold uppercase text-ink">Kiểm soát ba lớp</h3>
-          <div className="mt-3 grid grid-cols-3 gap-3">
-            {["Nguyên liệu đầu vào", "Quy trình sản xuất", "Kiểm định thành phẩm"].map((label, i) => (
-              <div key={label} className="border-t-2 border-brand bg-stone/55 px-3 py-3">
-                <span className="font-lining text-[6px] text-brand-deep">0{i + 1}</span>
-                <p className="mt-2 font-display text-[10px] font-semibold uppercase leading-[1.25] text-ink">{label}</p>
-              </div>
-            ))}
-          </div>
+        <Reveal delay={0.26} className="mt-4 border-l-2 border-brand pl-3">
+          <p className="max-w-[480px] text-[10px] text-justify leading-[1.55] text-ink-soft">{quality.legalNote}</p>
         </Reveal>
       </PageBody>
       <PageFooter side="left" folio={qualityFolio[0]} label="Chất lượng" />
@@ -371,19 +372,27 @@ function QualityPage() {
   );
 }
 
-function CertificateCard({ name, period, index }: { name: string; period: string; index: number }) {
+function CertificateDocument({ name, period, index }: { name: string; period: string; index: number }) {
+  const accents = ["bg-[#214b85]", "bg-[#264b8f]", "bg-[#235c77]", "bg-[#a5262f]", "bg-[#b39a61]", "bg-[#7f875d]"];
+
   return (
-    <article className="relative min-h-[130px] overflow-hidden border border-white/18 bg-white/[0.065] p-4">
-      <div className="absolute left-0 top-0 h-full w-1 bg-brand-light" />
-      <div className="flex items-start justify-between gap-4">
-        <ShieldCheck size={22} strokeWidth={1.25} className="text-brand-tint" />
-        <span className="font-lining text-[6px] tracking-[0.16em] text-brand-tint">CERT. {String(index + 1).padStart(2, "0")}</span>
+    <article className="relative h-[225px] overflow-hidden border border-hairline bg-white px-4 pb-3 pt-4 shadow-[0_14px_25px_-19px_rgba(27,54,34,0.75)]">
+      <div className={cn("absolute inset-y-0 left-0 w-2", accents[index % accents.length])} />
+      <div className="text-center">
+        <p className="text-[3.8px] uppercase tracking-[0.14em] text-ink-soft">Product quality certification</p>
+        <p className="mt-3 font-serif text-[12px] font-bold uppercase tracking-[0.04em] text-ink">Certificate</p>
+        <div className="mx-auto mt-2 h-px w-20 bg-hairline" />
+        <p className="mt-3 min-h-[27px] text-[6px] font-semibold uppercase leading-[1.45] text-brand-deep">{name}</p>
+        <p className="mt-1 text-[5px] uppercase tracking-[0.12em] text-ink-soft">{period}</p>
+        <div className="mx-auto mt-4 space-y-1.5">
+          <div className="mx-auto h-px w-[82%] bg-hairline" />
+          <div className="mx-auto h-px w-[70%] bg-hairline" />
+          <div className="mx-auto h-px w-[76%] bg-hairline" />
+          <div className="mx-auto h-px w-[58%] bg-hairline" />
+        </div>
       </div>
-      <div className="mt-4 border-t border-white/20 pt-3">
-        <p className="font-display text-[13px] font-semibold uppercase leading-[1.15] text-white">{name}</p>
-        <p className="mt-2 text-[6px] uppercase tracking-[0.16em] text-white/55">{period}</p>
-      </div>
-      <div className="absolute bottom-3 right-3 grid size-8 place-items-center rounded-full border border-brand-light/55 text-[5px] font-semibold uppercase tracking-[0.08em] text-brand-tint">MK</div>
+      <div className="absolute bottom-3 left-1/2 grid size-9 -translate-x-1/2 place-items-center rounded-full border-2 border-brand/45 text-[5px] font-bold uppercase text-brand-deep">MK</div>
+      <span className="absolute bottom-3 right-3 font-lining text-[4.5px] tracking-[0.12em] text-ink-soft">CERT. {String(index + 1).padStart(2, "0")}</span>
     </article>
   );
 }
@@ -391,32 +400,26 @@ function CertificateCard({ name, period, index }: { name: string; period: string
 function CertificatePortfolioPage() {
   return (
     <Page side="right" tone="brand">
-      <div aria-hidden className="absolute -right-10 top-10 font-display text-[205px] font-bold leading-none text-white/[0.035]">ISO</div>
+      <div aria-hidden className="absolute right-0 top-0 h-[215px] w-[172px] bg-gradient-to-b from-white/[0.09] to-transparent" />
       <RunningHead side="right" label="Hồ sơ chứng nhận" tone="brand" />
       <PageBody side="right">
-        <Reveal className="pt-4">
-          <p className="text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-tint">Tiêu chuẩn trong nước & quốc tế</p>
-          <h2 className="mt-3 max-w-[460px] font-display text-[41px] font-bold uppercase leading-[0.98]">Kiểm định rõ ràng.<br />Cam kết dài hạn.</h2>
-          <p className="mt-4 max-w-[465px] text-[8px] leading-[1.75] text-white/72">
-            Các nhãn hiệu và dòng sản phẩm được kiểm soát theo hệ thống tiêu chuẩn phù hợp với Việt Nam và nhiều thị trường quốc tế, đồng thời duy trì hồ sơ pháp lý phục vụ hoạt động hợp tác.
-          </p>
-          <div className="mt-4 h-px bg-white/30" />
+        <Reveal className="pt-3">
+          <p className="font-display text-[17px] font-semibold uppercase leading-none text-brand-tint">{quality.eyebrow}</p>
+          <h2 className="mt-2 max-w-[430px] font-display text-[31px] font-bold uppercase leading-none tracking-[0.01em] text-white">{quality.title}</h2>
+          <p className="mt-6 max-w-[485px] border-l-2 border-brand-light pl-4 text-[10px] text-justify leading-[1.7] text-white/75">{quality.internationalCommitment}</p>
         </Reveal>
 
-        <Reveal delay={0.14} className="mt-6 grid grid-cols-2 gap-3">
+        <Reveal delay={0.14} className="mt-7 grid grid-cols-3 gap-4">
           {quality.certificates.map((certificate, index) => (
-            <CertificateCard key={certificate.name} {...certificate} index={index} />
+            <CertificateDocument key={certificate.name} {...certificate} index={index} />
           ))}
         </Reveal>
 
-        <Reveal delay={0.26} className="mt-6 grid grid-cols-[1fr_auto] items-center gap-5 border-t border-white/25 pt-5">
-          <div>
-            <p className="text-[6px] font-medium uppercase tracking-[0.22em] text-brand-tint">Hồ sơ bổ trợ</p>
-            <p className="mt-2 text-[7.5px] leading-[1.65] text-white/68">Tài liệu pháp lý, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu được cung cấp theo yêu cầu trong quá trình hợp tác.</p>
-          </div>
-          <div className="grid size-16 place-items-center rounded-full border border-brand-light/45">
-            <span className="font-display font-lining text-[19px] font-semibold">06</span>
-            <span className="-mt-4 text-[5px] uppercase tracking-[0.12em] text-white/55">Hồ sơ chính</span>
+        <Reveal delay={0.24} className="mt-5 flex items-start justify-between border-t border-white/25 pt-3">
+          <p className="max-w-[380px] text-[8px] leading-[1.55] text-white/65">Hồ sơ bao gồm chứng nhận hệ thống quản lý, tiêu chuẩn sản phẩm và hợp quy cho hoạt động trong nước, quốc tế.</p>
+          <div className="flex items-center gap-2 text-brand-tint">
+            <ShieldCheck size={15} strokeWidth={1.5} />
+            <span className="text-[5.5px] font-medium uppercase tracking-[0.16em]">Hồ sơ xác thực</span>
           </div>
         </Reveal>
       </PageBody>

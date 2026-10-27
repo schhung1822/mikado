@@ -11,6 +11,22 @@ export const factoryNetwork = {
     focal: "58% 52%",
     fit: "cover",
   } satisfies PhotoRef,
+  productionImages: [
+    {
+      src: "/images/daychuyen.jpg",
+      alt: "Dây chuyền sản xuất gạch trong nhà máy MIKADO-MT",
+      focal: "50% 52%",
+      fit: "cover",
+      label: "Dây chuyền sản xuất",
+    },
+    {
+      src: "/images/nhamay.jpeg",
+      alt: "Công nhân vận hành dây chuyền tại nhà máy MIKADO-MT",
+      focal: "50% 50%",
+      fit: "cover",
+      label: "Không gian nhà máy",
+    },
+  ] satisfies (PhotoRef & { label: string })[],
   factories: [
     { name: "Gạch men MIKADO", place: "KCN Tiền Hải, Hưng Yên", since: "2002", capacity: "12 triệu m²/năm" },
     { name: "Gạch men CERINCO", place: "KCN Tiền Hải, Hưng Yên", since: "2015", capacity: "3 triệu m²/năm" },
@@ -93,22 +109,63 @@ export const markets = {
 };
 
 export const quality = {
-  eyebrow: "Hệ thống đảm bảo",
-  title: "Chứng chỉ & chất lượng",
-  lead: "Chất lượng được kiểm soát xuyên suốt từ nguyên liệu, quy trình sản xuất đến kiểm định thành phẩm, đáp ứng các yêu cầu trong nước và quốc tế.",
+  eyebrow: "Các báo cáo",
+  title: "Chứng chỉ chất lượng",
+  lead: "Với những giá trị cốt lõi và cam kết mạnh mẽ về dịch vụ khách hàng, Mikado đã đạt được các chứng nhận quan trọng trong nhập nguyên liệu, sản xuất và kiểm soát chất lượng. Hệ thống chứng nhận trong nước và quốc tế khẳng định uy tín của Mikado trong mọi giai đoạn hợp tác.",
+  internationalCommitment: "Các nhãn hiệu và dòng sản phẩm của Mikado không chỉ đáp ứng tiêu chuẩn trong nước mà còn đáp ứng các yêu cầu khắt khe của châu Âu, Hoa Kỳ, Đài Loan và Hàn Quốc. Mikado cam kết cung cấp vật liệu xây dựng đạt chuẩn, chính sách bảo hành đầy đủ và khả năng cung ứng kịp thời cho khách hàng trong và ngoài nước.",
   badges: [
-    { code: "VN", value: "VALUE", label: "Thương hiệu quốc gia" },
-    { code: "ISO", value: "9001:2015", label: "Quản lý chất lượng" },
-    { code: "ISO", value: "13006:2018", label: "Gạch gốm ốp lát" },
-    { code: "FS", value: "FLOORSCORE", label: "Chất lượng không khí" },
-    { code: "CE", value: "EU", label: "Phù hợp tiêu chuẩn châu Âu" },
-    { code: "SGS", value: "TESTED", label: "Kiểm định độc lập" },
+    {
+      label: "Thương hiệu quốc gia",
+      image: { src: "/images/certified/vnvalue.webp", alt: "Logo Vietnam Value", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "Quản lý chất lượng",
+      image: { src: "/images/certified/ISO-9001.png", alt: "Logo chứng nhận ISO 9001", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "Quản lý môi trường",
+      image: { src: "/images/certified/ios-14001.jpg", alt: "Logo chứng nhận ISO 14001:2015", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "An toàn nghề nghiệp",
+      image: { src: "/images/certified/ios-45001.png", alt: "Logo chứng nhận ISO 45001:2018", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "Chất lượng không khí",
+      image: { src: "/images/certified/floor-score.webp", alt: "Logo chứng nhận FloorScore", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "Tiêu chuẩn châu Âu",
+      image: { src: "/images/certified/ce.webp", alt: "Logo chứng nhận CE", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      label: "Kiểm định độc lập",
+      image: { src: "/images/certified/sgs.webp", alt: "Logo kiểm định SGS", fit: "contain" } satisfies PhotoRef,
+    },
   ],
-  testGroups: [
-    { title: "Kích thước & bề mặt", standards: "ISO 10545-2:2018 · 10545-3:2018" },
-    { title: "Cơ lý", standards: "ISO 10545-4:2019 · 10545-5:1996 · 10545-10:1995 · 10545-11:1994" },
-    { title: "Độ bền", standards: "ISO 10545-7:1996 · 10545-8:2014 · 10545-9:2013 · 10545-12:1995" },
-    { title: "Hóa học", standards: "ISO 10545-13:2016 · 10545-14:2015 · 10545-15:1995" },
+  standards: [
+    "ISO 10545-7:1996",
+    "ISO 10545-3:2018",
+    "ISO 10545-4:2019",
+    "ISO 10545-8:2014",
+    "ISO 10545-9:2013",
+    "ISO 10545-10:1995",
+    "ISO 10545-11:1994",
+    "ISO 10545-12:1995",
+    "ISO 10545-5:1996",
+    "ISO 10545-14:2015",
+    "ISO 10545-15:1995",
+    "ISO 10545-13:2016",
+    "ISO 10545-2:2018",
+    "ISO 13006:2018",
+    "ISO 9001:2015",
+    "ISO 136006:2018",
+  ],
+  externalCertificates: [
+    "ECM Attestation — The Approve 2024–2029",
+    "CIDB Product Certificate of Conformity 2025",
+    "K Product Certificate 2022",
+    "Quacert Certificate 2025–2028",
   ],
   certificates: [
     { name: "QUACERT ISO 9001:2015", period: "Hệ thống quản lý" },
@@ -118,6 +175,7 @@ export const quality = {
     { name: "CIDB Product Certificate of Conformity", period: "2025" },
     { name: "K Product Certificate", period: "2022" },
   ],
+  legalNote: "Mikado đồng thời sở hữu nhiều tài liệu pháp lý liên quan đến chứng nhận chất lượng, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu thô. Các hồ sơ cụ thể được cung cấp theo yêu cầu trong quá trình hợp tác.",
 };
 
 export const partnerships = {

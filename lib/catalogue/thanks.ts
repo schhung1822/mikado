@@ -1,4 +1,3 @@
-import { company } from "./company";
 import type { PhotoRef } from "./types";
 
 /**
@@ -6,8 +5,8 @@ import type { PhotoRef } from "./types";
  *
  * - Lời cảm ơn: văn bản chung để duyệt bố cục, thay bằng lời cảm ơn chính thức.
  * - Ảnh: ảnh texture demo (CC0). Thay `thanks.image.src` bằng ảnh thật (ví dụ ảnh bắt tay như tài liệu tham khảo).
- * - Văn phòng: địa chỉ/hotline/email là DỮ LIỆU DEMO (xem lib/catalogue/contacts.ts). Giá trị để trống ("") thì dòng
- *   tự ẩn; không còn dòng nào thì cả khối văn phòng ẩn.
+ * - Văn phòng: thông tin liên hệ chính thức hiển thị ở trang 41. Giá trị để trống ("") thì dòng tự ẩn;
+ *   không còn dòng nào thì cả khối văn phòng ẩn.
  */
 export const thanks = {
   title: "Lời cảm ơn",
@@ -21,22 +20,29 @@ export const thanks = {
     focal: "50% 60%",
     fit: "cover",
   } satisfies PhotoRef,
-  /** Tên công ty hiển thị ở trang phải. Dùng tên đầy đủ khi được xác nhận (company.fullName), nếu chưa thì "MIKADO-MT". */
-  companyName: company.fullName.trim() || company.name,
+  /** Tên pháp nhân hiển thị ở trang liên hệ cuối catalogue. */
+  companyName: "Công ty Cổ phần Kỹ Thương Thiên Hoàng (Mikado-MT)",
   offices: [
     {
       title: "Trụ sở chính",
       lines: [
-        { label: "Địa chỉ", value: "Địa chỉ demo — cập nhật sau" },
-        { label: "Hotline", value: "0900 000 000" },
-        { label: "Email", value: "demo@example.com" },
+        { label: "", value: "Tầng 6, Tòa Diamond Flower, 48 Lê Văn Lương, P. Thanh Xuân, Hà Nội, Việt Nam." },
+        { label: "Điện thoại", value: "(+8424) 3755 6888" },
+        { label: "Tổng đài", value: "1900 0338" },
+        { label: "Phụ trách bán hàng", value: "infomikado@mikado.com.vn" },
+        { label: "Phụ trách xuất khẩu", value: "+84 988 959 466" },
+        { label: "Email", value: "buihanh81@mikado.com.vn" },
       ],
     },
     {
       title: "Showroom",
       lines: [
-        { label: "Địa chỉ", value: "Địa chỉ demo — cập nhật sau" },
-        { label: "Hotline", value: "0900 000 001" },
+        { label: "", value: "The Matrix One Building, số 1 Lê Quang Đạo, P. Từ Liêm, Hà Nội, Việt Nam." },
+        { label: "Điện thoại", value: "1900 0338" },
+        { label: "", value: "171 Huỳnh Tấn Phát, P. Hòa Cường, Đà Nẵng, Việt Nam.", breakBefore: true },
+        { label: "Điện thoại", value: "0903 511 995" },
+        { label: "", value: "Số 100, đường số 10, KDC Vạn Phúc, P. Hiệp Bình, TP HCM, Việt Nam.", breakBefore: true },
+        { label: "Điện thoại", value: "(+8428) 35 35 9398" },
       ],
     },
   ],

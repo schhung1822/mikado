@@ -1,26 +1,35 @@
 import type { PhotoRef } from "./types";
 
-/**
- * DỮ LIỆU TRANG ĐÔI "GIỚI THIỆU CÔNG TY & BAN LÃNH ĐẠO" — TOÀN BỘ NỘI DUNG LÀ DỮ LIỆU DEMO.
- *
- * Chưa có thông tin được xác nhận, nên mọi đoạn văn, tên và chức danh bên dưới chỉ là chỗ giữ chỗ để duyệt bố cục
- * (không có năm thành lập, số liệu, chứng nhận hay tên người thật). Thay bằng nội dung thật tại đây.
- * - Ảnh chân dung: điền `photo` của từng người; để trống thì hiện khung trống đúng tỷ lệ chân dung 3 : 4.
- * - Bỏ `bio`/`message` (đặt "") thì khối tương ứng tự ẩn.
- */
+/** Nội dung trang đôi "Giới thiệu công ty & Ban lãnh đạo". */
 export const companyProfile = {
   eyebrow: "Giới thiệu công ty",
   title: "Khái quát MIKADO-MT",
-  lead: 
-    "Khởi nguồn từ năm 2002, bắt đầu với 100% vốn đầu tư trong nước từ 08 cổ đông sáng lập, Công ty Cổ phần Kỹ thương Thiên Hoàng – MIKADO Group đã đặt những viên gạch đầu tiên cho một chặng đường phát triển vững chắc. Từ một nhà máy sản xuất gạch tại khu công nghiệp Tiền Hải, tỉnh Thái Bình, MIKADO đã không ngừng vươn lên, khẳng định bản lĩnh và khát vọng chinh phục mọi giới hạn, đến nay đã sở hữu hơn 11 nhà máy. Nhờ sự điều hành của các cấp lãnh đạo đầy tâm huyết và chiến lược, MIKADO đã có những bước tiến dài và vững chắc, vượt qua mọi thử thách để đạt được vị thế như ngày hôm nay",
-  paragraphs: [
-    "Phần này dành cho hai đến ba đoạn văn ngắn, đủ để người đọc hiểu về công ty trước khi xem các thương hiệu và sản phẩm gạch ốp lát ở những trang sau.",
-    "Phần này dành cho hai đến ba đoạn văn ngắn, đủ để người đọc hiểu về công ty trước khi xem các thương hiệu và sản phẩm gạch ốp lát ở những trang sau.",
+  lead: "Khởi nguồn từ năm 2002 tại Khu công nghiệp Tiền Hải, MIKADO Group từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
+  story: "Từ những viên gạch đầu tiên, doanh nghiệp không ngừng mở rộng năng lực và đến nay sở hữu hơn 11 nhà máy. Hành trình phát triển được dẫn dắt bởi đội ngũ lãnh đạo tâm huyết, chiến lược và khát vọng chinh phục những giới hạn mới.",
+  image: {
+    src: "/images/daychuyen.jpg",
+    alt: "Dây chuyền sản xuất tại nhà máy MIKADO-MT",
+    focal: "52% 50%",
+    fit: "cover",
+  } satisfies PhotoRef,
+  milestones: [
+    { value: "2002", label: "Năm khởi nguồn" },
+    { value: "08", label: "Cổ đông sáng lập" },
+    { value: "11+", label: "Nhà máy trong hệ thống" },
   ],
-  pillars: [
-    { title: "Tầm nhìn", text: "Nội dung tạm: mô tả ngắn về tầm nhìn của công ty." },
-    { title: "Sứ mệnh", text: "Nội dung tạm: mô tả ngắn về sứ mệnh và cam kết với khách hàng." },
-    { title: "Giá trị cốt lõi", text: "Nội dung tạm: những giá trị công ty theo đuổi sẽ được bổ sung." },
+  journey: [
+    {
+      title: "Nền móng trong nước",
+      text: "Khởi đầu bằng nguồn vốn trong nước và nhà máy gạch đầu tiên tại Tiền Hải.",
+    },
+    {
+      title: "Mở rộng năng lực",
+      text: "Từng bước phát triển hệ thống nhà máy và danh mục vật liệu hoàn thiện đa dạng.",
+    },
+    {
+      title: "Vươn tới thị trường",
+      text: "Tiếp tục nâng cao chất lượng, năng lực cung ứng và sự hiện diện trong, ngoài nước.",
+    },
   ],
 };
 
@@ -37,13 +46,39 @@ export const leadership = {
   lead: "MIKADO sở hữu tiềm lực phát triển mạnh mẽ với 06 nhãn hiệu hoạt động ổn định, thị trường trải dài trên toàn quốc, đồng thời duy trì nguồn cung ứng cho các công trình xây dựng một cách liên tục, đồng bộ và hiệu quả.",
   /** Tên và chức danh là CHỖ GIỮ CHỖ (Nguyễn Văn A/B/C), không phải người thật. */
   leaders: [
-    { name: "Nguyễn Văn A", role: "Chủ tịch Hội đồng quản trị" },
-    { name: "Nguyễn Văn B", role: "Tổng giám đốc" },
-    { name: "Nguyễn Văn C", role: "Phó tổng giám đốc" },
+    {
+      name: "Phạm Thuần Lãm",
+      role: "Chủ tịch HĐQT",
+      photo: { src: "/images/bld1.png", alt: "Chân dung Chủ tịch HĐQT", focal: "50% 22%", fit: "cover" },
+    },
+    {
+      name: "Phạm Bách Tùng",
+      role: "Tổng giám đốc",
+      photo: { src: "/images/bld2.png", alt: "Chân dung Tổng giám đốc", focal: "50% 20%", fit: "cover" },
+    },
+    {
+      name: "Nguyễn Văn Hồng",
+      role: "Thành viên HĐQT",
+      photo: { src: "/images/bld3.png", alt: "Chân dung Thành viên HĐQT", focal: "50% 20%", fit: "cover" },
+    },
   ] satisfies Leader[],
   /** Thông điệp từ ban lãnh đạo (tạm). Để "" thì khối ẩn. */
   message: {
     quote: "Nhờ không ngừng nâng cao chất lượng, các nhãn hiệu của Mikado ngày càng được thị trường trong và ngoài nước ưa chuộng và được kì vọng sẽ tiếp tục tăng trưởng mạnh mẽ, mở rộng thị trường trong các năm tiếp theo.",
     by: "Ban lãnh đạo",
   },
+  priorities: [
+    {
+      title: "Chất lượng",
+      text: "Duy trì định hướng nâng cao chất lượng sản phẩm trong toàn hệ thống.",
+    },
+    {
+      title: "Cung ứng đồng bộ",
+      text: "Bảo đảm nguồn cung liên tục và hiệu quả cho các công trình xây dựng.",
+    },
+    {
+      title: "Mở rộng thị trường",
+      text: "Củng cố thị trường trong nước và phát triển hiện diện quốc tế.",
+    },
+  ],
 };

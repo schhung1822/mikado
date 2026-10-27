@@ -1,6 +1,6 @@
 import { brandIndex } from "@/lib/catalogue/brands";
 import { contactRows } from "@/lib/catalogue/contacts";
-import { CONTENTS_FOLIO, folioText, tocSections, tocSummary } from "@/lib/catalogue/contents";
+import { CONTENTS_FOLIO, tocSections, type Folio } from "@/lib/catalogue/contents";
 import { cn } from "@/lib/utils";
 import { CompanyLogo } from "./company-logo";
 import { Reveal } from "./motion";
@@ -59,46 +59,84 @@ function ContactsPage() {
 
 /** Trang phải — nền trắng: mục lục các trang đôi nội dung, số trang tự tính từ lib/catalogue/contents.ts. */
 function ContentsPage() {
+  const [introSection, brandsSection, productsSection, connectionSection] = tocSections;
+  const firstPage = (folio: Folio | string) => (typeof folio === "string" ? folio.split("–")[0] : folio[0]);
+  const lastPage = (folio: Folio | string) => (typeof folio === "string" ? folio.split("–").at(-1) ?? folio : folio[1]);
+  const pageRange = (first: Folio | string, last: Folio | string = first) => `${firstPage(first)}–${lastPage(last)}`;
+
+  const menuGroups: {
+    title: string;
+    items: { label: string; pages?: string }[];
+    pages: string;
+    columns?: 1 | 2;
+  }[] = [
+    {
+      title: "Khái quát về MIKADO-MT",
+      items: introSection.items.map((item) => ({ label: item.label })),
+      pages: pageRange(introSection.items[0].folio, introSection.items.at(-1)!.folio),
+    },
+    {
+      title: "Thương hiệu & sản phẩm",
+      items: [
+        { label: brandsSection.items[0].label, pages: pageRange(brandsSection.items[0].folio) },
+        ...productsSection.items.map((item) => ({ label: item.label, pages: pageRange(item.folio) })),
+      ],
+      pages: pageRange(brandsSection.items[0].folio, productsSection.items.at(-1)!.folio),
+      columns: 1,
+    },
+    {
+      title: "Đối tác và dự án",
+      items: [{ label: "Đối tác chiến lược và các công trình tiêu biểu" }],
+      pages: pageRange(connectionSection.items[0].folio),
+    },
+    {
+      title: "Lời cảm ơn",
+      items: [],
+      pages: pageRange(connectionSection.items[1].folio),
+    },
+  ];
+
   return (
     <Page side="right">
       <RunningHead side="right" label="Mục lục" />
 
       <PageBody side="right">
-        <Reveal className="pt-6">
-          <h2 className="font-display text-[58px] font-bold uppercase leading-none tracking-[0.02em] text-ink">Mục lục</h2>
-          <div className="mt-4 h-0.5 bg-brand" />
+        <Reveal className="pt-5">
+          <div className="flex items-end justify-between gap-5">
+            <h2 className="font-display text-[50px] font-bold uppercase leading-none tracking-[0.02em] text-ink">Mục lục</h2>
+          </div>
+          <div className="mt-3 h-0.5 bg-brand" />
         </Reveal>
 
-        <div className="mt-6 flex flex-col gap-4">
-          {tocSections.map((section, i) => (
-            <Reveal key={section.title} delay={0.12 + i * 0.1} y={6}>
-              <section className="flex gap-4">
-                <span aria-hidden className="w-[3px] shrink-0 bg-brand" />
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-display text-[17px] font-bold uppercase leading-none tracking-[0.03em] text-ink">{section.title}</h3>
-                  <ul className="mt-3">
-                    {section.items.map((item) => (
-                      <li key={item.label} className="flex items-baseline justify-between gap-4 border-b border-hairline py-[5px] text-[8.5px] text-ink">
-                        <span>{item.label}</span>
-                        <span className="font-lining text-[7.5px] tracking-[0.06em] text-ink-soft">Trang {folioText(item.folio)}</span>
-                      </li>
-                    ))}
-                  </ul>
+        <div className="mt-7 flex flex-col gap-6">
+          {menuGroups.map((group, i) => (
+            <Reveal key={group.title} delay={0.1 + i * 0.06} y={6}>
+              <section className="grid grid-cols-[5px_1fr] gap-4">
+                <span aria-hidden className="bg-brand" />
+                <div className="min-w-0 py-0.5">
+                  <div className="flex items-baseline justify-between gap-6">
+                    <h3 className="font-display text-[16px] font-bold uppercase leading-none tracking-[0.025em] text-ink">{group.title}</h3>
+                    <span className="shrink-0 font-lining text-[8px] font-medium text-ink">Trang {group.pages}</span>
+                  </div>
+                  {group.items.length > 0 ? (
+                    <ul className={cn("mt-3", group.columns === 2 ? "grid grid-cols-2 gap-x-5 gap-y-2" : "space-y-2")}>
+                      {group.items.map((item) => (
+                        <li key={item.label} className="flex items-baseline justify-between gap-2 text-[8.5px] leading-[1.4] text-ink-soft">
+                          <span>{item.label}</span>
+                          {item.pages ? <span className="shrink-0 font-lining text-[6.5px] text-ink-soft/80">{item.pages}</span> : null}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </div>
               </section>
             </Reveal>
           ))}
         </div>
-
-        <Reveal delay={0.35} className="mt-6">
-          <p className="text-[7px] font-medium uppercase tracking-[0.2em] text-ink-soft">
-            {tocSummary.spreads} trang đôi nội dung · trang {tocSummary.from}–{tocSummary.to}
-          </p>
-        </Reveal>
       </PageBody>
 
-      {/* Họa tiết gạch nhỏ ở góc trên phải, cạnh tiêu đề "Mục lục" */}
-      <TileStrip unit={40} className="right-0" style={{ top: 46 }} />
+      <div aria-hidden className="absolute -right-12 bottom-12 font-display text-[210px] font-bold leading-none text-brand-tint/20">03</div>
+      <TileStrip unit={32} className="right-0" style={{ top: 46 }} />
 
       <PageFooter side="right" folio={CONTENTS_FOLIO[1]} label="Mục lục" />
     </Page>

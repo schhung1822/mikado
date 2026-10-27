@@ -19,7 +19,7 @@ export function FrontCover() {
       </Reveal>
 
       <Reveal delay={0.35} className="absolute" style={{ left: COVER_X, right: COVER_X, top: MOSAIC_HEIGHT + 112 }}>
-        <h1 className="font-display text-[76px] font-bold uppercase leading-[1.06] tracking-[0.005em] text-ink">
+        <h1 className="font-display text-[60px] font-bold uppercase leading-[1.06] tracking-[0.005em] text-ink">
           {coverCopy.title.map((line) => (
             <span key={line} className="block">
               {line}

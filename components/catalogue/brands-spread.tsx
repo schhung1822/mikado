@@ -43,7 +43,7 @@ function BrandsLeftPage() {
         </Reveal>
 
         <Reveal delay={0.16} className="mt-6">
-          <p className="max-w-[470px] font-display text-[15px] font-medium italic leading-[1.45] text-ink">{brandsCopy.intro}</p>
+          <p className="max-w-[470px] text-[12.5px] text-justify font-light italic leading-[1.45] text-ink">{brandsCopy.intro}</p>
         </Reveal>
 
         <Reveal delay={0.2} className="mt-5">
