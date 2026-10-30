@@ -125,6 +125,185 @@ const placeholderAbout = (name: string, image: PhotoRef): BrandProductPage["abou
   image,
 });
 
+type BrandAboutCopy = Omit<BrandProductPage["about"], "image">;
+
+/**
+ * Nội dung riêng cho từng thương hiệu, viết theo đúng các nhóm sản phẩm đang có trong catalogue.
+ * Không sử dụng số liệu công suất, lịch sử hay tuyên bố thương mại khi chưa có tài liệu xác nhận.
+ */
+const BRAND_ABOUT_COPY: Partial<Record<string, BrandAboutCopy>> = {
+  cerinco: {
+    eyebrow: "Thương hiệu",
+    title: "Cân bằng sắc độ",
+    lead: "CERINCO là thương hiệu gạch ốp lát trong hệ thống MIKADO-MT, cung cấp các dòng sản phẩm Ceramic và Porcelain cho không gian nhà ở và công trình thương mại.",
+    paragraphs: [
+      "Danh mục CERINCO bao gồm gạch ốp tường, gạch lát nền và gạch sân vườn, ứng dụng công nghệ in kỹ thuật số để thể hiện hoa văn trên bề mặt. Sản phẩm mang đến nhiều lựa chọn hoàn thiện cho không gian nội thất và các khu vực ngoài trời.",
+      "Các quy cách tiêu biểu gồm 300 × 600, 400 × 800, 600 × 600 và 800 × 800 mm. Bề mặt đa dạng với men bóng, men matt, men kim cương và men sugar, đáp ứng những yêu cầu khác nhau về thẩm mỹ và công năng sử dụng.",
+    ],
+    highlights: [
+      { title: "Gạch ốp tường", text: "Các dòng Ceramic men matt và Porcelain men bóng, với quy cách tiêu biểu 300 × 600 và 400 × 800 mm." },
+      { title: "Gạch lát nền", text: "Dòng Porcelain 600 × 600 và 800 × 800 mm, nổi bật với các lựa chọn men kim cương và men bóng." },
+      { title: "Gạch sân vườn", text: "Gạch Ceramic men sugar 600 × 600 mm, bề mặt hỗ trợ chống trơn trượt, phù hợp sân vườn, sân thượng và lối đi." },
+    ],
+  },
+  videcor: {
+    eyebrow: "Thương hiệu",
+    title: "Điểm nhấn tinh tế",
+    lead: "VIDECOR là thương hiệu thuộc MIKADO-MT, cung cấp các dòng gạch ốp lát Ceramic, Porcelain cùng sản phẩm hỗ trợ thi công, đáp ứng nhu cầu hoàn thiện đa dạng công trình.",
+    paragraphs: [
+      "Ứng dụng công nghệ in kỹ thuật số, gạch VIDECOR mang đến nhiều lựa chọn hoa văn và bề mặt, từ men bóng, men matt đến men kim cương và men vi tinh. Sự đa dạng này giúp linh hoạt thể hiện các phong cách nội thất từ tối giản, hiện đại đến sang trọng.",
+      "Danh mục trải rộng từ gạch ốp tường 300 × 600, 400 × 800 mm đến gạch lát nền 600 × 600, 800 × 800 mm và gạch khổ lớn 600 × 1200 mm, phù hợp nhiều diện tích và cách tổ chức không gian.",
+    ],
+    highlights: [
+      { title: "Gạch ốp tường", text: "Các dòng Ceramic và Porcelain với quy cách 300 × 600, 400 × 800 mm, đa dạng lựa chọn men bóng và men matt." },
+      { title: "Gạch lát nền", text: "Các khổ vuông và chữ nhật, nổi bật với dòng Porcelain men kim cương và gạch vi tinh khổ lớn 600 × 1200 mm." },
+      { title: "Sản phẩm thi công", text: "Keo dán gạch ECOFIX, PROFIX, AQUAFIX và keo chít mạch GROUTFIX, phục vụ các nhu cầu thi công theo từng khu vực sử dụng." },
+    ],
+  },
+  goldentile: {
+    eyebrow: "Thương hiệu",
+    title: "Đa dạng phối hợp",
+    lead: "GOLDEN TILE là thương hiệu gạch ốp lát thuộc MIKADO-MT, mang đến các dòng Ceramic và Porcelain, đáp ứng nhu cầu hoàn thiện từ không gian nội thất đến sân vườn.",
+    paragraphs: [
+      "Danh mục sản phẩm gồm gạch ốp tường, gạch lát nền và gạch trang trí với nhiều quy cách, hoa văn và sắc độ. Công nghệ in kỹ thuật số cùng các lựa chọn men bóng, men matt và men kim cương giúp thể hiện đa dạng ý tưởng thiết kế.",
+      "Bên cạnh các kích thước phổ biến 300 × 600, 400 × 800, 600 × 600 và 800 × 800 mm, GOLDEN TILE còn có gạch khổ lớn 600 × 1200 mm. Dòng men vi tinh tái hiện đường vân đá tự nhiên, tạo hiệu ứng chiều sâu cho bề mặt.",
+    ],
+    highlights: [
+      { title: "Gạch ốp tường", text: "Quy cách 300 × 600 và 400 × 800 mm, gồm các lựa chọn Ceramic và Porcelain, kết hợp gạch nền cùng viên trang trí." },
+      { title: "Gạch lát nền", text: "Đa dạng kích thước từ khổ vuông đến khổ lớn, với các dòng men bóng, men kim cương và men vi tinh." },
+      { title: "Gạch sân vườn", text: "Dòng Ceramic men sugar 600 × 600 mm hỗ trợ chống trơn trượt, phù hợp sân nhà, sân thượng và lối đi ngoài trời." },
+    ],
+  },
+  feraza: {
+    eyebrow: "Thương hiệu",
+    title: "Nhịp điệu bề mặt",
+    lead: "FERAZA là thương hiệu gạch ốp lát thuộc MIKADO-MT, cung cấp các dòng Ceramic và Porcelain cho nhu cầu hoàn thiện tường, sàn và không gian sân vườn.",
+    paragraphs: [
+      "Ứng dụng công nghệ in kỹ thuật số, FERAZA mang đến nhiều lựa chọn hoa văn và màu sắc, phù hợp các phong cách từ hiện đại, tối giản đến mộc mạc. Danh mục sản phẩm đáp ứng nhu cầu sử dụng trong nhà ở, nhà hàng, khách sạn và công trình thương mại.",
+      "Các dòng gạch ốp tường có quy cách tiêu biểu 300 × 600 và 400 × 800 mm; gạch lát nền gồm các lựa chọn 600 × 600 và 800 × 800 mm. Bên cạnh đó, gạch sân vườn men sugar mở rộng khả năng hoàn thiện cho những khu vực ngoài trời.",
+    ],
+    highlights: [
+      { title: "Gạch ốp tường", text: "Gạch Ceramic 300 × 600 mm và Porcelain 400 × 800 mm, với các mẫu nền và viên điểm trang trí." },
+      { title: "Gạch lát nền", text: "Các lựa chọn Ceramic và Porcelain; nổi bật với dòng Porcelain men bóng 600 × 600 và 800 × 800 mm." },
+      { title: "Gạch sân vườn", text: "Gạch Ceramic men sugar, quy cách tiêu biểu 400 × 600 và 500 × 500 mm, với họa tiết lấy cảm hứng từ cỏ, sỏi và đá." },
+    ],
+  },
+  claza: {
+    eyebrow: "Thương hiệu",
+    title: "SẮC THÁI CHO TỪNG KHÔNG GIAN",
+    lead: "Từ bề mặt Porcelain sáng bóng đến nét dịu nhẹ của Ceramic men matt, CLAZA mang đến những lựa chọn vật liệu phù hợp với từng khu vực trong ngôi nhà.",
+    paragraphs: [
+      "CLAZA cung cấp các dòng gạch Ceramic và Porcelain ứng dụng công nghệ in kỹ thuật số. Sản phẩm kết hợp lựa chọn hoa văn với yêu cầu sử dụng thực tế, từ sàn phòng khách, phòng ngủ đến các mảng tường nội thất.",
+      "Gạch ốp tường có các quy cách 300 × 600 và 400 × 800 mm; gạch lát nền gồm những lựa chọn 600 × 600 và 800 × 800 mm. Danh mục còn mở rộng sang gạch sân vườn, bổ sung họa tiết cỏ, sỏi và đá cho không gian ngoài trời.",
+    ],
+    highlights: [
+      { title: "Sáng bóng với Porcelain", text: "Gạch ốp 400 × 800 mm và gạch lát 600 × 600, 800 × 800 mm, mang đến lựa chọn bề mặt bóng cho tường và sàn" },
+      { title: "Dịu nhẹ cùng men matt", text: "Dòng Ceramic 600 × 600 mm có bề mặt mịn, ít bóng, phù hợp phòng khách, phòng ngủ và nhà bếp." },
+      { title: "Gần gũi với thiên nhiên", text: "Gạch sân vườn Ceramic men sugar kết hợp họa tiết giả cỏ, sỏi và đá, tạo thêm lựa chọn cho sân nhà và khu vực ngoại thất." },
+    ],
+  },
+  lexxa: {
+    eyebrow: "Thương hiệu",
+    title: "Thanh lịch và thư giãn",
+    lead: "Một mảng tường tạo điểm nhấn, một nền gạch hoàn thiện tổng thể — các dòng sản phẩm LEXXA mở ra nhiều cách phối vật liệu cho không gian sống.",
+    paragraphs: [
+      "LEXXA cung cấp gạch Ceramic và Porcelain ứng dụng công nghệ in kỹ thuật số. Từ gạch nền đến những viên ốp trang trí, sản phẩm mang đến lựa chọn cho nhiều phong cách nội thất và nhu cầu sử dụng.",
+      "Danh mục trải từ gạch ốp tường 300 × 600, 400 × 800 mm đến gạch lát nền 600 × 600 và 800 × 800 mm. Bên cạnh các bề mặt men bóng dành cho nội thất, LEXXA còn có dòng Ceramic men sugar với họa tiết lấy cảm hứng từ thiên nhiên cho sân vườn.",
+    ],
+    highlights: [
+      { title: "Điểm nhấn trên tường", text: "Gạch ốp Ceramic và Porcelain 300 × 600 mm, cùng dòng Porcelain 400 × 800 mm với các lựa chọn viên nền, viên trang trí." },
+      { title: "Hoàn thiện mặt sàn", text: "Gạch Porcelain men bóng 600 × 600 và 800 × 800 mm, phù hợp phòng khách, phòng ăn và các không gian thương mại." },
+      { title: "Mở rộng ra sân vườn", text: "Gạch Ceramic men sugar với họa tiết giả cỏ, sỏi và đá; các quy cách tiêu biểu gồm 400 × 600, 500 × 500 và 600 × 600 mm." },
+    ],
+  },
+  mostile: {
+    eyebrow: "Thương hiệu",
+    title: "Dấu ấn đá tự nhiên",
+    lead: "Những đường vân, lớp sắc độ và sự chuyển màu làm nên sức hút của bề mặt đá — nguồn cảm hứng xuyên suốt các mẫu gạch ốp lát MOSTILE.",
+    paragraphs: [
+      "MOSTILE mang đến những lựa chọn gạch vân đá với sắc xám, trắng và be, gợi mở nhiều cách phối vật liệu. Tường và sàn có thể kết hợp cùng tông để tạo sự liền mạch, hoặc thay đổi sắc độ để làm nổi bật từng khu vực.",
+      "Nhóm gạch ốp 300 × 600 và 400 × 800 mm kết hợp bề mặt nền với chi tiết trang trí. Các mẫu lát nền 600 × 600 và 800 × 800 mm bổ sung lựa chọn về đường vân, màu sắc và tỷ lệ, giúp hoàn thiện tổng thể theo từng diện tích.",
+    ],
+    highlights: [
+      { title: "Mảng tường có chiều sâu", text: "Gạch ốp vân đá kết hợp viên trang trí, tạo điểm nhấn cho phòng tắm, nhà bếp và những mảng tường nội thất." },
+      { title: "Cân đối với khổ 600", text: "Gạch lát 600 × 600 mm mang đến lựa chọn khổ vuông dễ bố trí, linh hoạt phối cùng các mẫu gạch tường." },
+      { title: "Liền mạch với khổ 800", text: "Gạch lát 800 × 800 mm tạo những mảng nền rộng, dành thêm diện tích để thể hiện đường vân và sắc độ." },
+    ],
+  },
+  lustile: {
+    eyebrow: "Thương hiệu",
+    title: "Đa dạng bề mặt, mở rộng ý tưởng",
+    lead: "Từ gạch vân đá đến gạch thẻ vân gỗ, LUSTILE mang đến nhiều cách thể hiện cá tính qua những bề mặt tường và sàn.",
+    paragraphs: [
+      "Ra mắt vào tháng 8/2023, LUSTILE là thương hiệu gạch ốp lát cao cấp của Hoa Sen Home. Thương hiệu kết hợp công nghệ sản xuất với thiết kế thẩm mỹ, hướng đến những không gian sống hiện đại và mang dấu ấn riêng.",
+      "Danh mục gồm gạch ốp tường, gạch lát nền, gạch sân vườn và gạch thẻ vân gỗ. Các lựa chọn bề mặt bóng, matt, satin cùng hiệu ứng khắc kim mở rộng khả năng phối vật liệu theo từng khu vực sử dụng.",
+    ],
+    highlights: [
+      { title: "Trang trí mảng tường", text: "Gạch 300 × 600 và 400 × 800 mm, kết hợp viên nền, viên điểm cùng các hiệu ứng bề mặt đa dạng." },
+      { title: "Hoàn thiện mặt sàn", text: "Các khổ 600 × 600, 800 × 800 mm và dòng Luxury 600 × 1200 mm, phù hợp nhiều diện tích nội thất." },
+      { title: "Cảm hứng từ vân gỗ", text: "Gạch thẻ Porcelain 198 × 900 mm, bề mặt matt mô phỏng đường vân gỗ, gợi cảm giác ấm áp và gần gũi." },
+    ],
+  },
+  cvgroup: {
+    eyebrow: "Thương hiệu",
+    title: "Hoàn thiện từng khu vực",
+    lead: "Từ căn bếp, phòng tắm đến không gian sinh hoạt chung, CV GROUP mang đến những lựa chọn gạch ốp lát để mỗi khu vực có cách thể hiện riêng trong một tổng thể hài hòa.",
+    paragraphs: [
+      "Danh mục CV GROUP kết hợp các bộ gạch ốp tường với gạch lát nền khổ vuông. Những mẫu nền sáng, chi tiết trang trí và bề mặt vân đá gợi mở nhiều phương án phối, từ nhẹ nhàng, đồng sắc đến tương phản có điểm nhấn.",
+      "Gạch ốp 300 × 600 mm phù hợp để tổ chức các mảng tường theo bộ. Hai khổ lát nền 600 × 600 và 800 × 800 mm bổ sung lựa chọn về tỷ lệ, cùng bảng màu trắng, xám và be dễ kết hợp với đồ nội thất.",
+    ],
+    highlights: [
+      { title: "Điểm nhấn cho bếp và phòng tắm", text: "Bộ gạch ốp 300 × 600 mm kết hợp viên nền và viên trang trí, giúp phân chia hoặc làm nổi bật từng mảng tường." },
+      { title: "Mặt nền cho sinh hoạt chung", text: "Gạch lát 600 × 600 và 800 × 800 mm với họa tiết vân đá, tạo nền cho việc sắp đặt bàn ghế và đồ nội thất." },
+      { title: "Kết nối bằng sắc độ", text: "Phối trắng, xám và be giữa tường với sàn để chuyển tiếp nhẹ nhàng giữa các khu vực trong ngôi nhà." },
+    ],
+  },
+  alaska: {
+    eyebrow: "Thương hiệu",
+    title: "Dấu ấn từ hoa văn",
+    lead: "Hoa văn thực vật, đường nét ánh kim và cảm hứng vân đá tạo nên những sắc thái riêng trong danh mục gạch ALASKA, gợi mở nhiều cách hoàn thiện tường và sàn.",
+    paragraphs: [
+      "Các bộ gạch ốp tường ALASKA kết hợp viên nền với viên điểm trang trí, cho phép bố trí những mảng tường nhẹ nhàng hoặc giàu họa tiết. Quy cách 400 × 800 mm giúp thể hiện rõ đường vân và chi tiết, phù hợp làm điểm nhấn cho phòng tắm, nhà bếp và các khu vực nội thất.",
+      "Bổ sung cho nhóm gạch ốp là gạch lát nền 800 × 800 mm với những gam trắng, xám và đen. Sự thay đổi về sắc độ và mật độ vân mở ra nhiều phương án phối hợp, từ nền sáng thanh thoát đến những bề mặt đậm màu, có sức hút thị giác.",
+    ],
+    highlights: [
+      { title: "Bộ gạch ốp tường", text: "Quy cách 400 × 800 mm, kết hợp viên nền và viên điểm để tạo bố cục đồng bộ cho từng mảng tường." },
+      { title: "Gạch lát nền vân đá", text: "Khổ vuông 800 × 800 mm với nhiều sắc độ, linh hoạt phối cùng gạch tường và đồ nội thất." },
+      { title: "Chi tiết trang trí", text: "Họa tiết thực vật và đường nét ánh kim tạo điểm nhấn, giúp từng khu vực có nét riêng trong tổng thể." },
+    ],
+  },
+  nhuphat: {
+    eyebrow: "Thương hiệu",
+    title: "Nét thanh lịch cho mái nhà",
+    lead: "Không gian sống bắt đầu từ những lựa chọn gần gũi — một nền gạch sáng, một mảng tường dịu màu và vài chi tiết trang trí vừa đủ để tạo dấu ấn.",
+    paragraphs: [
+      "NHƯ PHÁT mang đến các lựa chọn gạch ốp tường và gạch lát nền với sắc trắng, xám, be cùng họa tiết hoa lá và vân đá. Sự kết hợp giữa những bề mặt nhẹ nhàng giúp dễ dàng phối cùng đồ gỗ, kim loại và các chất liệu nội thất quen thuộc.",
+      "Danh mục gồm bộ gạch ốp 400 × 800 mm và gạch lát nền 800 × 800 mm. Các viên ốp nền, viên điểm có thể phối thành từng bộ, trong khi gạch lát khổ vuông tạo bề mặt sàn liền mạch, kết nối phòng khách, phòng ngủ và những khu vực sinh hoạt chung.",
+    ],
+    highlights: [
+      { title: "Gạch ốp theo bộ", text: "Quy cách 400 × 800 mm, phối hợp viên nền và viên điểm để hoàn thiện mảng tường phòng tắm, nhà bếp." },
+      { title: "Gạch lát vân đá", text: "Kích thước 800 × 800 mm với đường vân và sắc độ đa dạng, tạo nền hài hòa cho việc sắp đặt nội thất." },
+      { title: "Gạch điểm trang trí", text: "Họa tiết hoa lá và đường nét mềm mại, phù hợp bố trí thành dải hoặc tập trung tại những vị trí cần điểm nhấn." },
+    ],
+  },
+};
+
+/** Ảnh nền riêng cho trang giới thiệu thương hiệu, theo đúng số folio catalogue. */
+const BRAND_ABOUT_IMAGES: Partial<Record<string, PhotoRef>> = {
+  claza: {
+    src: "/images/certified/bg-24.png",
+    alt: "Bảng vật liệu gạch đá tông xám và be của CLAZA",
+    focal: "50% 50%",
+    fit: "cover",
+  },
+  lustile: {
+    src: "/images/certified/bg-30.png",
+    alt: "Bảng vật liệu đá và gỗ tông trung tính của LUSTILE",
+    focal: "50% 50%",
+    fit: "cover",
+  },
+};
+
 const sampleImage = (file: string, focal = "50% 50%"): PhotoRef => ({
   src: `/images/products/${file}.jpg`,
   alt: "Ảnh minh họa (ảnh tạm)",
@@ -548,20 +727,20 @@ const mikadoGroups = sizeGroups(0).map((group) => ({
 const mikadoAbout: BrandProductPage["about"] = {
   eyebrow: "Thương hiệu",
   title: "Giới thiệu",
-  lead: "Thương hiệu mang tên MIKADO Group, nổi bật với các dòng gạch lát nền và gạch ốp tường cho không gian sống hiện đại.",
+  lead: "Kiến tạo không gian sống hài hòa cùng MIKADO — nơi sắc màu, đường vân và chất liệu gạch góp phần thể hiện dấu ấn riêng trong từng công trình.",
   paragraphs: [
-    "MIKADO cung cấp gạch lát nền khổ vuông 600 × 600 và 800 × 800 mm với các vân đá sáng, trung tính, dễ phối cùng nhiều phong cách nội thất, từ phòng khách, phòng ngủ đến không gian thương mại.",
-    "Bên cạnh đó là các bộ gạch ốp tường 300 × 600 và 400 × 800 mm, đi kèm viên điểm nhấn hoa văn và viên viền, giúp hoàn thiện đồng bộ cho phòng tắm, nhà bếp và những mảng tường trang trí.",
+    "MIKADO mang đến các mẫu gạch lát nền kích thước 600 × 600 và 800 × 800 mm, với họa tiết vân đá cùng gam màu trung tính dễ phối. Bộ sưu tập phù hợp với nhiều không gian, từ phòng khách, phòng ngủ đến các khu vực thương mại.",
+    "Các dòng gạch ốp tường 300 × 600 và 400 × 800 mm kết hợp cùng viên điểm, viên viền tạo nên những mảng tường có chiều sâu. Sự đồng điệu giữa gạch nền và gạch tường giúp hoàn thiện tổng thể hài hòa cho phòng tắm, nhà bếp và các khu vực trang trí.",
   ],
   highlights: [
-    { title: "Gạch lát nền", text: "Khổ 600 × 600 và 800 × 800 mm, vân đá tự nhiên với các tông trắng, xám, be và xanh nhạt." },
-    { title: "Gạch ốp tường", text: "Khổ 300 × 600 và 400 × 800 mm, mỗi bộ gồm viên chính, viên điểm nhấn hoa văn và viên viền." },
-    { title: "Đồng bộ không gian", text: "Các mã cùng bộ đi cùng nhau, giúp phối nền và tường hài hòa." },
+    { title: "Gạch lát nền", text: "Kích thước 600 × 600 và 800 × 800 mm, họa tiết vân đá cùng sắc trắng, xám, be và xanh nhạt, phù hợp nhiều phong cách nội thất." },
+    { title: "Gạch ốp tường", text: "Kích thước 300 × 600 và 400 × 800 mm, kết hợp viên chính, viên điểm và viên viền, tạo điểm nhấn cho từng mảng tường." },
+    { title: "Đồng bộ không gian", text: "Các mẫu gạch được phối theo cùng tông màu, giúp kết nối bề mặt sàn và tường, tạo sự liền mạch cho không gian." },
   ],
   image: {
-    src: "/images/products/mikado/bg-mikado.png",
-    alt: "Phòng tắm ốp gạch trắng với dải gạch viền và gạch điểm nhấn hoa văn",
-    focal: "50% 50%",
+    src: "/images/bg-12.jpg",
+    alt: "Phòng khách sang trọng lát gạch xám MIKADO",
+    focal: "50% 55%",
     fit: "cover",
   },
 };
@@ -594,11 +773,14 @@ const DEMO_IMAGES: { file: string; focal: string }[] = [
 const demoPage = (id: string, index: number): BrandProductPage => {
   const brand = brandOf(id);
   const img = DEMO_IMAGES[index % DEMO_IMAGES.length];
+  const fallbackAbout = placeholderAbout(brand.name, sampleImage(img.file, img.focal));
+  const customAbout = BRAND_ABOUT_COPY[id];
+  const customImage = BRAND_ABOUT_IMAGES[id];
   return {
     id,
     brand,
     folio: productFolio(id),
-    about: placeholderAbout(brand.name, sampleImage(img.file, img.focal)),
+    about: customAbout ? { ...customAbout, image: customImage ?? fallbackAbout.image } : fallbackAbout,
     products: {
       title: "Sản phẩm gạch ốp lát",
       groups: sizeGroups(index),

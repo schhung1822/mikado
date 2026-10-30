@@ -46,17 +46,6 @@ function BrandsLeftPage() {
           <p className="max-w-[470px] text-[12.5px] text-justify font-light italic leading-[1.45] text-ink">{brandsCopy.intro}</p>
         </Reveal>
 
-        <Reveal delay={0.2} className="mt-5">
-          <ul className="grid grid-cols-3 gap-5">
-            {brandsCopy.stats.map((stat) => (
-              <li key={stat.label} className="border-t-2 border-brand pt-2.5">
-                <p className="font-display font-lining text-[30px] font-semibold leading-none text-brand-deep">{stat.value}</p>
-                <p className="mt-2 text-[6.5px] font-medium uppercase tracking-[0.2em] text-ink-soft">{stat.label}</p>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-
         <Reveal delay={0.26} className="mt-6">
           <ol className="grid grid-flow-col grid-cols-2 gap-x-7" style={{ gridTemplateRows: `repeat(${Math.ceil(brandIndex.length / 2)}, auto)` }}>
             {brandIndex.map((b) => (
@@ -67,11 +56,10 @@ function BrandsLeftPage() {
             ))}
           </ol>
           <div className="border-t border-hairline" />
-          <p className="mt-2.5 max-w-[420px] text-[7px] leading-[1.7] text-ink-soft">{brandsCopy.indexNote}</p>
         </Reveal>
       </PageBody>
 
-      <Reveal delay={0.3} className="absolute" style={{ left: 0, bottom: 64, width: 410, height: 104 }}>
+      <Reveal delay={0.3} className="absolute" style={{ left: 0, bottom: 64, width: 400, height: 200 }}>
         <div className="relative size-full bg-stone">
           <Photo photo={brandsCopy.image} sizes="820px" />
         </div>

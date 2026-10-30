@@ -339,17 +339,13 @@ function QualityPage() {
           <h3 className="border-b border-hairline pb-2 font-display text-[19px] font-semibold text-ink">Báo cáo Kiểm định &amp; Giấy chứng nhận</h3>
           <div className="mt-6 grid grid-cols-[0.9fr_1.1fr] gap-5">
             <div>
-              <div className="relative mx-auto h-[165px] w-[135px] -rotate-6 border border-hairline bg-white p-3 shadow-[0_18px_28px_-20px_rgba(27,54,34,0.75)]">
-                <div className="absolute inset-y-0 left-0 w-3 bg-gradient-to-b from-signal to-brand-deep" />
-                <div className="ml-2 text-center">
-                  <p className="text-[4px] uppercase tracking-[0.14em] text-ink-soft">European conformity</p>
-                  <p className="mt-4 font-display text-[14px] font-semibold uppercase text-brand-deep">Attestation</p>
-                  <div className="mx-auto mt-2 h-px w-16 bg-hairline" />
-                  <p className="mt-3 text-[5px] font-medium leading-[1.5] text-ink">Mikado Technology<br />&amp; Trading JSC</p>
-                  <div className="mx-auto mt-4 grid size-9 place-items-center rounded-full border-2 border-brand/45 text-[5px] font-bold text-brand-deep">ECM</div>
-                </div>
+              <div className="relative mx-auto h-[178px] w-[178px]">
+                <Photo photo={quality.featuredCertificate.image} sizes="356px" fit="contain" />
               </div>
-              <ul className="mt-10 divide-y divide-white border border-white bg-stone">
+              <p className="mt-2 text-center text-[6px] font-semibold uppercase tracking-[0.08em] text-brand-deep">
+                {quality.featuredCertificate.name}
+              </p>
+              <ul className="mt-5 divide-y divide-white border border-white bg-stone">
                 {quality.externalCertificates.map((certificate) => (
                   <li key={certificate} className="px-2.5 py-2 text-[7px] font-semibold leading-[1.25] text-ink">{certificate}</li>
                 ))}
@@ -372,27 +368,16 @@ function QualityPage() {
   );
 }
 
-function CertificateDocument({ name, period, index }: { name: string; period: string; index: number }) {
-  const accents = ["bg-[#214b85]", "bg-[#264b8f]", "bg-[#235c77]", "bg-[#a5262f]", "bg-[#b39a61]", "bg-[#7f875d]"];
+type CertificateEntry = (typeof quality.certificates)[number];
 
+function CertificateDocument({ name, image }: CertificateEntry) {
   return (
-    <article className="relative h-[225px] overflow-hidden border border-hairline bg-white px-4 pb-3 pt-4 shadow-[0_14px_25px_-19px_rgba(27,54,34,0.75)]">
-      <div className={cn("absolute inset-y-0 left-0 w-2", accents[index % accents.length])} />
-      <div className="text-center">
-        <p className="text-[3.8px] uppercase tracking-[0.14em] text-ink-soft">Product quality certification</p>
-        <p className="mt-3 font-serif text-[12px] font-bold uppercase tracking-[0.04em] text-ink">Certificate</p>
-        <div className="mx-auto mt-2 h-px w-20 bg-hairline" />
-        <p className="mt-3 min-h-[27px] text-[6px] font-semibold uppercase leading-[1.45] text-brand-deep">{name}</p>
-        <p className="mt-1 text-[5px] uppercase tracking-[0.12em] text-ink-soft">{period}</p>
-        <div className="mx-auto mt-4 space-y-1.5">
-          <div className="mx-auto h-px w-[82%] bg-hairline" />
-          <div className="mx-auto h-px w-[70%] bg-hairline" />
-          <div className="mx-auto h-px w-[76%] bg-hairline" />
-          <div className="mx-auto h-px w-[58%] bg-hairline" />
-        </div>
-      </div>
-      <div className="absolute bottom-3 left-1/2 grid size-9 -translate-x-1/2 place-items-center rounded-full border-2 border-brand/45 text-[5px] font-bold uppercase text-brand-deep">MK</div>
-      <span className="absolute bottom-3 right-3 font-lining text-[4.5px] tracking-[0.12em] text-ink-soft">CERT. {String(index + 1).padStart(2, "0")}</span>
+    <article
+      aria-label={name}
+      className="relative h-[225px] overflow-hidden border border-white/30 bg-white p-1.5 shadow-[0_14px_25px_-19px_rgba(0,0,0,0.65)]"
+    >
+      <Photo photo={image} sizes="300px" fit="contain" />
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/[0.04]" />
     </article>
   );
 }
@@ -410,8 +395,8 @@ function CertificatePortfolioPage() {
         </Reveal>
 
         <Reveal delay={0.14} className="mt-7 grid grid-cols-3 gap-4">
-          {quality.certificates.map((certificate, index) => (
-            <CertificateDocument key={certificate.name} {...certificate} index={index} />
+          {quality.certificates.map((certificate) => (
+            <CertificateDocument key={certificate.name} {...certificate} />
           ))}
         </Reveal>
 

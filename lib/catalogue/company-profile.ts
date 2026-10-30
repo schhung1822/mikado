@@ -4,7 +4,7 @@ import type { PhotoRef } from "./types";
 export const companyProfile = {
   eyebrow: "Giới thiệu công ty",
   title: "Khái quát MIKADO-MT",
-  lead: "Khởi nguồn từ năm 2002 tại Khu công nghiệp Tiền Hải, MIKADO Group từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
+  lead: "Khởi nguồn từ năm 2002 tại Khu công nghiệp Tiền Hải, MIKADO-MT từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
   story: "Từ những viên gạch đầu tiên, doanh nghiệp không ngừng mở rộng năng lực và đến nay sở hữu hơn 11 nhà máy. Hành trình phát triển được dẫn dắt bởi đội ngũ lãnh đạo tâm huyết, chiến lược và khát vọng chinh phục những giới hạn mới.",
   image: {
     src: "/images/daychuyen.jpg",
@@ -43,7 +43,7 @@ export interface Leader {
 export const leadership = {
   eyebrow: "Ban lãnh đạo",
   title: "Ban lãnh đạo",
-  lead: "MIKADO sở hữu tiềm lực phát triển mạnh mẽ với 06 nhãn hiệu hoạt động ổn định, thị trường trải dài trên toàn quốc, đồng thời duy trì nguồn cung ứng cho các công trình xây dựng một cách liên tục, đồng bộ và hiệu quả.",
+  lead: "MIKADO-MT sở hữu tiềm lực phát triển mạnh mẽ với 12 nhãn hiệu hoạt động ổn định, thị trường trải dài trên toàn quốc, đồng thời duy trì nguồn cung ứng cho các công trình xây dựng một cách liên tục, đồng bộ và hiệu quả.",
   /** Tên và chức danh là CHỖ GIỮ CHỖ (Nguyễn Văn A/B/C), không phải người thật. */
   leaders: [
     {

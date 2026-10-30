@@ -111,8 +111,8 @@ export const markets = {
 export const quality = {
   eyebrow: "Các báo cáo",
   title: "Chứng chỉ chất lượng",
-  lead: "Với những giá trị cốt lõi và cam kết mạnh mẽ về dịch vụ khách hàng, Mikado đã đạt được các chứng nhận quan trọng trong nhập nguyên liệu, sản xuất và kiểm soát chất lượng. Hệ thống chứng nhận trong nước và quốc tế khẳng định uy tín của Mikado trong mọi giai đoạn hợp tác.",
-  internationalCommitment: "Các nhãn hiệu và dòng sản phẩm của Mikado không chỉ đáp ứng tiêu chuẩn trong nước mà còn đáp ứng các yêu cầu khắt khe của châu Âu, Hoa Kỳ, Đài Loan và Hàn Quốc. Mikado cam kết cung cấp vật liệu xây dựng đạt chuẩn, chính sách bảo hành đầy đủ và khả năng cung ứng kịp thời cho khách hàng trong và ngoài nước.",
+  lead: "Với những giá trị cốt lõi và cam kết mạnh mẽ về dịch vụ khách hàng, Mikado-MT đã đạt được các chứng nhận quan trọng trong nhập nguyên liệu, sản xuất và kiểm soát chất lượng. Hệ thống chứng nhận trong nước và quốc tế khẳng định uy tín của Mikado-MT trong mọi giai đoạn hợp tác.",
+  internationalCommitment: "Các nhãn hiệu và dòng sản phẩm của Mikado không chỉ đáp ứng tiêu chuẩn trong nước mà còn đáp ứng các yêu cầu khắt khe của châu Âu, Hoa Kỳ, Đài Loan và Hàn Quốc. Mikado-MT cam kết cung cấp vật liệu xây dựng đạt chuẩn, chính sách bảo hành đầy đủ và khả năng cung ứng kịp thời cho khách hàng trong và ngoài nước.",
   badges: [
     {
       label: "Thương hiệu quốc gia",
@@ -167,15 +167,47 @@ export const quality = {
     "K Product Certificate 2022",
     "Quacert Certificate 2025–2028",
   ],
+  featuredCertificate: {
+    name: "Chứng nhận chất lượng gạch ceramic",
+    image: {
+      src: "/images/certified/chungchi.png",
+      alt: "Chứng nhận chất lượng sản phẩm gạch ceramic",
+      fit: "contain",
+    } satisfies PhotoRef,
+  },
   certificates: [
-    { name: "QUACERT ISO 9001:2015", period: "Hệ thống quản lý" },
-    { name: "QUACERT ISO 13006:2018", period: "Gạch gốm ốp lát" },
-    { name: "QUACERT QCVN 16:2019/BXD", period: "Hợp quy sản phẩm" },
-    { name: "ECM Attestation", period: "2024–2029" },
-    { name: "CIDB Product Certificate of Conformity", period: "2025" },
-    { name: "K Product Certificate", period: "2022" },
+    {
+      name: "K Product Certificate",
+      period: "Korean Industrial Standards",
+      image: { src: "/images/certified/chungchi1.jpg", alt: "K Product Certificate của Korean Industrial Standards", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      name: "CIDB Product Certificate of Conformity",
+      period: "Chứng nhận phù hợp sản phẩm",
+      image: { src: "/images/certified/chungchi2.jpg", alt: "Chứng nhận CIDB Product Certificate of Conformity", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      name: "ECM Attestation",
+      period: "Chứng nhận phù hợp tiêu chuẩn châu Âu",
+      image: { src: "/images/certified/chungchi3.webp", alt: "Chứng nhận ECM Attestation", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      name: "QUACERT ISO 9001:2015",
+      period: "Hệ thống quản lý chất lượng",
+      image: { src: "/images/certified/chungchi4.jpg", alt: "Chứng nhận QUACERT ISO 9001:2015", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      name: "Hồ sơ sản phẩm Cerinco",
+      period: "Vietnam Value · Granite - Porcelain Tiles",
+      image: { src: "/images/certified/chungchi5.jpg", alt: "Hồ sơ sản phẩm Cerinco và biểu trưng Vietnam Value", fit: "contain" } satisfies PhotoRef,
+    },
+    {
+      name: "Hồ sơ sản phẩm Videcor",
+      period: "Vietnam Value · Granite - Porcelain Tiles",
+      image: { src: "/images/certified/chungchi6.jpg", alt: "Hồ sơ sản phẩm Videcor và biểu trưng Vietnam Value", fit: "contain" } satisfies PhotoRef,
+    },
   ],
-  legalNote: "Mikado đồng thời sở hữu nhiều tài liệu pháp lý liên quan đến chứng nhận chất lượng, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu thô. Các hồ sơ cụ thể được cung cấp theo yêu cầu trong quá trình hợp tác.",
+  legalNote: "Mikado-MT đồng thời sở hữu nhiều tài liệu pháp lý liên quan đến chứng nhận chất lượng, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu thô. Các hồ sơ cụ thể được cung cấp theo yêu cầu trong quá trình hợp tác.",
 };
 
 export const partnerships = {

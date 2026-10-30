@@ -40,6 +40,21 @@ const GRID_COLUMNS = 5;
 const LABEL_COLUMNS = 2;
 /** Ba mẫu 800 × 800 đầu tiên được giới thiệu cỡ lớn ở trang trái và không lặp lại trong dải trang phải. */
 const SHOWCASE_PALETTE_COUNT = 3;
+/** Các trang có nội dung giới thiệu dài cần nhịp dọc gọn hơn để giữ khoảng an toàn với media cuối trang. */
+const COMPACT_ABOUT_PAGE_IDS = new Set([
+  "cerinco",
+  "videcor",
+  "goldentile",
+  "feraza",
+  "claza",
+  "lexxa",
+  "mostile",
+  "cvgroup",
+  "alaska",
+  "nhuphat",
+]);
+/** Nhóm có nội dung dài nhất cần đồng thời giảm nhẹ cỡ chữ và line-height. */
+const DENSE_ABOUT_PAGE_IDS = new Set(["videcor", "mostile", "cvgroup", "alaska", "nhuphat"]);
 
 /** Tỷ lệ khung của một ô mẫu — đúng tỷ lệ viên gạch: vuông thì 1:1, chữ nhật 1:2 (dọc hoặc xoay ngang). */
 function tileAspect(group: SizeGroup) {
@@ -391,6 +406,7 @@ const LOGO_MAX_WIDTH = 190;
 function BrandHeading({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
   const { brand, about } = page;
   const t = TONES[tone];
+  const compactName = brand.name.length > 10;
   const fill = brand.logo?.fill;
   const ratio = brand.logo ? logoRatio({ logo: brand.logo }) : 1;
   const logoWidth = Math.min(LOGO_MAX_WIDTH, LOGO_HEIGHT * ratio);
@@ -400,7 +416,14 @@ function BrandHeading({ page, tone }: { page: BrandProductPage; tone: PageTone }
     <div className="flex items-end justify-between gap-6 pt-4">
       <div>
         <p className={cn("text-[6.5px] font-medium uppercase tracking-[0.28em]", t.accent)}>{about.eyebrow}</p>
-        <h2 className="mt-3 font-display text-[68px] font-bold uppercase leading-[0.98] tracking-[0.02em]">{brand.name}</h2>
+        <h2
+          className={cn(
+            "mt-3 whitespace-nowrap font-display font-bold uppercase leading-[0.98] tracking-[0.02em]",
+            compactName ? "text-[52px]" : "text-[68px]",
+          )}
+        >
+          {brand.name}
+        </h2>
       </div>
       {brand.logo ? (
         <div
@@ -418,7 +441,11 @@ function BrandHeading({ page, tone }: { page: BrandProductPage; tone: PageTone }
 function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
   const { about, brand } = page;
   const t = TONES[tone];
+  const compactAboutLayout = COMPACT_ABOUT_PAGE_IDS.has(page.id);
+  const denseAboutLayout = DENSE_ABOUT_PAGE_IDS.has(page.id);
+  const compactImageLayout = page.id === "mikado" && Boolean(about.image);
   const featuredGroup = page.products.groups.find((group) => group.placement === "about");
+  const compactContentLayout = compactImageLayout || compactAboutLayout;
   const showcaseGroup =
     page.products.layout === "showcase" ? page.products.groups.find((group) => group.id === "800x800") : undefined;
   const insets = pageInsets("left");
@@ -435,13 +462,23 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
           <div className={cn("h-0.5", t.rule)} />
         </Reveal>
 
-        <Reveal delay={0.16} className="mt-6">
+        <Reveal delay={0.16} className={compactAboutLayout ? "mt-4" : "mt-6"}>
           <p className={cn("text-[6.5px] font-medium uppercase tracking-[0.28em]", t.accent)}>{about.title}</p>
-          <p className="mt-3 max-w-[410px] font-display text-[19px] font-medium italic leading-[1.38]">{about.lead}</p>
+          <p
+            className={cn(
+              "max-w-[520px] font-medium italic",
+              denseAboutLayout ? "mt-2 text-[14px] leading-[1.3]" : "mt-3 text-[15px] leading-[1.38]",
+            )}
+          >
+            {about.lead}
+          </p>
         </Reveal>
 
-        <Reveal delay={0.22} className="mt-6">
-          <div className={cn("text-[8.5px] leading-[1.9]", t.body)} style={{ columnCount: 2, columnGap: 22, maxWidth: 470 }}>
+        <Reveal delay={0.22} className={denseAboutLayout ? "mt-4" : compactContentLayout ? "mt-5" : "mt-6"}>
+          <div
+            className={cn(denseAboutLayout ? "text-[8px] leading-[1.68]" : "text-[8.5px] leading-[1.9]", t.body)}
+            style={{ columnCount: 2, columnGap: 22, maxWidth: 470 }}
+          >
             {about.paragraphs.map((p, i) => (
               <p key={p} className={cn("break-inside-avoid", i > 0 && "mt-3")}>
                 {p}
@@ -450,13 +487,13 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
           </div>
         </Reveal>
 
-        <Reveal delay={0.28} className="mt-8">
+        <Reveal delay={0.28} className={denseAboutLayout ? "mt-4" : compactContentLayout ? "mt-6" : "mt-8"}>
           <ol className="grid grid-cols-3 gap-5">
             {about.highlights.map((h, i) => (
-              <li key={h.title} className={cn("border-t pt-2.5", t.hair)}>
+              <li key={h.title} className={cn("border-t", denseAboutLayout ? "pt-2" : "pt-2.5", t.hair)}>
                 <span className={cn("text-[7px] font-medium tracking-[0.16em]", t.accent)}>{String(i + 1).padStart(2, "0")}</span>
-                <p className="mt-2 font-display text-[14.5px] font-semibold leading-tight">{h.title}</p>
-                <p className={cn("mt-1.5 text-[7.5px] leading-[1.75]", t.soft)}>{h.text}</p>
+                <p className={cn("font-display font-semibold leading-tight", denseAboutLayout ? "mt-1.5 text-[13.5px]" : "mt-2 text-[14.5px]")}>{h.title}</p>
+                <p className={cn(denseAboutLayout ? "mt-1 text-[7px] leading-[1.55]" : "mt-1.5 text-[7.5px] leading-[1.75]", t.soft)}>{h.text}</p>
               </li>
             ))}
           </ol>
@@ -464,15 +501,27 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
       </PageBody>
 
       {featuredGroup ? (
-        <Reveal delay={0.34} className="absolute" style={{ left: insets.left, right: insets.right, bottom: 64 }}>
+        <Reveal
+          delay={0.34}
+          className="absolute"
+          style={{ left: insets.left, right: insets.right, bottom: compactAboutLayout ? 52 : 64 }}
+        >
           <AboutStackedSection group={featuredGroup} tone={tone} />
         </Reveal>
       ) : showcaseGroup ? (
-        <Reveal delay={0.34} className="absolute" style={{ left: insets.left, right: insets.right, bottom: 64 }}>
+        <Reveal
+          delay={0.34}
+          className="absolute"
+          style={{ left: insets.left, right: insets.right, bottom: compactAboutLayout ? 52 : 64 }}
+        >
           <AboutProductPalette group={showcaseGroup} tone={tone} />
         </Reveal>
       ) : about.image ? (
-        <Reveal delay={0.34} className="absolute" style={{ left: 0, bottom: 64, width: 410, height: 196 }}>
+        <Reveal
+          delay={0.34}
+          className="absolute"
+          style={{ left: 0, bottom: compactAboutLayout ? 52 : 64, width: 410, height: compactImageLayout ? 180 : 196 }}
+        >
           <div className="relative size-full bg-stone">
             <Photo photo={about.image} sizes="820px" />
           </div>

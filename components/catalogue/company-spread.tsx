@@ -143,7 +143,7 @@ function LeadershipPage() {
 
         <Reveal delay={0.34} className="mt-4">
           <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-brand-tint">Trọng tâm điều hành</p>
-          <div className="mt-3 grid grid-cols-3 gap-4">
+          <div className="mt-5 grid grid-cols-3 gap-4">
             {priorities.map((priority) => (
               <div key={priority.title} className="border-l border-white/30 pl-3">
                 <p className="text-[10px] font-medium uppercase leading-tight text-white">{priority.title}</p>

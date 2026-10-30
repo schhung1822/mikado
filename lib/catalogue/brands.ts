@@ -63,7 +63,7 @@ export const brandsCopy = {
    * (khởi nguồn từ nhà máy tại Tiền Hải, Thái Bình; 12 thương hiệu). Thay bằng nội dung thật khi có.
    */
   intro:
-    "Từ nhà máy đầu tiên tại Tiền Hải, Thái Bình, MIKADO Group từng bước xây dựng hệ thống thương hiệu gạch ốp lát với nhiều phong cách và tầm giá khác nhau, đồng hành cùng các công trình từ nhà ở đến không gian thương mại.",
+    "Từ nhà máy đầu tiên tại Tiền Hải, Thái Bình, MIKADO-MT từng bước xây dựng hệ thống thương hiệu gạch ốp lát với nhiều phong cách và tầm giá khác nhau, đồng hành cùng các công trình từ nhà ở đến không gian thương mại.",
   indexNote: "Số trang dẫn tới trang đôi giới thiệu và mẫu sản phẩm của từng thương hiệu.",
   /** Dải số liệu ở trang trái — lấy từ phần giới thiệu công ty (company-profile.ts: khởi nguồn 2002, 08 cổ đông sáng lập, hơn 11 nhà máy). */
   stats: [
@@ -77,9 +77,9 @@ export const brandsCopy = {
     text: "Khám phá các bộ sưu tập gạch ốp lát theo từng thương hiệu, với nhiều mẫu mã và quy cách. Mỗi lựa chọn là một gợi ý để kết hợp màu sắc, bề mặt và tỷ lệ, tạo nên dấu ấn riêng cho từng không gian.",
   },
   image: {
-    src: "/images/products/nebbia.jpg",
-    alt: "Bề mặt đá marble vân xám",
-    focal: "50% 55%",
+    src: "/images/bg12.jpg",
+    alt: "Phòng khách hiện đại lát gạch đen vân đá MIKADO",
+    focal: "58% 50%",
   },
 };
 
