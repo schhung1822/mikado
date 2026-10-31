@@ -21,10 +21,11 @@ import { ThanksSpread } from "./thanks-spread";
 /**
  * Thứ tự các mục của catalogue (chỉ gồm những trang đã làm — điều hướng đọc từ đây).
  * - Trang đôi mục lục & liên hệ (02–03) ngay sau bìa đầu: trái nền xanh, phải nền trắng. Số trang xem lib/catalogue/contents.ts.
- * - Trang đôi giới thiệu công ty (trái, nền trắng) và ban lãnh đạo (phải, nền xanh), ngay sau mục lục: 04–05.
+ * - Trang đôi giới thiệu công ty (trái) và tổng quan các nhãn hiệu (phải), ngay sau mục lục: 04–05.
  * - Ba trang đôi năng lực tiếp theo: nhà máy, thị trường và chất lượng.
  * - Bìa đầu / bìa cuối: trang đơn, hiển thị độc lập và căn giữa.
  * - Nội dung: trang đơn ghép thành trang đôi khi xem desktop (mobile xem từng trang).
+ * - Trang đôi 12–13 giới thiệu thông tin kỹ thuật và các dòng sản phẩm gạch men.
  * - Trang đôi sản phẩm của từng thương hiệu (lib/catalogue/products.ts → brandProductPages) xen kẽ nền
  *   trắng / xanh thương hiệu theo thứ tự. Thêm thương hiệu mới = thêm vào `brandProductPages`.
  * - Trang đôi "Đối tác & dự án" nằm sau toàn bộ sản phẩm, ngay trước "Lời cảm ơn".
@@ -38,7 +39,7 @@ export const entries: CatalogueEntry[] = [
   { id: "factory-network", kind: "spread", label: "Hệ thống nhà máy", folio: folioText(factoryFolio), node: <FactorySpread /> },
   { id: "markets", kind: "spread", label: "Thị trường", folio: folioText(marketsFolio), node: <MarketsSpread /> },
   { id: "quality", kind: "spread", label: "Chứng chỉ & chất lượng", folio: folioText(qualityFolio), node: <QualitySpread /> },
-  { id: "brands", kind: "spread", label: "Thương hiệu", folio: folioText(BRANDS_FOLIO), node: <BrandsSpread /> },
+  { id: "brands", kind: "spread", label: "Sản phẩm gạch men", folio: folioText(BRANDS_FOLIO), node: <BrandsSpread /> },
   ...brandProductPages.map(
     (page, i): CatalogueEntry => ({
       id: page.id,

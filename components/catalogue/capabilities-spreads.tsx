@@ -190,7 +190,7 @@ function DomesticMarketPage() {
               <p className="mt-4 text-[8px] leading-[1.7] text-ink-soft">Năng lực sản xuất và phân phối rộng khắp giúp rút ngắn thời gian cung ứng, tối ưu vận chuyển và đáp ứng linh hoạt nhu cầu từng khu vực.</p>
             </div>
             <div>
-              <p className="font-display font-lining text-[31px] font-semibold leading-none text-brand-deep">7–9%</p>
+              <p className="font-lining text-[26px] font-semibold leading-none text-brand-deep">7–9%</p>
               <p className="mt-2 text-[6px] font-medium uppercase leading-[1.5] tracking-[0.13em] text-ink-soft">Thị phần nội địa</p>
               <div className="mt-4 space-y-2">
                 {markets.domestic.map((region, i) => (
@@ -215,7 +215,7 @@ function DomesticMarketPage() {
               <h3 className="mt-1 font-display text-[17px] font-semibold uppercase text-ink">Tăng trưởng sản lượng</h3>
             </div>
             <div className="text-right">
-              <p className="font-display font-lining text-[24px] font-semibold leading-none text-brand-deep">45</p>
+              <p className="font-lining text-[20px] font-semibold leading-none text-brand-deep">45</p>
               <p className="mt-1 text-[7px] uppercase tracking-[0.12em] text-ink-soft">triệu m²</p>
             </div>
           </div>
@@ -244,12 +244,12 @@ function MarketsPage() {
           <WorldMarketMap />
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-3">
+        <Reveal delay={0.1} className="mt-4">
           <ul className="grid grid-cols-3 gap-3">
             {markets.metrics.map((metric) => (
-              <li key={metric.label} className="flex items-end gap-2 border-t border-brand pt-2">
-                <p className="font-display font-lining text-[22px] font-semibold leading-none text-brand-deep">{metric.value}</p>
-                <p className="pb-0.5 text-[5.5px] font-medium uppercase leading-[1.35] tracking-[0.1em] text-ink-soft">{metric.label}</p>
+              <li key={metric.label} className="flex items-end gap-2 border-t border-brand pt-3">
+                <p className="font-lining text-[20px] font-semibold leading-none text-brand-deep">{metric.value}</p>
+                <p className="pb-0.5 text-[6px] font-medium uppercase leading-[1.35] tracking-[0.1em] text-ink-soft">{metric.label}</p>
               </li>
             ))}
           </ul>
@@ -258,10 +258,10 @@ function MarketsPage() {
         <div className="mt-5 grid grid-cols-[0.72fr_1.28fr] gap-5 border-t border-hairline pt-5">
           <Reveal delay={0.18}>
             <section className="border-r border-hairline pr-4">
-              <p className="text-[6px] font-medium uppercase tracking-[0.2em] text-brand-deep">35 thị trường xuất khẩu</p>
+              <p className="text-[8px] font-medium uppercase tracking-[0.2em] text-brand-deep mb-4">35 thị trường xuất khẩu</p>
               <ol className="mt-2 grid grid-cols-2 gap-x-3">
                 {markets.exportMarkets.map((market, i) => (
-                  <li key={market} className={cn("flex items-baseline gap-1.5 border-b border-hairline py-[2px] text-[5.8px]", i < 6 ? "font-semibold text-brand-deep" : "text-ink-soft") }>
+                  <li key={market} className={cn("flex items-baseline gap-1.5 border-b border-hairline py-[3px] text-[6.5px]", i < 6 ? "font-semibold text-brand-deep" : "text-ink-soft") }>
                     <span className="font-lining text-[7px] opacity-65">{String(i + 1).padStart(2, "0")}</span>
                     {market}
                   </li>

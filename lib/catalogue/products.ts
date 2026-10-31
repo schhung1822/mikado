@@ -348,8 +348,8 @@ const mikado600: Sample[] = [
 ];
 
 const mikado800: Sample[] = [
-  mikadoTile("mp-96-102-mp-18-102", "MP 18.102"),
-  mikadoTile("mp-96-117-mp-18-117", "MP 18.117"),
+  mikadoTile("GP18.816M", "MP 18.816M"),
+  mikadoTile("MP18110M", "MP 18.110M"),
   mikadoTile("mp-18-118", "MP 18.118"),
   mikadoTile("mp-96-119-mp-18-119", "MP 18.119"),
   mikadoTile("mp-18-161", "MP 18.161"),
@@ -482,11 +482,11 @@ const mostileSquare = squareSamples("mostile", [
   { file: "sp18-913", code800: "SP 18.913" },
   { file: "sp18-914", code800: "SP 18.914" },
   { file: "sp96-901-sp18-901", code600: "SP 96.901", code800: "SP 18.901" },
-  { file: "sp96-902-sp18-902", code600: "SP 96.902", code800: "SP 18.902" },
-  { file: "sp96-903-sp18-903", code600: "SP 96.903", code800: "SP 18.903" },
+  { file: "sp96-902-sp18-902", code600: "SP 96.902"},
+  { file: "sp96-903-sp18-903", code600: "SP 96.903"},
   { file: "sp96-904-sp18-904", code600: "SP 96.904", code800: "SP 18.904" },
-  { file: "sp96-905-sp18-905", code600: "SP 96.905", code800: "SP 18.905" },
-  { file: "sp96-906-sp18-906", code600: "SP 96.906", code800: "SP 18.906" },
+  { file: "sp96-905-sp18-905", code600: "SP 96.905"},
+  { file: "sp96-906-sp18-906", code600: "SP 96.906"},
   { file: "sp96-907-sp18-907", code600: "SP 96.907", code800: "SP 18.907" },
 ]);
 
@@ -531,7 +531,6 @@ const nhuphatSquare = squareSamples("nhuphat", [
   { file: "nph8803", code800: "NPH8803" },
   { file: "nph8805", code800: "NPH8805" },
   { file: "nph8806", code800: "NPH8806" },
-  { file: "nph8808", code800: "NPH8808" },
   { file: "nph8809", code800: "NPH8809" },
   { file: "nph8810", code800: "NPH8810" },
 ]);
@@ -675,6 +674,34 @@ const mikado400x800: Sample[] = [
   mikadoSet("mp948-211v-mpd948-211-mp948-211", ["MP948.211V", "MPD948.211", "MP948.211"]),
 ];
 
+/** Bộ sưu tập gạch lát nền cao cấp MIKADO, quy cách 600 × 600 mm. */
+const mikadoPremium600: Sample[] = [
+  {
+    image: {
+      src: "/images/products/mikado/premium/DCP96.6601.png",
+      alt: "Gạch lát nền cao cấp MIKADO DCP96.6601",
+      fit: "cover",
+    },
+    code: "DCP96.6601",
+  },
+  {
+    image: {
+      src: "/images/products/mikado/premium/MP96.235.png",
+      alt: "Gạch lát nền cao cấp MIKADO MP96.235",
+      fit: "cover",
+    },
+    code: "MP96.235",
+  },
+  {
+    image: {
+      src: "/images/products/mikado/premium/MP96.236.png",
+      alt: "Gạch lát nền cao cấp MIKADO MP96.236",
+      fit: "cover",
+    },
+    code: "MP96.236",
+  },
+];
+
 /** Gạch ốp tường CERINCO — CP936 = 300 × 600, CP948 = 400 × 800; mỗi ảnh ghép 3 viên trên → giữa → dưới. */
 const cerinco300x600: Sample[] = [
   stackedSet("cerinco", "cp936-400a-cpd936-400a-cp936-400", ["CP936.400A", "CPD936.400A", "CP936.400"]),
@@ -717,7 +744,16 @@ const mikadoGroups = sizeGroups(0).map((group) => ({
   ...group,
   samples: mikadoSamples[group.id] ?? group.samples,
   stacked: group.id === "300x600" || group.id === "400x800",
-}));
+})).concat({
+  id: "premium600x600",
+  width: 600,
+  height: 600,
+  application: "Lát sàn",
+  finish: "Cao cấp",
+  stacked: false,
+  placement: "about" as const,
+  samples: mikadoPremium600,
+});
 
 /**
  * Giới thiệu MIKADO — NỘI DUNG MẪU (chưa được xác nhận), viết dựa trên các dòng sản phẩm có ở trang bên:
@@ -737,12 +773,6 @@ const mikadoAbout: BrandProductPage["about"] = {
     { title: "Gạch ốp tường", text: "Kích thước 300 × 600 và 400 × 800 mm, kết hợp viên chính, viên điểm và viên viền, tạo điểm nhấn cho từng mảng tường." },
     { title: "Đồng bộ không gian", text: "Các mẫu gạch được phối theo cùng tông màu, giúp kết nối bề mặt sàn và tường, tạo sự liền mạch cho không gian." },
   ],
-  image: {
-    src: "/images/bg-12.jpg",
-    alt: "Phòng khách sang trọng lát gạch xám MIKADO",
-    focal: "50% 55%",
-    fit: "cover",
-  },
 };
 
 export const mikadoProducts: BrandProductPage = {

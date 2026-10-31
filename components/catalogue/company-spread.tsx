@@ -1,5 +1,5 @@
 import { companyFolio } from "@/lib/catalogue/contents";
-import { companyProfile, leadership, type Leader } from "@/lib/catalogue/company-profile";
+import { brandOverview, companyProfile, leadership, type Leader } from "@/lib/catalogue/company-profile";
 import { cn } from "@/lib/utils";
 import { CompanyLogo } from "./company-logo";
 import { Reveal } from "./motion";
@@ -100,7 +100,7 @@ function LeaderCard({ leader, index }: { leader: Leader; index: number }) {
 }
 
 /** Trang phải (nền xanh) — ban lãnh đạo: tiêu đề, câu dẫn, ba thẻ chân dung và thông điệp. */
-function LeadershipPage() {
+export function ArchivedLeadershipPage() {
   const { eyebrow, title, lead, leaders, message, priorities } = leadership;
   return (
     <Page side="right" tone="brand">
@@ -159,12 +159,47 @@ function LeadershipPage() {
   );
 }
 
-/** Trang đôi giới thiệu công ty (trái, nền trắng) và ban lãnh đạo (phải, nền xanh). */
+/** Trang 05 tạm thời — tổng quan các nhãn hiệu trong hệ thống MIKADO-MT. */
+function BrandOverviewPage() {
+  const { eyebrow, title, introduction, image, closing } = brandOverview;
+
+  return (
+    <Page side="right" className="bg-white">
+      <div
+        aria-hidden
+        className="absolute inset-y-0 right-0 w-[58px] bg-gradient-to-b from-brand-light via-brand-tint/65 to-transparent"
+      />
+
+      <PageBody side="right" style={{ paddingRight: 82 }}>
+        <Reveal className="pt-2">
+          <p className="font-display text-[22px] font-bold uppercase leading-none text-ink">{eyebrow}</p>
+          <h2 className="mt-2 font-display text-[32px] font-bold uppercase leading-none tracking-[0.01em] text-ink">{title}</h2>
+        </Reveal>
+
+        <Reveal delay={0.1} className="mt-7">
+          <p className="max-w-[440px] text-[10px] text-justify leading-[1.85] text-ink-soft">{introduction}</p>
+        </Reveal>
+
+        <Reveal delay={0.18} className="relative mx-auto mt-7 h-[390px] w-[390px]">
+          <Photo photo={image} sizes="780px" fit="contain" />
+        </Reveal>
+
+        <Reveal delay={0.26} className="mt-6">
+          <p className="max-w-[440px] text-[10px] text-justify leading-[1.85] text-ink-soft">{closing}</p>
+        </Reveal>
+      </PageBody>
+
+      <PageFooter side="right" folio={companyFolio[1]} label="Các nhãn hiệu" />
+    </Page>
+  );
+}
+
+/** Trang đôi giới thiệu công ty (trái) và tổng quan các nhãn hiệu (phải). */
 export function CompanySpread() {
   return (
     <Spread>
       <CompanyPage />
-      <LeadershipPage />
+      <BrandOverviewPage />
     </Spread>
   );
 }

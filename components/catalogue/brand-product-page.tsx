@@ -66,6 +66,78 @@ function tileAspect(group: SizeGroup) {
   return group.orientation === "landscape" ? `${long} / ${short}` : `${short} / ${long}`;
 }
 
+/**
+ * Nhãn quy cách mô phỏng hình viên gạch: gạch vuông dùng khung vuông, gạch chữ nhật dùng khung chữ nhật.
+ * Cạnh phải được ngắt để tên kích thước và thông tin ứng dụng nằm trong khoảng hở như tài liệu tham khảo.
+ */
+function SizeSpecLabel({
+  group,
+  tone,
+  compact = false,
+  mini = false,
+  className,
+}: {
+  group: SizeGroup;
+  tone: PageTone;
+  compact?: boolean;
+  mini?: boolean;
+  className?: string;
+}) {
+  const t = TONES[tone];
+  const square = group.width === group.height;
+  const landscape = !square && group.orientation === "landscape";
+  const scale = mini ? 0.65 : compact ? 0.86 : 1;
+  const shapeWidth = Math.round((square ? 72 : landscape ? 102 : 48) * scale);
+  const shapeHeight = Math.round((square ? 72 : landscape ? 68 : 96) * scale);
+  const textLeft = Math.round(shapeWidth * (landscape ? 0.5 : 0.42));
+  const detailsLeft = shapeWidth + (mini ? 6 : compact ? 8 : 10);
+  const details = [
+    group.application ? { name: "Ứng dụng", value: group.application } : null,
+    group.finish ? { name: "Bề mặt", value: group.finish } : null,
+  ].filter((detail): detail is { name: string; value: string } => detail !== null);
+
+  return (
+    <div
+      className={cn("relative min-w-0", className)}
+      style={{ height: shapeHeight, minWidth: mini ? 135 : compact ? 165 : 195 }}
+    >
+      <span
+        aria-hidden
+        className={cn("absolute left-0 top-0 border-y-1 border-l-1", t.glyph)}
+        style={{ width: shapeWidth, height: shapeHeight }}
+      >
+        <span className={cn("absolute right-0 top-0 h-[6px] border-r-1", t.glyph)} />
+        <span className={cn("absolute bottom-0 right-0 border-r-1", t.glyph)} style={{ height: Math.round(shapeHeight * 0.46) }} />
+      </span>
+
+      <div className="absolute top-[5px] whitespace-nowrap" style={{ left: textLeft }}>
+        <p className={cn("font-display font-lining font-bold leading-none", mini ? "text-[14px]" : compact ? "text-[18px]" : "text-[21px]")}>
+          {group.width} × {group.height}
+          <span className={cn("ml-1 font-semibold", mini ? "text-[6px]" : compact ? "text-[7px]" : "text-[8px]")}>mm</span>
+        </p>
+      </div>
+
+      {details.length ? (
+        <dl
+          className={cn(
+            "absolute bottom-[4px] space-y-[2px] leading-[1.35]",
+            mini ? "text-[5.5px]" : compact ? "text-[6.5px]" : "text-[7px]",
+            t.soft,
+          )}
+          style={{ left: detailsLeft }}
+        >
+          {details.map((detail) => (
+            <div key={detail.name} className="whitespace-nowrap">
+              <dt className="inline">{detail.name}: </dt>
+              <dd className="inline">{detail.value}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
+    </div>
+  );
+}
+
 /** Một ô mẫu. Chưa có ảnh: khung trống. Có ảnh: ảnh nằm đúng khung (mặc định hiển thị nguyên ảnh, không crop). */
 function SampleTile({
   sample,
@@ -118,10 +190,8 @@ function StackedSection({
   relaxed?: boolean;
   fill?: boolean;
 }) {
-  const t = TONES[tone];
   const aspect = tileAspect(group);
   const label = `${group.width} × ${group.height}`;
-  const details = [group.application, group.finish].filter(Boolean).join(" · ");
   const dense = group.samples.length > 3;
   const centeredSparse = !fill && relaxed && wide && group.samples.length < 4;
   const maxColumns = relaxed && wide ? 4 : wide ? 6 : 4;
@@ -133,16 +203,7 @@ function StackedSection({
       : Math.min(maxColumns, Math.max(minColumns, group.samples.length));
   return (
     <section aria-label={`Gạch ${label} mm`} className="min-w-0">
-      <div className="flex min-w-0 gap-2.5">
-        <span aria-hidden className={cn("w-2.5 shrink-0 self-stretch border-y-2 border-l-2", t.glyph)} />
-        <div className="min-w-0 py-px">
-          <p className="font-display font-lining text-[21px] font-bold leading-none">
-            {label}
-            <span className="ml-1 text-[9px] font-semibold">mm</span>
-          </p>
-          {details ? <p className={cn("mt-1.5 text-[7.5px] leading-[1.45]", t.soft)}>{details}</p> : null}
-        </div>
-      </div>
+      <SizeSpecLabel group={group} tone={tone} compact />
       <div
         className={cn("mt-2.5 grid", dense ? "gap-1.5" : "gap-2")}
         style={{
@@ -164,18 +225,11 @@ function AboutStackedSection({ group, tone }: { group: SizeGroup; tone: PageTone
   const t = TONES[tone];
   const aspect = tileAspect(group);
   const label = `${group.width} × ${group.height}`;
-  const details = [group.application, group.finish].filter(Boolean).join(" · ");
   return (
     <section aria-label={`Gạch ${label} mm`} className={cn("border-t pt-2.5", t.hair)}>
-      <div className="flex items-end justify-between gap-4">
-        <div>
-          <p className={cn("text-[6px] font-medium uppercase tracking-[0.24em]", t.accent)}>Gạch ốp tường</p>
-          <p className="mt-1 font-display font-lining text-[20px] font-bold leading-none">
-            {label}
-            <span className="ml-1 text-[8px] font-semibold">mm</span>
-          </p>
-        </div>
-        {details ? <p className={cn("pb-0.5 text-[7px] leading-[1.4]", t.soft)}>{details}</p> : null}
+      <div>
+        <p className={cn("mb-2 text-[6px] font-medium uppercase tracking-[0.24em]", t.accent)}>Gạch ốp tường</p>
+        <SizeSpecLabel group={group} tone={tone} compact />
       </div>
       <div
         className="mt-2 grid gap-2"
@@ -190,7 +244,15 @@ function AboutStackedSection({ group, tone }: { group: SizeGroup; tone: PageTone
 }
 
 /** Bảng vật liệu cỡ lớn ở trang giới thiệu của Alaska/Như Phát, thay ảnh phong cảnh chung bằng chính bề mặt gạch. */
-function AboutProductPalette({ group, tone }: { group: SizeGroup; tone: PageTone }) {
+function AboutProductPalette({
+  group,
+  tone,
+  premium = false,
+}: {
+  group: SizeGroup;
+  tone: PageTone;
+  premium?: boolean;
+}) {
   const t = TONES[tone];
   const label = `${group.width} × ${group.height}`;
   const samples = group.samples.slice(0, SHOWCASE_PALETTE_COUNT);
@@ -198,12 +260,18 @@ function AboutProductPalette({ group, tone }: { group: SizeGroup; tone: PageTone
     <section aria-label={`Bảng vật liệu gạch ${label} mm`} className={cn("border-t pt-3", t.hair)}>
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className={cn("text-[6px] font-medium uppercase tracking-[0.24em]", t.accent)}>Bảng vật liệu</p>
-          <p className="mt-1 font-display text-[17px] font-semibold leading-none">Bề mặt lát nền tuyển chọn</p>
+          <p className={cn("text-[6px] font-medium uppercase tracking-[0.24em]", t.accent)}>
+            {premium ? "Bộ sưu tập Premium" : "Bảng vật liệu"}
+          </p>
+          <p className="mt-1 font-display text-[17px] font-semibold leading-none">
+            {premium ? "Vật liệu gạch lát nền cao cấp" : "Bề mặt lát nền tuyển chọn"}
+          </p>
         </div>
         <div className="text-right">
-          <p className="font-display font-lining text-[16px] font-bold leading-none">{label} mm</p>
-          <p className={cn("mt-1 text-[6.5px] leading-none", t.soft)}>Phối cảnh từ bộ sưu tập</p>
+          <p className="font-lining text-[14px] font-bold leading-none">{label} mm</p>
+          <p className={cn("mt-1 text-[6.5px] leading-none", t.soft)}>
+            {premium ? "Gạch lát nền MIKADO" : "Phối cảnh từ bộ sưu tập"}
+          </p>
         </div>
       </div>
       <div className="mt-3 grid grid-cols-3 gap-3">
@@ -238,7 +306,6 @@ function SizeSection({
   featuredFive?: boolean;
   compactPair?: boolean;
 }) {
-  const t = TONES[tone];
   const aspect = tileAspect(group);
   const label = `${group.width} × ${group.height}`;
   const prominentSingles = !group.stacked && group.width !== group.height && group.samples.length <= 3;
@@ -262,35 +329,16 @@ function SizeSection({
         ? 6
         : GRID_COLUMNS;
   const labelColumns = compactPair ? LABEL_COLUMNS : relaxed || prominentSingles || panel || featuredFive ? columns : LABEL_COLUMNS;
-  const details = [
-    group.application ? { name: "Ứng dụng", value: group.application } : null,
-    group.finish ? { name: "Bề mặt", value: group.finish } : null,
-  ].filter((d): d is { name: string; value: string } => d !== null);
   return (
     <section aria-label={`Gạch ${label} mm`} className="grid gap-2.5" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
       <div
-        className="flex min-w-0 gap-3"
+        className="min-w-0"
         style={{
           gridColumn: featuredFive ? "1 / span 3" : `span ${labelColumns}`,
           gridRow: featuredFive ? "1" : undefined,
         }}
       >
-        {/* Dấu ngoặc vuông cao bằng hàng đầu: gợi ô quy cách trong tài liệu tham khảo */}
-        <span aria-hidden className={cn("w-3.5 shrink-0 self-stretch border-y-2 border-l-2", t.glyph)} />
-        <div className="min-w-0 pb-0.5">
-          <p className="font-display font-lining text-[21px] font-bold leading-none">
-            {label}
-            <span className="ml-1 text-[9px] font-semibold">mm</span>
-          </p>
-          <dl className={cn("mt-2 space-y-[3px] text-[7.5px] leading-[1.45]", t.soft)}>
-            {details.map((d) => (
-              <div key={d.name}>
-                <dt className="inline">{d.name}: </dt>
-                <dd className="inline">{d.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        <SizeSpecLabel group={group} tone={tone} compact={compactPair || panel} />
       </div>
       {group.samples.map((sample, i) =>
         featuredFive ? (
@@ -313,26 +361,24 @@ function SizeSection({
   );
 }
 
-/** Cụm 400 × 800 dạng editorial: một bộ chủ đạo lớn và các bộ còn lại tạo thành mosaic cân trang. */
-function ShowcaseWallSection({ group, tone }: { group: SizeGroup; tone: PageTone }) {
+/** Cụm 400 × 800: hỗ trợ bố cục cân đối đều các bộ mẫu (dành cho Như Phát) hoặc dạng editorial có một bộ chủ đạo lớn. */
+function ShowcaseWallSection({
+  group,
+  tone,
+  balanced = false,
+}: {
+  group: SizeGroup;
+  tone: PageTone;
+  balanced?: boolean;
+}) {
   const t = TONES[tone];
   const label = `${group.width} × ${group.height}`;
-  const details = [group.application, group.finish].filter(Boolean).join(" · ");
-  const columns = group.samples.length <= 5 ? 4 : 5;
+  const columns = balanced ? group.samples.length : group.samples.length <= 5 ? 4 : 5;
 
   return (
     <section aria-label={`Bộ sưu tập gạch ${label} mm`}>
       <div className="flex items-end justify-between gap-5">
-        <div className="flex min-w-0 gap-3">
-          <span aria-hidden className={cn("w-3.5 shrink-0 self-stretch border-y-2 border-l-2", t.glyph)} />
-          <div>
-            <p className="font-display font-lining text-[22px] font-bold leading-none">
-              {label}
-              <span className="ml-1 text-[9px] font-semibold">mm</span>
-            </p>
-            <p className={cn("mt-1.5 text-[7px] leading-none", t.soft)}>{details}</p>
-          </div>
-        </div>
+        <SizeSpecLabel group={group} tone={tone} compact={balanced} />
         <div className="max-w-[190px] text-right">
           <p className={cn("text-[6px] font-medium uppercase tracking-[0.22em]", t.accent)}>Bộ sưu tập chủ đạo</p>
           <p className={cn("mt-1 text-[6.5px] leading-[1.45]", t.soft)}>Khổ đứng tạo nhịp bề mặt rõ nét cho không gian nội thất.</p>
@@ -340,16 +386,20 @@ function ShowcaseWallSection({ group, tone }: { group: SizeGroup; tone: PageTone
       </div>
 
       <div
-        className="mt-3 grid items-start gap-2.5"
+        className={cn("grid items-start gap-2.5", balanced ? "mt-4" : "mt-3")}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {group.samples.map((sample, i) => {
-          if (i === 0) {
+          if (!balanced && i === 0) {
             return (
               <div key={i} style={{ gridColumn: "1 / span 2", gridRow: "1 / span 2" }}>
                 <SampleTile sample={sample} aspect={tileAspect(group)} label={label} tone={tone} />
               </div>
             );
+          }
+
+          if (balanced) {
+            return <SampleTile key={i} sample={sample} aspect={tileAspect(group)} label={label} tone={tone} />;
           }
 
           const offset = i - 1;
@@ -371,25 +421,40 @@ function ShowcaseWallSection({ group, tone }: { group: SizeGroup; tone: PageTone
   );
 }
 
-/** Dải mẫu 800 × 800 thấp ở cuối trang, giữ đủ mã nhưng không cạnh tranh với bộ 400 × 800 chủ đạo. */
-function ShowcaseFloorStrip({ group, tone }: { group: SizeGroup; tone: PageTone }) {
+/** Dải mẫu 800 × 800 ở cuối trang, trình bày cân đối hài hòa cùng cụm gạch ốp tường phía trên. */
+function ShowcaseFloorStrip({
+  group,
+  tone,
+  compact = false,
+  balanced = false,
+}: {
+  group: SizeGroup;
+  tone: PageTone;
+  compact?: boolean;
+  balanced?: boolean;
+}) {
   const t = TONES[tone];
   const label = `${group.width} × ${group.height}`;
   const samples = group.samples.slice(SHOWCASE_PALETTE_COUNT);
   return (
-    <section aria-label={`Dải gạch lát nền ${label} mm`} className={cn("border-t pt-3", t.hair)}>
+    <section aria-label={`Dải gạch lát nền ${label} mm`} className={cn("border-t", balanced ? "pt-5" : compact ? "pt-2.5" : "pt-3", t.hair)}>
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className={cn("text-[6px] font-medium uppercase tracking-[0.22em]", t.accent)}>Gạch lát nền</p>
-          <p className="mt-1 font-display font-lining text-[17px] font-bold leading-none">{label} mm</p>
+          <p className={cn("text-[6.5px] font-medium uppercase tracking-[0.24em]", t.accent)}>Gạch lát nền đồng bộ</p>
+          <SizeSpecLabel group={group} tone={tone} compact={balanced} mini={!balanced} className="mt-2" />
         </div>
-        <p className={cn("max-w-[230px] text-right text-[6.5px] leading-[1.45]", t.soft)}>
-          {group.application} · {group.finish}
-        </p>
+        <div className="max-w-[200px] text-right">
+          <p className={cn("text-[6px] font-medium uppercase tracking-[0.2em]", t.accent)}>Bề mặt lát sàn</p>
+          <p className={cn("mt-1 text-[6.5px] leading-[1.45]", t.soft)}>Đồng bộ màu sắc và chất cảm, kết nối liền mạch các không gian.</p>
+        </div>
       </div>
       <div
-        className="mt-3 grid gap-2.5"
-        style={{ gridTemplateColumns: `repeat(${samples.length}, minmax(0, 1fr))` }}
+        className={cn("grid gap-3", balanced ? "mt-4" : compact ? "mt-2" : "mt-3")}
+        style={{
+          gridTemplateColumns: `repeat(${samples.length}, minmax(0, 1fr))`,
+          width: compact ? "60%" : undefined,
+          marginInline: compact ? "auto" : undefined,
+        }}
       >
         {samples.map((sample, i) => (
           <SampleTile key={i} sample={sample} aspect={tileAspect(group)} label={label} tone={tone} />
@@ -443,8 +508,9 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
   const t = TONES[tone];
   const compactAboutLayout = COMPACT_ABOUT_PAGE_IDS.has(page.id);
   const denseAboutLayout = DENSE_ABOUT_PAGE_IDS.has(page.id);
-  const compactImageLayout = page.id === "mikado" && Boolean(about.image);
+  const premiumGroup = page.products.groups.find((group) => group.id === "premium600x600" && group.placement === "about");
   const featuredGroup = page.products.groups.find((group) => group.placement === "about");
+  const compactImageLayout = page.id === "mikado" && Boolean(about.image || premiumGroup);
   const compactContentLayout = compactImageLayout || compactAboutLayout;
   const showcaseGroup =
     page.products.layout === "showcase" ? page.products.groups.find((group) => group.id === "800x800") : undefined;
@@ -487,20 +553,23 @@ function AboutPage({ page, tone }: { page: BrandProductPage; tone: PageTone }) {
           </div>
         </Reveal>
 
-        <Reveal delay={0.28} className={denseAboutLayout ? "mt-4" : compactContentLayout ? "mt-6" : "mt-8"}>
+        <Reveal delay={0.28} className={denseAboutLayout ? "mt-4" : compactContentLayout ? "mt-4" : "mt-8"}>
           <ol className="grid grid-cols-3 gap-5">
-            {about.highlights.map((h, i) => (
-              <li key={h.title} className={cn("border-t", denseAboutLayout ? "pt-2" : "pt-2.5", t.hair)}>
-                <span className={cn("text-[7px] font-medium tracking-[0.16em]", t.accent)}>{String(i + 1).padStart(2, "0")}</span>
-                <p className={cn("font-display font-semibold leading-tight", denseAboutLayout ? "mt-1.5 text-[13.5px]" : "mt-2 text-[14.5px]")}>{h.title}</p>
-                <p className={cn(denseAboutLayout ? "mt-1 text-[7px] leading-[1.55]" : "mt-1.5 text-[7.5px] leading-[1.75]", t.soft)}>{h.text}</p>
+            {about.highlights.map((h) => (
+              <li key={h.title} className={cn("border-t", denseAboutLayout ? "pt-2" : "pt-2", t.hair)}>
+                <p className={cn("font-display font-semibold leading-tight", denseAboutLayout ? "mt-1.5 text-[13.5px]" : "text-[14.5px]")}>{h.title}</p>
+                <p className={cn(denseAboutLayout ? "mt-1 text-[7px] leading-[1.55]" : "mt-1 text-[7.5px] leading-[1.75]", t.soft)}>{h.text}</p>
               </li>
             ))}
           </ol>
         </Reveal>
       </PageBody>
 
-      {featuredGroup ? (
+      {premiumGroup ? (
+        <Reveal delay={0.34} className="absolute" style={{ left: insets.left, right: insets.right, bottom: 64 }}>
+          <AboutProductPalette group={premiumGroup} tone={tone} premium />
+        </Reveal>
+      ) : featuredGroup ? (
         <Reveal
           delay={0.34}
           className="absolute"
@@ -569,16 +638,18 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
       <RunningHead side="right" label={products.title} tone={tone} />
 
       <PageBody side="right">
-        <Reveal className="pt-4">
-          <h3 className="font-display text-[30px] font-bold uppercase leading-none tracking-[0.02em]">{products.title}</h3>
-          <div className={cn("mt-3.5 h-0.5", t.rule)} />
+        <Reveal className="pt-2">
+          <h3 className="font-display text-[24px] font-bold uppercase leading-none tracking-[0.02em]">{products.title}</h3>
+          <div className={cn("mt-2 h-0.5", t.rule)} />
         </Reveal>
 
         <div
           className={cn(
             "flex flex-col",
             showcaseWall && showcaseFloor
-              ? "mt-5 gap-5"
+              ? page.id === "nhuphat"
+                ? "mt-7 gap-8"
+                : "mt-5 gap-4"
               : wallFloorPair
                 ? "mt-4 gap-3"
                 : verySparse
@@ -593,10 +664,15 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
           {showcaseWall && showcaseFloor ? (
             <>
               <Reveal delay={0.12} y={6}>
-                <ShowcaseWallSection group={showcaseWall} tone={tone} />
+                <ShowcaseWallSection group={showcaseWall} tone={tone} balanced={page.id === "nhuphat"} />
               </Reveal>
               <Reveal delay={0.22} y={6}>
-                <ShowcaseFloorStrip group={showcaseFloor} tone={tone} />
+                <ShowcaseFloorStrip
+                  group={showcaseFloor}
+                  tone={tone}
+                  balanced={page.id === "nhuphat"}
+                  compact={page.id === "nhuphat" ? false : undefined}
+                />
               </Reveal>
             </>
           ) : wallFloorPair ? (

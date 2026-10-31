@@ -18,8 +18,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export const spreadFolio = (index: number): Folio => [pad(CONTENT_START + index * 2), pad(CONTENT_START + index * 2 + 1)];
 
 /**
- * Thứ tự các trang đôi nội dung: 0 = giới thiệu công ty & ban lãnh đạo, 1–3 = ba chủ đề
- * năng lực, 4 = tổng hợp thương hiệu, tiếp theo là mỗi thương hiệu một trang đôi (`productOrder`),
+ * Thứ tự các trang đôi nội dung: 0 = giới thiệu công ty & các nhãn hiệu, 1–3 = ba chủ đề
+ * năng lực, 4 = thông tin kỹ thuật gạch men, tiếp theo là mỗi thương hiệu một trang đôi (`productOrder`),
  * cuối cùng là đối tác & dự án và lời cảm ơn.
  */
 export const companyFolio = spreadFolio(0);
@@ -57,13 +57,13 @@ export const tocSections: TocSection[] = [
   {
     title: "Giới thiệu & năng lực",
     items: [
-      { label: "Giới thiệu công ty và ban lãnh đạo", folio: companyFolio },
+      { label: "Giới thiệu công ty và các nhãn hiệu", folio: companyFolio },
       { label: "Hệ thống nhà máy MIKADO-MT", folio: factoryFolio },
       { label: "Thị trường trong và ngoài nước", folio: marketsFolio },
       { label: "Chứng chỉ và chất lượng", folio: qualityFolio },
     ],
   },
-  { title: "Thương hiệu", items: [{ label: `Tổng hợp ${brands.length} thương hiệu`, folio: overviewFolio }] },
+  { title: "Sản phẩm gạch men", items: [{ label: "Thông tin kỹ thuật và các dòng sản phẩm", folio: overviewFolio }] },
   { title: "Sản phẩm theo thương hiệu", items: productOrder.map((id) => ({ label: nameOf(id), folio: productFolio(id) })) },
   {
     title: "Hợp tác & kết nối",
