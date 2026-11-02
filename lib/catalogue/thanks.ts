@@ -21,17 +21,15 @@ export const thanks = {
     fit: "cover",
   } satisfies PhotoRef,
   /** Tên pháp nhân hiển thị ở trang liên hệ cuối catalogue. */
-  companyName: "Công ty Cổ phần Kỹ Thương Thiên Hoàng (Mikado-MT)",
+  companyName: "Công ty Cổ phần Mikado-MT",
   offices: [
     {
       title: "Trụ sở chính",
       lines: [
-        { label: "", value: "Tầng 6, Tòa Diamond Flower, 48 Lê Văn Lương, P. Thanh Xuân, Hà Nội, Việt Nam." },
-        { label: "Điện thoại", value: "(+8424) 3755 6888" },
-        { label: "Tổng đài", value: "1900 0338" },
-        { label: "Phụ trách bán hàng", value: "infomikado@mikado.com.vn" },
-        { label: "Phụ trách xuất khẩu", value: "+84 988 959 466" },
-        { label: "Email", value: "buihanh81@mikado.com.vn" },
+        { label: "Địa chỉ", value: "Lô 6A-1 Đường số 4, KCN Phú Bài, phường Phú Bài, thành phố Huế" },
+        { label: "Điện thoại", value: "(+84) 234 3966 888" },
+        { label: "Email", value: "phanxuongcodien@gmail.com" },
+        { label: "Website", value: "www.mikadp.com.vn" },
       ],
     },
     {

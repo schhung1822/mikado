@@ -5,12 +5,12 @@ import { DOCUMENT, MARGIN, PAGE, SPREAD } from "@/lib/catalogue/identity";
 export type PageSide = "left" | "right" | "single";
 
 /**
- * Tông nền của trang: "light" = giấy trắng (mặc định), "brand" = nền xanh thương hiệu.
+ * Tông nền của trang: "light" = giấy ivory (mặc định), "brand" = nền charcoal–taupe.
  * Trang sản phẩm thương hiệu xen kẽ hai tông này (xem components/catalogue/entries.tsx).
  */
 export type PageTone = "light" | "brand";
 
-/** Nền của tông xanh: xanh đậm của logo MIKADO-MT chuyển dần sang xanh rất đậm (chữ trắng đạt tương phản AAA). */
+/** Nền trang đậm: taupe chuyển dần sang charcoal ấm để giữ chữ trắng rõ ràng. */
 const BRAND_BACKGROUND = "linear-gradient(165deg, var(--cat-brand-deep) 0%, var(--cat-brand-night) 100%)";
 
 /** Lề trái/phải theo vị trí trang: trang trái có gáy ở bên phải, trang phải có gáy ở bên trái. */

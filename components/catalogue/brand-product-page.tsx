@@ -55,6 +55,8 @@ const COMPACT_ABOUT_PAGE_IDS = new Set([
 ]);
 /** Nhóm có nội dung dài nhất cần đồng thời giảm nhẹ cỡ chữ và line-height. */
 const DENSE_ABOUT_PAGE_IDS = new Set(["videcor", "mostile", "cvgroup", "alaska", "nhuphat"]);
+/** Các trang sản phẩm cần nhịp dọc thoáng hơn giữa các nhóm quy cách. */
+const ROOMY_PRODUCT_PAGE_IDS = new Set(["cerinco", "videcor", "goldentile", "feraza", "claza", "lexxa"]);
 
 /** Tỷ lệ khung của một ô mẫu — đúng tỷ lệ viên gạch: vuông thì 1:1, chữ nhật 1:2 (dọc hoặc xoay ngang). */
 function tileAspect(group: SizeGroup) {
@@ -627,6 +629,7 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
     sampleCount <= 14;
   const showcaseWall = products.layout === "showcase" ? visibleGroups.find((group) => group.id === "400x800") : undefined;
   const showcaseFloor = products.layout === "showcase" ? visibleGroups.find((group) => group.id === "800x800") : undefined;
+  const roomyProductLayout = ROOMY_PRODUCT_PAGE_IDS.has(page.id);
   return (
     <Page side="right" tone={tone}>
       <RunningHead side="right" label={products.title} tone={tone} />
@@ -644,6 +647,8 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
               ? page.id === "nhuphat"
                 ? "mt-7 gap-8"
                 : "mt-5 gap-4"
+              : roomyProductLayout
+                ? "mt-5 gap-4"
               : wallFloorPair
                 ? "mt-4 gap-3"
                 : verySparse

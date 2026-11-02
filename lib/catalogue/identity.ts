@@ -30,30 +30,30 @@ export const DOCUMENT = {
  * Màu. Khóa camelCase → biến CSS `--cat-kebab-case`, ánh xạ sang Tailwind trong app/globals.css
  * (ví dụ `brandDeep` → `--cat-brand-deep` → class `bg-brand-deep`, `text-brand-deep`).
  *
- * Bảng màu lấy mẫu trực tiếp từ logo MIKADO-MT (public/images/logo/mikado-mt.jpg):
- * tấm gạch xanh lá viền vát, chữ đỏ. Xanh là màu chủ đạo; đỏ chỉ dùng làm điểm nhấn rất nhỏ.
- * Đổi logo/nhận diện thì chỉ cần sửa các giá trị dưới đây.
+ * Bảng màu catalogue lấy từ bìa hồ sơ năng lực: giấy ivory, beige, taupe và
+ * charcoal ấm. Logo MIKADO-MT giữ nguyên màu gốc; đỏ chỉ dùng làm điểm nhấn nhỏ.
+ * Đổi nhận diện thì chỉ cần sửa các giá trị dưới đây.
  */
 export const theme = {
-  // Xanh nhận diện (mẫu từ logo)
-  brand: "#4c824a", // xanh chính — mảng màu, đường kẻ, nút (vùng xanh phổ biến nhất của logo)
-  brandDeep: "#2e5b34", // xanh đậm — chữ nhỏ màu xanh, trạng thái nhấn (đáy tấm gạch trong logo)
-  brandLight: "#669c52", // xanh sáng — mảng phụ (vùng sáng của logo)
-  brandTint: "#dfeadb", // xanh rất nhạt — nền mảng, ô nhấn
-  brandNight: "#1b3622", // xanh rất đậm — điểm cuối gradient nền trang sản phẩm xanh
+  // Trung tính ấm lấy cảm hứng từ các mảng gạch trên bìa tham chiếu
+  brand: "#9a876f", // taupe chính — mảng màu, đường kẻ, nút
+  brandDeep: "#5b544b", // xám nâu đậm — chữ nhấn, trạng thái active
+  brandLight: "#c1b094", // beige — mảng phụ
+  brandTint: "#e3dbcf", // ivory-beige — nền mảng, ô nhấn
+  brandNight: "#292723", // charcoal ấm — điểm cuối gradient nền trang đậm
   signal: "#e74038", // đỏ của chữ MIKADO-MT — chỉ dùng điểm nhấn nhỏ
   // Nền & chữ trung tính
-  paper: "#f8f9f5", // nền trang (off-white)
-  stone: "#edf0e8", // mảng nền phụ, khung ảnh trống
-  grout: "#d6dccf", // mạch vữa giữa các ô
-  tile: "#ffffff", // nền ô logo / ô mẫu
-  ink: "#1d2620", // chữ chính
-  inkSoft: "#5c665e", // chữ phụ
-  hairline: "#c8d0c3", // đường kẻ mảnh
+  paper: "#f7f3eb", // nền giấy ivory
+  stone: "#ece6dc", // mảng nền phụ, khung ảnh trống
+  grout: "#d9d0c3", // mạch vữa giữa các ô
+  tile: "#fffcf7", // nền ô logo / ô mẫu
+  ink: "#25231f", // chữ chính charcoal
+  inkSoft: "#69625a", // chữ phụ xám nâu
+  hairline: "#ccc2b5", // đường kẻ mảnh
   // Khung trình xem (ngoài trang)
-  chrome: "#111912",
-  chromeFg: "#e8eee6",
-  chromeMuted: "#8a968b",
+  chrome: "#191714",
+  chromeFg: "#f3eee6",
+  chromeMuted: "#aaa095",
 } as const;
 
 export type ThemeKey = keyof typeof theme;

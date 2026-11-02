@@ -41,7 +41,7 @@ export const tileTechnical = {
     specifications: {
       columns: ["Loại xương / men", "Độ cứng", "Độ bóng", "Độ uốn tối đa", "Kháng nước"],
       rows: [
-        ["Gạch Porcelain", "7-10 Mohs", "Không", "Max 45 N/mm²", "0,5-3%"],
+        ["Gạch Porcelain", "7-10 Mohs", "Không", "Max 45 N/mm²", "<=0,5%"],
         ["Gạch Semi Porcelain", "6-8 Mohs", "Không", "Max 25 N/mm²", "3-6%"],
         ["Gạch Ceramic", "5-6 Mohs", "Không", "Max 20 N/mm²", "< 10%"],
         ["Men bóng hắt sáng", "-", "70-100 GU", "-", "-"],
