@@ -8,7 +8,7 @@ import { Photo } from "./photo";
 
 /** Trang trái — câu chuyện khởi nguồn, hình ảnh sản xuất và các cột mốc chính. */
 function CompanyPage() {
-  const { eyebrow, title, lead, story, image, journey } = companyProfile;
+  const { eyebrow, title, lead, image, journey } = companyProfile;
   return (
     <Page side="left">
       <div aria-hidden className="absolute right-0 top-0 h-[225px] w-[168px] bg-gradient-to-b from-brand-light/85 via-brand-tint/45 to-transparent" />
@@ -32,16 +32,15 @@ function CompanyPage() {
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-5 text-white">
               <div>
                 <p className="text-[5.5px] font-medium uppercase tracking-[0.22em] text-brand-tint">Dấu mốc hình thành</p>
-                <p className="mt-1 font-display font-lining text-[36px] font-semibold leading-none">2002</p>
+                <p className="mt-1 font-display font-lining text-[36px] font-semibold leading-none">2020</p>
               </div>
               <p className="max-w-[250px] border-l border-white/35 pl-4 text-[7px] leading-[1.55] text-white/75">Từ nhà máy gạch đầu tiên tại Khu công nghiệp Tiền Hải.</p>
             </div>
           </div>
         </Reveal>
 
-        <Reveal delay={0.18} className="mt-5 grid grid-cols-[0.95fr_1.05fr] gap-6">
-          <p className="border-l-2 border-brand pl-4 text-[10px] font-medium leading-[2.0] text-ink">{lead}</p>
-          <p className="text-[9px] text-justify leading-[1.75] text-ink-soft">{story}</p>
+        <Reveal delay={0.18} className="mt-5">
+          <p className="border-l-2 border-brand pl-4 text-[11px] font-medium leading-[2.0] text-ink">{lead}</p>
         </Reveal>
 
         <Reveal delay={0.32} className="mt-12">
@@ -54,8 +53,8 @@ function CompanyPage() {
               <li key={item.title} className="grid grid-cols-[18px_1fr] gap-2">
                 <span className="font-lining text-[12px] font-semibold text-brand-deep">0{index + 1}</span>
                 <div>
-                  <p className="text-[10px] font-semibold leading-tight text-ink">{item.title}</p>
-                  <p className="mt-1 text-[8px] leading-[1.5] text-ink-soft">{item.text}</p>
+                  <p className="text-[11px] font-semibold leading-tight text-ink">{item.title}</p>
+                  <p className="mt-1 text-[9px] leading-[1.5] text-ink-soft">{item.text}</p>
                 </div>
               </li>
             ))}

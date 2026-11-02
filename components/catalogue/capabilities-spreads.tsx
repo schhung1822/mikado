@@ -8,8 +8,8 @@ import { Photo } from "./photo";
 
 function FactoryPage() {
   const milestones = [
-    { value: "10", label: "cơ sở sản xuất" },
-    { value: "2002", label: "năm khởi đầu" },
+    { value: "KCN Phú Bài", label: "Thành phố Huế" },
+    { value: "2020", label: "năm khởi đầu" },
     { value: "03", label: "miền vận hành" },
   ];
 
@@ -37,10 +37,10 @@ function FactoryPage() {
         </Reveal>
 
         <Reveal delay={0.15} className="mt-[205px] border-y border-white/30 bg-brand-night/45 px-5 py-5 backdrop-blur-[2px]">
-          <div className="grid grid-cols-3 divide-x divide-white/25">
+          <div className="grid grid-cols-[1.3fr_0.85fr_0.85fr] divide-x divide-white/25">
             {milestones.map((item) => (
               <div key={item.label} className="px-4 first:pl-0 last:pr-0">
-                <p className="font-display font-lining text-[31px] font-semibold leading-none text-white">{item.value}</p>
+                <p className="whitespace-nowrap font-display font-lining text-[31px] font-semibold leading-none text-white">{item.value}</p>
                 <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.16em] text-brand-tint">{item.label}</p>
               </div>
             ))}

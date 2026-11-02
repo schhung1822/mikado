@@ -4,8 +4,7 @@ import type { PhotoRef } from "./types";
 export const companyProfile = {
   eyebrow: "Giới thiệu công ty",
   title: "Khái quát MIKADO-MT",
-  lead: "Khởi nguồn từ năm 2002 tại Khu công nghiệp Tiền Hải, MIKADO-MT từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
-  story: "Từ những viên gạch đầu tiên, doanh nghiệp không ngừng mở rộng năng lực và đến nay sở hữu hơn 11 nhà máy. Hành trình phát triển được dẫn dắt bởi đội ngũ lãnh đạo tâm huyết, chiến lược và khát vọng chinh phục những giới hạn mới.",
+  lead: "Mở rộng thêm nhà máy tại khu công nghiệp Phú Bài từ năm 2020, Mikado-MT từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
   image: {
     src: "/images/daychuyen.jpg",
     alt: "Dây chuyền sản xuất tại nhà máy MIKADO-MT",
@@ -13,14 +12,14 @@ export const companyProfile = {
     fit: "cover",
   } satisfies PhotoRef,
   milestones: [
-    { value: "2002", label: "Năm khởi nguồn" },
+    { value: "2020", label: "Năm khởi nguồn" },
     { value: "08", label: "Cổ đông sáng lập" },
     { value: "11+", label: "Nhà máy trong hệ thống" },
   ],
   journey: [
     {
       title: "Nền móng trong nước",
-      text: "Khởi đầu bằng nguồn vốn trong nước và nhà máy gạch đầu tiên tại Tiền Hải.",
+      text: "Bằng nguồn vốn Tập Đoàn mở trộng thêm nhà máy gạch Mikado đầu tiên tại khu vực miền Trung lấy tên là Mikado-MT",
     },
     {
       title: "Mở rộng năng lực",

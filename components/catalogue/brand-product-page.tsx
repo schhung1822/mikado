@@ -425,19 +425,17 @@ function ShowcaseWallSection({
 function ShowcaseFloorStrip({
   group,
   tone,
-  compact = false,
   balanced = false,
 }: {
   group: SizeGroup;
   tone: PageTone;
-  compact?: boolean;
   balanced?: boolean;
 }) {
   const t = TONES[tone];
   const label = `${group.width} × ${group.height}`;
   const samples = group.samples.slice(SHOWCASE_PALETTE_COUNT);
   return (
-    <section aria-label={`Dải gạch lát nền ${label} mm`} className={cn("border-t", balanced ? "pt-5" : compact ? "pt-2.5" : "pt-3", t.hair)}>
+    <section aria-label={`Dải gạch lát nền ${label} mm`} className={cn("border-t", balanced ? "pt-5" : "pt-3", t.hair)}>
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className={cn("text-[6.5px] font-medium uppercase tracking-[0.24em]", t.accent)}>Gạch lát nền đồng bộ</p>
@@ -449,12 +447,8 @@ function ShowcaseFloorStrip({
         </div>
       </div>
       <div
-        className={cn("grid gap-3", balanced ? "mt-4" : compact ? "mt-2" : "mt-3")}
-        style={{
-          gridTemplateColumns: `repeat(${samples.length}, minmax(0, 1fr))`,
-          width: compact ? "60%" : undefined,
-          marginInline: compact ? "auto" : undefined,
-        }}
+        className={cn("grid gap-3", balanced ? "mt-4" : "mt-3")}
+        style={{ gridTemplateColumns: `repeat(${samples.length}, minmax(0, 1fr))` }}
       >
         {samples.map((sample, i) => (
           <SampleTile key={i} sample={sample} aspect={tileAspect(group)} label={label} tone={tone} />
@@ -671,7 +665,6 @@ function ProductsPage({ page, tone }: { page: BrandProductPage; tone: PageTone }
                   group={showcaseFloor}
                   tone={tone}
                   balanced={page.id === "nhuphat"}
-                  compact={page.id === "nhuphat" ? false : undefined}
                 />
               </Reveal>
             </>
