@@ -12,7 +12,7 @@
   --font-display: var(--font-display), ui-serif, Georgia, serif;
   --font-heading: var(--font-display), ui-serif, Georgia, serif;
 
-  /* Màu catalogue: giá trị khai báo trong lib/catalogue/identity.ts, áp lên <html> ở layout. */
+  /* Màu catalogue: bảng ivory–taupe khai báo trong lib/catalogue/identity.ts, áp lên <html> ở layout. */
   --color-paper: var(--cat-paper);
   --color-stone: var(--cat-stone);
   --color-grout: var(--cat-grout);
@@ -172,7 +172,7 @@ body {
   display: none;
 }
 
-/* Thanh cuộn của trình xem (menu trái, vùng xem tài liệu): mảnh, bo tròn, màu xanh thương hiệu, rõ dần khi rê chuột. */
+/* Thanh cuộn của trình xem (menu trái, vùng xem tài liệu): mảnh, bo tròn, màu taupe, rõ dần khi rê chuột. */
 .viewer-scroll {
   scrollbar-gutter: stable both-edges; /* giữ thumbnail cân giữa, không giật khi thanh cuộn xuất hiện */
 }

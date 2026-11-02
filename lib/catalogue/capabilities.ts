@@ -4,7 +4,7 @@ import type { PhotoRef } from "./types";
 export const factoryNetwork = {
   eyebrow: "Năng lực sản xuất",
   title: "Hệ thống nhà máy MIKADO-MT",
-  lead: "Mạng lưới sản xuất đa ngành được phân bổ từ Bắc vào Nam, kết nối năng lực gạch ốp lát, vật liệu hoàn thiện và thiết bị xây dựng.",
+  lead: "Mạng lưới sản xuất đa ngành được phân phối toàn miền Trung, kết nối năng lực gạch ốp lát, vật liệu hoàn thiện và thiết bị xây dựng.",
   image: {
     src: "/images/company/factory-network.jpg",
     alt: "Toàn cảnh cụm nhà máy hiện đại giữa cảnh quan xanh",
@@ -46,19 +46,19 @@ export const markets = {
   title: "Trong nước & quốc tế",
   lead: "Hệ thống phân phối ba miền và nền tảng logistics xuất khẩu giúp MIKADO-MT đưa sản phẩm đến nhiều thị trường vật liệu xây dựng.",
   domesticMap: {
-    src: "/images/noi-dia.png",
+    src: "/images/vn-map.png",
     alt: "Bản đồ hệ thống nhà máy và chi nhánh MIKADO-MT tại Việt Nam",
     fit: "contain",
   } satisfies PhotoRef,
   internationalMap: {
-    src: "/images/quocte.png",
+    src: "/images/global-map.png",
     alt: "Bản đồ các thị trường xuất khẩu của MIKADO-MT trên thế giới",
     fit: "contain",
   } satisfies PhotoRef,
   domesticSummary:
-    "MIKADO-MT sở hữu hệ thống nhà máy hiện đại cùng mạng lưới chi nhánh và đại lý phân phối phủ khắp ba miền, giúp cung ứng linh hoạt cho các dự án trên toàn quốc.",
+    "MIKADO sở hữu hệ thống nhà máy hiện đại cùng mạng lưới chi nhánh và đại lý phân phối phủ khắp ba miền, giúp cung ứng linh hoạt cho các dự án trên toàn quốc.",
   domesticText:
-    "Với vị thế là một trong những nhà sản xuất hàng đầu trong ngành vật liệu xây dựng tại Việt Nam, MIKADO-MT sở hữu hệ thống nhà máy hiện đại cùng mạng lưới chi nhánh và đại lý phân phối khắp ba miền Bắc – Trung – Nam. Năng lực sản xuất và phân phối rộng khắp giúp doanh nghiệp cung ứng linh hoạt, kịp thời cho các dự án trên toàn quốc và tối ưu chi phí vận chuyển cho khách hàng.",
+    "Với vị thế là một trong những nhà sản xuất hàng đầu trong ngành vật liệu xây dựng tại Việt Nam, MIKADO sở hữu hệ thống nhà máy hiện đại cùng mạng lưới chi nhánh và đại lý phân phối khắp ba miền Bắc – Trung – Nam. Năng lực sản xuất và phân phối rộng khắp giúp doanh nghiệp cung ứng linh hoạt, kịp thời cho các dự án trên toàn quốc và tối ưu chi phí vận chuyển cho khách hàng.",
   exportText:
     "Với hơn 20 năm kinh nghiệm xuất khẩu, Mikado đã có mặt khắp toàn cầu, nhờ vào hệ thống logistics đáng tin cậy, chất lượng sản phẩm ổn định và các mối quan hệ đối tác thân tín, từ đó trở thành thương hiệu có sức mạnh cạnh tranh trên các thị trường vật liệu xây dựng quốc tế. ",
   domestic: ["Miền Bắc", "Miền Trung", "Miền Nam"],
@@ -111,7 +111,7 @@ export const markets = {
 export const quality = {
   eyebrow: "Các báo cáo",
   title: "Chứng chỉ chất lượng",
-  lead: "Với những giá trị cốt lõi và cam kết mạnh mẽ về dịch vụ khách hàng, Mikado-MT đã đạt được các chứng nhận quan trọng trong nhập nguyên liệu, sản xuất và kiểm soát chất lượng. Hệ thống chứng nhận trong nước và quốc tế khẳng định uy tín của Mikado-MT trong mọi giai đoạn hợp tác.",
+  lead: "Với những giá trị cốt lõi và cam kết mạnh mẽ về dịch vụ khách hàng, Mikado đã đạt được các chứng nhận quan trọng trong nhập nguyên liệu, sản xuất và kiểm soát chất lượng. Hệ thống chứng nhận trong nước và quốc tế khẳng định uy tín của Mikado-MT trong mọi giai đoạn hợp tác.",
   internationalCommitment: "Các nhãn hiệu và dòng sản phẩm của Mikado không chỉ đáp ứng tiêu chuẩn trong nước mà còn đáp ứng các yêu cầu khắt khe của châu Âu, Hoa Kỳ, Đài Loan và Hàn Quốc. Mikado-MT cam kết cung cấp vật liệu xây dựng đạt chuẩn, chính sách bảo hành đầy đủ và khả năng cung ứng kịp thời cho khách hàng trong và ngoài nước.",
   badges: [
     {
@@ -207,14 +207,14 @@ export const quality = {
       image: { src: "/images/certified/chungchi6.jpg", alt: "Hồ sơ sản phẩm Videcor và biểu trưng Vietnam Value", fit: "contain" } satisfies PhotoRef,
     },
   ],
-  legalNote: "Mikado-MT đồng thời sở hữu nhiều tài liệu pháp lý liên quan đến chứng nhận chất lượng, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu thô. Các hồ sơ cụ thể được cung cấp theo yêu cầu trong quá trình hợp tác.",
+  legalNote: "Mikado đồng thời sở hữu nhiều tài liệu pháp lý liên quan đến chứng nhận chất lượng, giấy phép kho bãi và giấy phép xuất nhập khẩu nguyên liệu thô. Các hồ sơ cụ thể được cung cấp theo yêu cầu trong quá trình hợp tác.",
 };
 
 export const partnerships = {
   eyebrow: "Cùng kiến tạo giá trị",
   title: "Đối tác & dự án",
-  lead: "Sản phẩm MIKADO-MT đồng hành cùng các nhà phát triển và tổng thầu trong nhiều loại hình công trình, từ nhà ở đến khu đô thị và điểm đến nghỉ dưỡng.",
-  overview: "Với các sản phẩm chú trọng tính thẩm mỹ và độ bền cho công trình, MIKADO-MT đã đồng hành cùng nhiều nhà phát triển và dự án trên toàn quốc.",
+  lead: "Sản phẩm MIKADO đồng hành cùng các nhà phát triển và tổng thầu trong nhiều loại hình công trình, từ nhà ở đến khu đô thị và điểm đến nghỉ dưỡng.",
+  overview: "Với các sản phẩm chú trọng tính thẩm mỹ và độ bền cho công trình, MIKADO đã đồng hành cùng nhiều nhà phát triển và dự án trên toàn quốc.",
   image: {
     src: "/images/company/partners-projects.jpg",
     alt: "Khu đô thị hiện đại với quảng trường, mặt nước và cảnh quan xanh",

@@ -1,13 +1,13 @@
 import { brandIndex } from "@/lib/catalogue/brands";
-import { contactRows } from "@/lib/catalogue/contacts";
 import { CONTENTS_FOLIO, tocSections, type Folio } from "@/lib/catalogue/contents";
 import { cn } from "@/lib/utils";
 import { CompanyLogo } from "./company-logo";
+import { LogoImage } from "./logo-image";
 import { Reveal } from "./motion";
 import { Page, PageBody, PageFooter, RunningHead, Spread } from "./page-frame";
 import { TileStrip } from "./tile-strip";
 
-/** Trang trái — nền xanh: logo MIKADO-MT, bên dưới là 12 thương hiệu kèm thông tin liên hệ (demo), chia hai cột. */
+/** Trang trái — nền xanh: logo MIKADO-MT và danh mục 12 thương hiệu bằng logo cùng tên nổi bật. */
 function ContactsPage() {
   return (
     <Page side="left" tone="brand">
@@ -17,42 +17,49 @@ function ContactsPage() {
         className="absolute right-0 top-0 h-[170px] w-9"
         style={{ background: "linear-gradient(180deg, var(--cat-brand-light), transparent)" }}
       />
-      <RunningHead side="left" label="Liên hệ" tone="brand" />
+      <RunningHead side="left" label="Hệ thống thương hiệu" tone="brand" />
 
       <PageBody side="left">
         <Reveal className="pt-6">
           <CompanyLogo width={250} />
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-8">
-          <p className="text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-tint">Thương hiệu &amp; thông tin liên hệ</p>
+        <Reveal delay={0.1} className="mt-7">
+          <div className="flex items-end justify-between gap-5">
+            <div>
+              <p className="text-[6.5px] font-medium uppercase tracking-[0.28em] text-brand-tint">Hệ sinh thái MIKADO-MT</p>
+              <h2 className="mt-2 font-display text-[24px] font-semibold uppercase leading-none text-white">Danh mục thương hiệu</h2>
+            </div>
+            <span className="font-lining text-[8px] font-medium uppercase tracking-[0.18em] text-white/60">12 thương hiệu</span>
+          </div>
           <div className="mt-3 h-0.5 bg-white" />
         </Reveal>
 
-        <Reveal delay={0.18} className="mt-5">
-          <ol className="grid grid-cols-2 gap-x-7 gap-y-4">
-            {brandIndex.map((brand, i) => (
-              // Hai mục đầu (hàng đầu tiên) không có viền trên: ngay phía trên đã có đường kẻ trắng của tiêu đề.
-              <li key={brand.id} className={cn("pt-2.5", i >= 2 && "border-t border-white/25")}>
-                <p className="flex items-baseline gap-2.5">
-                  <span aria-hidden className="h-px w-3 shrink-0 -translate-y-0.75 bg-brand-tint" />
-                  <span className="font-display text-[15px] font-bold uppercase leading-none tracking-[0.03em]">{brand.name}</span>
-                </p>
-                <dl className="mt-2 space-y-[3px]">
-                  {contactRows(brand.id).map((row) => (
-                    <div key={row.label} className="flex gap-2 text-[7.5px] leading-[1.5]">
-                      <dt className="w-[34px] shrink-0 text-[6.5px] font-medium uppercase tracking-[0.14em] leading-[1.9] text-white/60">{row.label}</dt>
-                      <dd className="text-white/90">{row.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+        <Reveal delay={0.18} className="mt-4">
+          <ol className="grid grid-cols-2 gap-3">
+            {brandIndex.map((brand) => (
+              <li
+                key={brand.id}
+                className="relative grid min-h-[76px] grid-cols-[96px_1fr] items-center gap-3 overflow-hidden border border-white/25 bg-gradient-to-r from-white/[0.09] to-white/[0.035] p-2.5"
+              >
+                <div
+                  className="relative h-[48px] overflow-hidden border border-white/15 shadow-[0_8px_20px_-14px_rgba(0,0,0,0.8)]"
+                  style={{ background: brand.bg ?? "#fff", padding: 5 }}
+                >
+                  <LogoImage brand={{ name: brand.name, logo: brand.logo }} className="block size-full" />
+                </div>
+                <div className="min-w-0 pr-3">
+                  <p className="mt-1.5 whitespace-nowrap font-display text-[16px] font-semibold uppercase leading-none tracking-[0.025em] text-white">
+                    {brand.name}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>
         </Reveal>
       </PageBody>
 
-      <PageFooter side="left" folio={CONTENTS_FOLIO[0]} label="Liên hệ" tone="brand" />
+      <PageFooter side="left" folio={CONTENTS_FOLIO[0]} label="Hệ thống thương hiệu" tone="brand" />
     </Page>
   );
 }
@@ -143,7 +150,7 @@ function ContentsPage() {
   );
 }
 
-/** Trang đôi mục lục & liên hệ: trái = logo công ty + 12 thương hiệu và liên hệ (nền xanh), phải = mục lục (nền trắng). */
+/** Trang đôi mục lục: trái = hệ thống 12 thương hiệu (nền xanh), phải = mục lục (nền trắng). */
 export function ContentsSpread() {
   return (
     <Spread>
