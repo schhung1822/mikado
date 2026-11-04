@@ -40,8 +40,8 @@ function FactoryPage() {
           <div className="grid grid-cols-[1.3fr_0.85fr_0.85fr] divide-x divide-white/25">
             {milestones.map((item) => (
               <div key={item.label} className="px-4 first:pl-0 last:pr-0">
-                <p className="whitespace-nowrap font-display font-lining text-[31px] font-semibold leading-none text-white">{item.value}</p>
-                <p className="mt-2 text-[8px] font-medium uppercase tracking-[0.16em] text-brand-tint">{item.label}</p>
+                <p className="whitespace-nowrap text-center font-display font-lining text-[31px] font-semibold leading-none text-white">{item.value}</p>
+                <p className="mt-2 text-[8px] text-center font-medium uppercase tracking-[0.16em] text-brand-tint">{item.label}</p>
               </div>
             ))}
           </div>

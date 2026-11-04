@@ -23,7 +23,7 @@ function SpecificationTable() {
             key={row[0]}
             className={cn(
               "grid grid-cols-[1.35fr_0.92fr_0.82fr_1.08fr_0.9fr] px-3 py-[6px] text-[8px] leading-none",
-              rowIndex % 2 === 0 ? "bg-[#f1ece4]" : "bg-[#e2d9cc]",
+              rowIndex % 2 === 0 ? "bg-[#f1f2ef]" : "bg-[#dfe2dd]",
             )}
           >
             {row.map((cell, cellIndex) => (
@@ -91,7 +91,7 @@ function InformationTable({ rows }: { rows: readonly (readonly [string, string])
           key={label}
           className={cn(
             "grid grid-cols-[105px_1fr] items-center px-3 py-[7px] text-[8px] leading-[1.25]",
-            index % 2 === 0 ? "bg-[#f2ede5]" : "bg-[#e0d7ca]",
+            index % 2 === 0 ? "bg-[#f2f3f0]" : "bg-[#dde0dc]",
           )}
         >
           <span className="font-semibold text-ink">{label}</span>

@@ -29,7 +29,7 @@ export const thanks = {
         { label: "Địa chỉ", value: "Lô 6A-1 Đường số 4, KCN Phú Bài, phường Phú Bài, thành phố Huế" },
         { label: "Điện thoại", value: "(+84) 234 3966 888" },
         { label: "Email", value: "phanxuongcodien@gmail.com" },
-        { label: "Website", value: "www.mikadp.com.vn" },
+        { label: "Website", value: "www.mikado.com.vn" },
       ],
     },
     {

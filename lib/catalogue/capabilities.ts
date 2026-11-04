@@ -46,12 +46,12 @@ export const markets = {
   title: "Trong nước & quốc tế",
   lead: "Hệ thống phân phối ba miền và nền tảng logistics xuất khẩu giúp MIKADO-MT đưa sản phẩm đến nhiều thị trường vật liệu xây dựng.",
   domesticMap: {
-    src: "/images/vn-map.png",
+    src: "/images/noi-dia.png",
     alt: "Bản đồ hệ thống nhà máy và chi nhánh MIKADO-MT tại Việt Nam",
     fit: "contain",
   } satisfies PhotoRef,
   internationalMap: {
-    src: "/images/global-map.png",
+    src: "/images/quocte.png",
     alt: "Bản đồ các thị trường xuất khẩu của MIKADO-MT trên thế giới",
     fit: "contain",
   } satisfies PhotoRef,

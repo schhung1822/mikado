@@ -4,7 +4,7 @@ import type { PhotoRef } from "./types";
 export const companyProfile = {
   eyebrow: "Giới thiệu công ty",
   title: "Khái quát MIKADO-MT",
-  lead: "Mở rộng thêm nhà máy tại khu công nghiệp Phú Bài từ năm 2020, Mikado-MT từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
+  lead: "Năm 2020, Mikado chính thức triển khai xây dựng nhà máy Mikado-MT đầu tiên tại khu công nghiệp Phú Bài, đánh dấu bước tiến chiến lược tại thị trường miền Trung. Từng bước xây dựng nền tảng sản xuất vật liệu hoàn thiện bằng nguồn lực trong nước.",
   image: {
     src: "/images/daychuyen.jpg",
     alt: "Dây chuyền sản xuất tại nhà máy MIKADO-MT",
@@ -19,7 +19,7 @@ export const companyProfile = {
   journey: [
     {
       title: "Nền móng trong nước",
-      text: "Bằng nguồn vốn Tập Đoàn mở trộng thêm nhà máy gạch Mikado đầu tiên tại khu vực miền Trung lấy tên là Mikado-MT",
+      text: "Mở rộng thêm nhà máy tại khu công nghiệp Phú Bài từ năm 2020",
     },
     {
       title: "Mở rộng năng lực",
