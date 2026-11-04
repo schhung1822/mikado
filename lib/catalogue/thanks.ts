@@ -24,7 +24,8 @@ export const thanks = {
   companyName: "Công ty Cổ phần Mikado-MT",
   offices: [
     {
-      title: "Trụ sở chính",
+      title: "",
+      column: "left",
       lines: [
         { label: "Địa chỉ", value: "Lô 6A-1 Đường số 4, KCN Phú Bài, phường Phú Bài, thành phố Huế" },
         { label: "Điện thoại", value: "(+84) 234 3966 888" },
@@ -33,7 +34,20 @@ export const thanks = {
       ],
     },
     {
+      title: "Trụ sở chính",
+      column: "left",
+      lines: [
+        { label: "Địa chỉ", value: "Tầng 6, Tòa Diamond Flower, 48 Lê Văn Lương, P. Thanh Xuân, Hà Nội, Việt Nam" },
+        { label: "Điện thoại", value: "(+8424) 3755 6888" },
+        { label: "Tổng đài", value: "1900 0338" },
+        { label: "Phụ trách bán hàng", value: "infomikado@mikado.com.vn" },
+        { label: "Phụ trách xuất khẩu", value: "+84 988 969 466" },
+        { label: "Email", value: "buihanh81@mikado.com.vn" },
+      ],
+    },
+    {
       title: "Showroom",
+      column: "right",
       lines: [
         { label: "", value: "The Matrix One Building, số 1 Lê Quang Đạo, P. Từ Liêm, Hà Nội, Việt Nam." },
         { label: "Điện thoại", value: "1900 0338" },

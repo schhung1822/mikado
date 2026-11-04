@@ -34,7 +34,7 @@ function CompanyPage() {
                 <p className="text-[5.5px] font-medium uppercase tracking-[0.22em] text-brand-tint">Dấu mốc hình thành</p>
                 <p className="mt-1 font-display font-lining text-[36px] font-semibold leading-none">2020</p>
               </div>
-              <p className="max-w-[250px] border-l border-white/35 pl-4 text-[7px] leading-[1.55] text-white/75">Từ nhà máy gạch đầu tiên tại Khu công nghiệp Tiền Hải.</p>
+              <p className="max-w-[250px] border-l border-white/35 pl-4 text-[7px] leading-[1.55] text-white/75">Từ nhà máy gạch đầu tiên tại Khu công nghiệp Phú Bài.</p>
             </div>
           </div>
         </Reveal>

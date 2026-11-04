@@ -4,8 +4,8 @@ import { themeVars } from "@/lib/catalogue/identity";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hồ sơ năng lực — Bản xem thử",
-  description: "Bản demo catalogue MIKADO-MT: bìa đầu, thương hiệu, trang sản phẩm mẫu MIKADO và bìa cuối.",
+  title: "MIKADO-MT - Hồ sơ năng lực",
+  description: "THE COMPANY PROFILE - MIKADO-MT",
 };
 
 export const viewport: Viewport = {

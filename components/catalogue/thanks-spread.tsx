@@ -69,9 +69,14 @@ const ghostTiles: { c: number; r: number; w: number; h: number; className: strin
 const ghost = (n: number) => n * GHOST_UNIT + (n - 1) * GHOST_GAP;
 const ghostOffset = (n: number) => n * (GHOST_UNIT + GHOST_GAP);
 
-/** Trang phải — logo MIKADO-MT, đường kẻ, tên công ty và các văn phòng (dữ liệu demo, dòng trống tự ẩn). */
+/** Trang phải — logo MIKADO-MT, đường kẻ, tên công ty và các văn phòng (dòng trống tự ẩn). */
 function ContactPage() {
   const offices = officesWithData();
+  const officeColumns = (["left", "right"] as const).map((column) => ({
+    column,
+    offices: offices.filter((office) => office.column === column),
+  }));
+
   return (
     <Page side="right" tone="brand">
       <RunningHead side="right" label="Liên hệ" tone="brand" />
@@ -101,18 +106,24 @@ function ContactPage() {
         {offices.length > 0 ? (
           <Reveal delay={0.3} className="mt-5">
             <div className="grid grid-cols-2 gap-x-8">
-              {offices.map((office) => (
-                <section key={office.title}>
-                  <h4 className="text-[7px] font-semibold uppercase tracking-[0.2em] text-white">{office.title}</h4>
-                  <dl className="mt-2.5 space-y-[5px]">
-                    {office.lines.map((line) => (
-                      <div key={`${line.label}-${line.value}`} className={cn("text-[7.5px] leading-[1.55]", line.breakBefore && "pt-2")}>
-                        {line.label ? <dt className="inline font-medium text-white/65">{line.label}: </dt> : null}
-                        <dd className="inline text-white/92">{line.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
+              {officeColumns.map(({ column, offices: columnOffices }) => (
+                <div key={column} className="space-y-7">
+                  {columnOffices.map((office, index) => (
+                    <section key={office.title || `office-${index}`}>
+                      {office.title ? (
+                        <h4 className="text-[7px] font-semibold uppercase tracking-[0.2em] text-white">{office.title}</h4>
+                      ) : null}
+                      <dl className={cn(office.title && "mt-2.5", "space-y-[5px]")}>
+                        {office.lines.map((line) => (
+                          <div key={`${line.label}-${line.value}`} className={cn("text-[7.5px] leading-[1.55]", line.breakBefore && "pt-2")}>
+                            {line.label ? <dt className="inline font-medium text-white/65">{line.label}: </dt> : null}
+                            <dd className="inline text-white/92">{line.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </section>
+                  ))}
+                </div>
               ))}
             </div>
           </Reveal>
